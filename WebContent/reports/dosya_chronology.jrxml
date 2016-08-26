@@ -6,9 +6,10 @@
 	<field name="tarih" class="java.lang.String"/>
 	<field name="icraDosyaNo" class="java.lang.String"/>
 	<field name="borcluAdi" class="java.lang.String"/>
-	<field name="konu" class="java.lang.String"/>
-	<field name="il" class="java.lang.String"/>
-	<field name="brcd" class="java.lang.Object"/>
+	<field name="islem" class="java.lang.String"/>
+	<field name="aciklama" class="java.lang.String"/>
+	<field name="personelAdi" class="java.lang.Object"/>
+	<field name="yazdirmaTarih" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -22,15 +23,11 @@
 				<text><![CDATA[DOSYA TARİHÇESİ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="0" width="67" height="23" uuid="a27a1415-8fbe-4b90-89c7-b39cab19aa10"/>
-				<box>
-					<topPen lineWidth="0.5" lineStyle="Dotted"/>
-					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
-				</box>
+				<reportElement isPrintRepeatedValues="false" x="455" y="3" width="100" height="20" uuid="4a9862f2-4d8f-46f0-8ec8-d774746c359d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="9" isStrikeThrough="false" pdfEncoding="Cp1254"/>
+					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{icraDosyaNo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{yazdirmaTarih}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -50,7 +47,7 @@
 					<font fontName="Times New Roman" size="8" isBold="true" pdfEncoding="Cp1254"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[İCRA DOSYA NO]]></text>
+				<text><![CDATA[TARİH]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="101" y="0" width="125" height="20" uuid="3b22073e-a6f7-483a-9da5-afb101f18640"/>
@@ -58,7 +55,7 @@
 					<font fontName="Times New Roman" size="8" isBold="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1254"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[ALICI]]></text>
+				<text><![CDATA[BORÇLU]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="226" y="0" width="85" height="20" uuid="b903fe55-e854-4b87-a250-8224a02cf9f3"/>
@@ -66,7 +63,7 @@
 					<font fontName="Times New Roman" size="8" isBold="true" pdfEncoding="Cp1254"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[KONU]]></text>
+				<text><![CDATA[İŞLEM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="311" y="0" width="118" height="20" uuid="929c69b4-b21d-4401-a3e0-ac2df37159bc"/>
@@ -74,7 +71,7 @@
 					<font fontName="Times New Roman" size="8" isBold="true" pdfEncoding="Cp1254"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[ADRES]]></text>
+				<text><![CDATA[AÇIKLAMA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="429" y="0" width="126" height="20" uuid="4bf1f0cf-96f5-4c73-b2af-45045a0b648d"/>
@@ -82,14 +79,14 @@
 					<font fontName="Times New Roman" size="8" isBold="true" pdfEncoding="Cp1254"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[BARKOD]]></text>
+				<text><![CDATA[PERSONEL]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="30">
+		<band height="40">
 			<textField>
-				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="34" height="30" uuid="7e9285ac-40c6-4ff4-a0dc-1470037dfc4f"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="34" height="40" uuid="7e9285ac-40c6-4ff4-a0dc-1470037dfc4f"/>
 				<box>
 					<topPen lineWidth="0.5" lineStyle="Dotted"/>
 					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
@@ -100,7 +97,7 @@
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="101" y="0" width="125" height="30" uuid="bc8e09c1-be03-407f-b3c9-d7b18c04d998"/>
+				<reportElement x="34" y="0" width="67" height="40" uuid="bc8e09c1-be03-407f-b3c9-d7b18c04d998"/>
 				<box>
 					<topPen lineWidth="0.5" lineStyle="Dotted"/>
 					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
@@ -108,10 +105,10 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="9" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{borcluAdi}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tarih}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="226" y="0" width="85" height="30" uuid="05133a89-35c8-4d38-b3d1-d19bb34bdca5"/>
+				<reportElement x="226" y="0" width="85" height="40" uuid="05133a89-35c8-4d38-b3d1-d19bb34bdca5"/>
 				<box>
 					<topPen lineWidth="0.5" lineStyle="Dotted"/>
 					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
@@ -119,10 +116,10 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="9" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{konu}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{islem}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="311" y="0" width="118" height="30" uuid="453d9c06-0bef-4d9e-a71d-a99e1e4cb9e4"/>
+				<reportElement x="311" y="0" width="118" height="40" uuid="453d9c06-0bef-4d9e-a71d-a99e1e4cb9e4"/>
 				<box>
 					<topPen lineWidth="0.5" lineStyle="Dotted"/>
 					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
@@ -130,22 +127,36 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="9" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{il}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{aciklama}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="429" y="0" width="126" height="30" uuid="e14bc78f-909f-4428-90bd-edc42b209b05"/>
-				<box>
-					<topPen lineWidth="0.5" lineStyle="Dotted"/>
-					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
-				</box>
-				<imageExpression><![CDATA[$F{brcd}]]></imageExpression>
-			</image>
 			<textField>
-				<reportElement x="34" y="0" width="67" height="29" uuid="0c345015-2491-4672-80e4-99227b0b8b0f"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="-43" width="80" height="23" uuid="0c345015-2491-4672-80e4-99227b0b8b0f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tarih}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{icraDosyaNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="0" width="126" height="40" uuid="1f318dd7-aaf2-4b14-9a2a-35c314256e41"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isStrikeThrough="false" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{personelAdi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="0" width="125" height="40" uuid="a27a1415-8fbe-4b90-89c7-b39cab19aa10"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isStrikeThrough="false" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{borcluAdi}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

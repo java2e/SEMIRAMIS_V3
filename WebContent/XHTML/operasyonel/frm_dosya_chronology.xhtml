@@ -51,6 +51,13 @@
 					<p:outputLabel value="#{list.personelAdi}" />
 				</p:column>
 
+				<f:facet name="footer">
+					<p:commandButton value="LİSTE TOPLU PDF" ajax="false"
+						actionListener="#{basicTimelineController.printPDF}" />
+					<p:commandButton value="LİSTE TOPLU EXCEL" ajax="false"
+						actionListener="#{basicTimelineController.printExcell}" />
+				</f:facet>
+
 			</p:dataTable>
 		</p:panel>
 		<h:outputStylesheet id="timelineCSS">  

@@ -4,9 +4,8 @@ import java.util.Date;
 
 public class Chronology {
 
-
 	public Chronology(int id, String departman, String borcluAdi, String islem, String aciklama, int userid,
-			Date date) {
+			String date) {
 		this.icraDosyaID = id;
 		this.departman = departman;
 		this.borcluAdi = borcluAdi;
@@ -22,9 +21,27 @@ public class Chronology {
 	private String borcluAdi;
 	private String islem;
 	private String aciklama;
-	private Date tarih;
+	private String tarih;
 	private int userid;
 	private String personelAdi;
+	private String icraDosyaNo;
+	private String yazdirmaTarih;
+
+	public String getYazdirmaTarih() {
+		return yazdirmaTarih;
+	}
+
+	public void setYazdirmaTarih(String yazdirmaTarih) {
+		this.yazdirmaTarih = yazdirmaTarih;
+	}
+
+	public String getIcraDosyaNo() {
+		return icraDosyaNo;
+	}
+
+	public void setIcraDosyaNo(String icraDosyaNo) {
+		this.icraDosyaNo = icraDosyaNo;
+	}
 
 	public String getPersonelAdi() {
 		return personelAdi;
@@ -42,11 +59,11 @@ public class Chronology {
 		this.userid = userid;
 	}
 
-	public Date getTarih() {
+	public String getTarih() {
 		return tarih;
 	}
 
-	public void setTarih(Date tarih) {
+	public void setTarih(String tarih) {
 		this.tarih = tarih;
 	}
 

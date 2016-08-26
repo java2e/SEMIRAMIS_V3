@@ -25,23 +25,23 @@ public class Utils {
 	public void saveChronology(int icraDosyaId, String islem, String aciklama) {
 
 		Chronology chronology = new Chronology(icraDosyaId, dao.getDepartman(), dao.getBorcluAdi(icraDosyaId), islem,
-				aciklama, dao.getUserID(), new Date());
+				aciklama, dao.getUserID(), String.valueOf(new Date()));
 		dao.insertChronology(chronology);
 
 	}
 
-	public ArrayList<TimelineEvent> getAllTimeLineEventsFromID(int icraDosyaID) {
-		ArrayList<Chronology> list = (ArrayList<Chronology>) dao.getListFromIcraDosyaID(icraDosyaID);
-		ArrayList<TimelineEvent> events = new ArrayList<TimelineEvent>();
-		for (Chronology chronology : list) {
-			Task task = new Task(chronology.getIslem(), ChronologyIdentifier.getImagePath(chronology), false,
-					icraDosyaID, chronology.getTarih());
-			TimelineEvent event = new TimelineEvent(task, chronology.getTarih());
-			events.add(event);
-		}
-		return events;
-
-	}
+//	public ArrayList<TimelineEvent> getAllTimeLineEventsFromID(int icraDosyaID) {
+//		ArrayList<Chronology> list = (ArrayList<Chronology>) dao.getListFromIcraDosyaID(icraDosyaID);
+//		ArrayList<TimelineEvent> events = new ArrayList<TimelineEvent>();
+//		for (Chronology chronology : list) {
+//			Task task = new Task(chronology.getIslem(), ChronologyIdentifier.getImagePath(chronology), false,
+//					icraDosyaID, Date.parse(chronology.getTarih()));
+//			TimelineEvent event = new TimelineEvent(task, Date.parse(chronology.getTarih()));
+//			events.add(event);
+//		}
+//		return events;
+//
+//	}
 
 	public List getChronologyList(int id) {
 

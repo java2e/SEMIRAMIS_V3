@@ -4,12 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
 import pelops.users.User;
 import pelops.util.Util;
@@ -64,8 +66,11 @@ public class UtilsDAO extends DBConnection {
 			while (rs.next()) {
 				Chronology ch = new Chronology(rs.getInt("icra_dosya_id"), rs.getString("departman"),
 						rs.getString("borclu"), rs.getString("islem"), rs.getString("aciklama"), rs.getInt("userid"),
-						rs.getDate("tarih"));
+						rs.getString("tarih"));
 				ch.setPersonelAdi(rs.getString("ad_soyad"));
+				ch.setIcraDosyaNo(AktifBean.getIcraDosyaNo());
+				String tarih = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				ch.setYazdirmaTarih(tarih);
 				list.add(ch);
 			}
 			disconnectDB();
