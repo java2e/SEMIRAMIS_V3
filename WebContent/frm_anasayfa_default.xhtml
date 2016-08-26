@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"	>
+ 
+ <style>
+ .ui-datatable.borderless thead th,
+.ui-datatable.borderless tbody,
+.ui-datatable.borderless tbody tr,
+.ui-datatable.borderless tbody td {
+    border-style: none;
+}
+
+.noHeader.ui-datatable table thead tr {
+    display: none;
+}
+
+span.fc-event-time{
+   display:none;
+}
+ </style>
+ 
+    <h:body >
+
+
+<h:form>
+
+        
+<!-- Hizli Erişim  -->
+	<div style="width:100%;">
+	
+	<div style="width:505px; height: 100px;margin: auto;padding-top: 20px;">
+	
+		<div style="width:505px; height: 40px;margin: auto;">
+		<img src="img/hizli_erisim.png" height="40" width="505"/>
+		</div>
+	
+<div style="width: 101px;height: 60px;float: left;">
+
+
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(101)}">
+    <img src="img/takip-ac-button.png" width="101" height="60"/>
+</p:commandLink>
+
+</div>
+
+<div style="width: 101px;height: 60px;float: left;">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(102)}" immediate="true">
+    <img src="img/dosya-takip-button.png" width="101" height="60"/>
+</p:commandLink>
+</div>
+
+<div style="width: 101px;height: 60px;float: left;">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(1010)}">
+    <img src="img/talep-hazırlama-button.png" width="101" height="60"/>
+</p:commandLink>
+</div>
+
+<div style="width: 101px;height: 60px;float: left;">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(501)}">
+    <img src="img/kasa-button.png" width="101" height="60"/>
+</p:commandLink>
+
+</div>
+
+<div style="width: 101px;height: 60px;float: left;">
+
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(213)}">
+    <img src="img/yazdır-button.png" width="101" height="60"/>
+</p:commandLink>
+
+</div>
+	
+	</div>
+	
+	</div>
+	
+	</h:form>	
+<!--	/Hizli Erişim  -->
+	<br/><br/>
+  <h:form id="defaultAnaSayfaForm">       	
+       <div  style=" height: %100;
+            width: 99%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: none;
+            margin-bottom: none;
+            border-top: 4px solid #0080FF;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            background-color: blue;
+            ">
+            
+            <!-- Gorevler -->
+            
+            
+  			<div style="float: left; width: 23%; margin:0px 0px 0px 0px;">
+  			<h2 style="margin:5px 0px 0px 0px;">Görevler</h2>
+  				<p:dataTable var="gorev" value="#{defaultAnaSayfaBean.gorevler}"  
+					selectionMode="single" selection="#{defaultAnaSayfaBean.selectedGorev}"
+					id="gorevTable" rowKey="#{gorev.id}" >
+					<p:ajax process="@this"  event="rowSelect" listener="#{defaultAnaSayfaBean.onRowSelect}"
+						update=":defaultAnaSayfaForm:gorevDetail" oncomplete="PF('gorevDialog').show()" />
+
+					<p:column style="padding:4px 2px 2px 2px;">
+						<h:outputText value="#{gorev.konu}" style="color:#{gorev.id%2==0 ? 'red' : 'black' };"  />
+					</p:column>
+
+					
+					<p:column  style="width: 22%;padding:4px 2px 2px 6px;">
+						<h:outputText value="#{gorev.basTarih}" style="font-size: 83%;color:#{gorev.id%2==0 ? 'red' : 'black' };" >
+						    <f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column  style="width: 22%;padding:4px 4px 2px 6px;">
+						<h:outputText value="#{gorev.bitTarih}" style="font-size: 83%;color:#{gorev.id%2==0 ? 'red' : 'black' };" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog header="Görev Detayı" widgetVar="gorevDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="true" >
+					<p:outputPanel id="gorevDetail" style="text-align:center;">
+
+							<h:outputText value="#{defaultAnaSayfaBean.selectedGorev.aciklama}" />
+
+					</p:outputPanel>
+				</p:dialog>
+  			
+
+			</div>
+			
+			<!-- /Gorevler  -->
+			
+			 <!-- Duyurular -->
+  			<div style="float: left; width: 35%; margin:0px 10px 0px 10px;">
+  			
+  			<h2 style="margin:5px 0px 0px 0px;">Duyurular</h2>
+
+				<p:dataTable var="duyuru" value="#{defaultAnaSayfaBean.duyurular}" styleClass="borderless" >
+
+					<p:column style="padding:4px 2px 2px 0px;" >
+						<h:outputText  value="#{duyuru.aciklama}" />
+					</p:column>
+
+				</p:dataTable>
+
+			</div>
+			<!-- /Duyurular -->
+			
+			
+			<div style="float: left; width: 15%; margin:0px 10px 0px 10px;">
+  			
+  			<h2 style="margin:5px 0px 0px 0px;">AYIN ELEMANI</h2>
+
+				
+				<div style="margin-top:40px;">
+				<center>
+<img src="USER/USER_IMG/#{loginBean.user.usrPhotoUrl}" id="img-circle" height="120" width="120" />
+</center>
+				
+				</div>
+				<div>
+				<center>
+				<h2>Mehmet</h2>
+				<h2>DEMİRCİOĞLU</h2>
+					<img src="img/kupa.png"  height="70" width="50" />
+				</center>
+				
+			
+				
+				</div>
+				
+
+			</div>
+			
+			
+			<!-- Takvim -->
+  			<div style="float: left; width: 22%; margin:0px 0px 0px 0px;">
+  			<h2 style="margin:5px 0px 0px 0px;">Takvim</h2>
+				<p:growl id="messages" showDetail="true" />
+
+				<p:schedule id="schedule" value="#{defaultAnaSayfaBean.eventModel}" locale="tr"
+					widgetVar="myschedule" timeZone="GMT+2">
+
+					<p:ajax event="dateSelect" listener="#{defaultAnaSayfaBean.onDateSelect}"
+						update="eventDetails" oncomplete="PF('eventDialog').show();" />
+					<p:ajax event="eventSelect"
+						listener="#{defaultAnaSayfaBean.onEventSelect}" update="eventDetails"
+						oncomplete="PF('eventDialog').show();" />
+					<p:ajax event="eventMove" listener="#{defaultAnaSayfaBean.onEventMove}"
+						update="messages" />
+					<p:ajax event="eventResize"
+						listener="#{defaultAnaSayfaBean.onEventResize}" update="messages" />
+
+				</p:schedule>
+
+				<p:dialog widgetVar="eventDialog" header="Etkinlik Detayları"
+					showEffect="clip" hideEffect="clip">
+					<h:panelGrid id="eventDetails" columns="2">
+						<p:outputLabel for="title" value="Başlık:" />
+						<p:inputText id="title" value="#{defaultAnaSayfaBean.event.title}"
+							required="true" />
+
+						<p:outputLabel for="from" value="Başlangıç:" />
+						<p:calendar id="from" value="#{defaultAnaSayfaBean.event.startDate}"
+							timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm" />
+
+						<p:outputLabel for="to" value="Bitiş:" />
+						<p:calendar id="to" value="#{defaultAnaSayfaBean.event.endDate}"
+							timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm" />
+
+						<p:outputLabel for="allDay" value="Bütün Gün:" />
+						<h:selectBooleanCheckbox id="allDay"
+							value="#{defaultAnaSayfaBean.event.allDay}" />
+
+						<p:commandButton type="reset" value="Yenile" />
+						<p:commandButton id="addButton" value="Kaydet"
+							actionListener="#{defaultAnaSayfaBean.addEvent}"
+							oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+						<p:commandButton id="deleteButton" value="Sil"
+							actionListener="#{defaultAnaSayfaBean.deleteEvent}"
+							oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />	
+					</h:panelGrid>
+				</p:dialog>
+
+			</div>
+			<!-- /Takvim -->
+		</div>
+		
+</h:form>        
+</h:body>
+<script type="text/javascript">
+    PrimeFaces.locales['tr'] = {
+        closeText: 'kapat',
+        prevText: 'geri',
+        nextText: 'ileri',
+        currentText: 'bugün',
+        monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran',
+            'Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+        monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz',
+            'Tem','Ağu','Eyl','Eki','Kas','Ara'],
+        dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+        dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+        dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+        weekHeader: 'Hf',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        month: 'Ay',
+        week: 'Hafta',
+        day: 'Gün',
+        allDayText : 'Tüm Gün'
+    };
+</script>
+</html>

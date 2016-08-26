@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>SEMİRAMİS | Skor Tabelası</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		name="viewport" />
+
+	<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="bootstrap/css" name="font-awesome.min.css" />
+	<h:outputStylesheet library="bootstrap/css" name="ionicons.min.css" />
+	<h:outputStylesheet library="dist/css" name="AdminLTE.min.css" />
+	<h:outputStylesheet library="dist/css/skins" name="_all-skins.min.css" />
+
+
+
+
+
+</h:head>
+
+<h:body class=" skin-blue ">
+	<h:form id="dashboardform">
+	<p:poll interval="60" update="dashboardform" listener="#{dashBoardBean.getir}"  /> 
+
+		<section class="content-header">
+		<h1></h1>
+
+		</section>
+
+		<div class="row">
+			<br />
+			<div class="col-lg-3 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-aqua">
+
+
+					<div class="col-md-6">
+						<div style="text-align: center;">HEDEF</div>
+						<table class="table table-condensed">
+							<tr>
+								<td>HSBC</td>
+							
+								<td>#{dashBoardBean.hedeflerAylik.hedefHSBCayliktl}</td>
+							
+							</tr>
+							<tr>
+								<td>AKBANK</td>
+								<td>#{dashBoardBean.hedeflerAylik.hedefAKBANKayliktl}</td>
+							
+							</tr>
+							<tr>
+								<td>GARANTİ</td>
+								<td>#{dashBoardBean.hedeflerAylik.hedefGARANTIayliktl}</td>
+							
+							</tr>
+							<tr>
+								<td>ING</td>
+								<td>#{dashBoardBean.hedeflerAylik.hedefINGayliktl}</td>
+						
+							</tr>
+						</table>
+
+					</div>
+					<div class="col-md-6">
+						<div style="text-align: center;">AYLIK</div>
+						<table class="table table-condensed">
+							<tr>
+								<td>HSBC</td>
+								
+								<td>#{dashBoardBean.aylik.HSBCayliktl}</td>
+								<td><span class="badge bg-red">#{dashBoardBean.aylik.yuzdeHSBCaylik}%</span></td>
+							</tr>
+							<tr>
+								<td>AKBANK</td>
+								<td>#{dashBoardBean.aylik.AKBANKayliktl}	</td>
+								<td><span class="badge bg-yellow">#{dashBoardBean.aylik.yuzdeAKBANKaylik}%</span></td>
+							</tr>
+							<tr>
+								<td>GARANTİ</td>
+								<td>#{dashBoardBean.aylik.GARANTIayliktl}
+								</td>
+								<td><span class="badge bg-green">#{dashBoardBean.aylik.yuzdeGARANTIaylik}%</span></td>
+							</tr>
+							<tr>
+								<td>ING</td>
+								<td>#{dashBoardBean.aylik.INGayliktl}
+								</td>
+								<td><span class="badge bg-blue">#{dashBoardBean.aylik.yuzdeINGaylik}%</span></td>
+							</tr>
+						</table>
+
+					</div>
+
+
+					<a href="#" class="small-box-footer"> Hedeflenen Kazançlar ve
+						Aylık Kazanç Durumu </a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-6 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-green">
+
+					<div class="col-md-9">
+						<center>
+							<h3>#{dashBoardBean.tarih}</h3>
+						</center>
+
+						<br /> <br /> <br /> <br />
+
+					</div>
+					<div class="col-md-3" style="float: right;">
+						<br />
+
+
+						<table class="table table-condensed">
+							<tr>
+								<td>HSBC</td>
+								
+								<td>#{dashBoardBean.gunluk.HSBCtl}
+								</td>
+								<td><span class="badge bg-red">#{dashBoardBean.gunluk.yuzdeHSBC}%</span></td>
+							</tr>
+							<tr>
+								<td>AKBANK</td>
+								<td>#{dashBoardBean.gunluk.AKBANKtl}
+								</td>
+								<td><span class="badge bg-yellow">#{dashBoardBean.gunluk.yuzdeAKBANK}%</span></td>
+							</tr>
+							<tr>
+								<td>GARANTİ</td>
+								<td>#{dashBoardBean.gunluk.GARANTItl}
+								</td>
+								<td><span class="badge bg-green">#{dashBoardBean.gunluk.yuzdeGARANTI}%</span></td>
+							</tr>
+							<tr>
+								<td>ING</td>
+								<td>#{dashBoardBean.gunluk.INGtl}
+								</td>
+								<td><span class="badge bg-blue">#{dashBoardBean.gunluk.yuzdeING}%</span></td>
+							</tr>
+						</table>
+
+					</div>
+
+
+
+					<a href="#" class="small-box-footer"> Günlük Kazanç Takibi </a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-red">
+
+					<div class="col-md-4">
+						<br /> <br /> <br /> <br /> <br /> <br /> <br />
+
+					</div>
+					<div class="col-md-8" style="float: right;">
+						<div style="text-align: center;">GENEL TOPLAM</div>
+
+						<table class="table table-condensed">
+							<tr>
+								<td>HSBC</td>
+								<td>#{dashBoardBean.genelToplam.HSBCtl}</td>
+								<td><span class="badge bg-red">#{dashBoardBean.genelToplam.yuzdeHSBC}%</span></td>
+							</tr>
+							<tr>
+								<td>AKBANK</td>
+								<td>#{dashBoardBean.genelToplam.AKBANKtl}</td>
+								<td><span class="badge bg-yellow">#{dashBoardBean.genelToplam.yuzdeAKBANK}%</span></td>
+							</tr>
+							<tr>
+								<td>GARANTİ</td>
+								<td>#{dashBoardBean.genelToplam.GARANTItl}
+								</td>
+								<td><span class="badge bg-green">#{dashBoardBean.genelToplam.yuzdeGARANTI}%</span></td>
+							</tr>
+							<tr>
+								<td>ING</td>
+								<td>#{dashBoardBean.genelToplam.INGtl}
+								</td>
+								<td><span class="badge bg-blue">#{dashBoardBean.genelToplam.yuzdeING}%</span></td>
+							</tr>
+						</table>
+
+					</div>
+
+					<a href="#" class="small-box-footer" style="float: inherit;">
+						Genel Toplam Bilgisi </a>
+				</div>
+			</div>
+			<!-- ./col -->
+
+		</div>
+
+	
+		
+		
+		
+		
+		<ui:repeat var="takim" value="#{dashBoardBean.dashBorad}">
+		
+		<div class="col-md-4">
+
+			<div class="box box-widget widget-user" style="height:500px">
+
+				<div class="widget-user-header bg-aqua-active">
+
+					<div class="col-md-4" style="float: left;">
+						<table class="table table-condensed">
+							<tr>
+								<th></th>
+								<th></th>
+								<th style="width: 40px"></th>
+							</tr>
+							<tr>
+								<td>HSBC</td>
+								<td>#{takim.bankaTutarModel.HSBC}</td>
+								<td><span class="badge bg-red">#{takim.bankaTutarModel.yuzdeHSBC}%</span></td>
+							</tr>
+							<tr>
+								<td>AKBANK</td>
+								<td>#{takim.bankaTutarModel.AKBANK}</td>
+								<td><span class="badge bg-yellow">#{takim.bankaTutarModel.yuzdeAKBANK}%</span></td>
+							</tr>
+							<tr>
+								<td>GARANTİ</td>
+								<td>#{takim.bankaTutarModel.GARANTI}</td>
+								<td><span class="badge bg-green">#{takim.bankaTutarModel.yuzdeGARANTI}%</span></td>
+							</tr>
+							<tr>
+								<td>ING</td>
+								<td>#{takim.bankaTutarModel.ING}</td>
+								<td><span class="badge bg-blue">#{takim.bankaTutarModel.yuzdeING}%</span></td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="col-md-5">
+						<h3 class="widget-user-username" style="text-align: center;">
+							#{takim.takimAdi}</h3>
+					</div>
+
+					<div class="col-md-3">
+						<p:rating value="4" stars="7" cancel="false" onRate=""
+							style="float:right" />
+					</div>
+
+				</div>
+				<div class="widget-user-image">
+
+					<img class="img-circle" src="../USER/USER_IMG/#{takim.takimResmi}" alt="User Avatar" />
+
+
+				</div>
+				<div class="box-footer">
+
+
+					<div class="box-body no-padding">
+						<ul class="users-list clearfix">
+							<ui:repeat var="personel" value="#{takim.personel}">
+							<li><img src="../USER/USER_IMG/#{personel.personelresim}" alt="User Image" />
+								<a class="users-list-name" href="#">#{personel.personelAdi}</a></li>
+							</ui:repeat>
+							</ul>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		
+	</ui:repeat>
+
+
+	</h:form>
+
+
+	<h:outputScript library="plugins/jQuery" name="jQuery-2.2.0.min.js" />
+	<h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
+
+	<h:outputScript library="plugins/slimScroll/"
+		name="jquery.slimscroll.min.js" />
+	<h:outputScript library="plugins/fastclick" name="fastclick.js" />
+	<h:outputScript library="dist/js" name="app.min.js" />
+	<h:outputScript library="dist/js" name="demo.js" />
+
+
+</h:body>
+
+</html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="maashaciztalebigenel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15bbab6b-08e6-47a3-b8e5-3d13429efc83">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="icraMudurlugu" class="java.lang.String"/>
+	<field name="icraDosyaNo" class="java.lang.String"/>
+	<field name="muameleTarihiTxt" class="java.lang.String"/>
+	<field name="borcluIsyeriAdi" class="java.lang.String"/>
+	<field name="borcluIsyeriAdres" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement x="60" y="0" width="48" height="29" uuid="9ce465da-b5a1-463a-964c-db42c1e10cec"/>
+				<textElement textAlignment="Center">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[T.C.
+ANKARA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="29" width="275" height="20" uuid="c72a6285-2aae-408e-b92a-afb07dc3a023"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{icraMudurlugu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="49" width="275" height="20" uuid="9c5380c5-2255-4c04-8670-a10ffa99cbd1"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DOSYA/ESAS NO :"+$F{icraDosyaNo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="407" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="359" width="115" height="20" uuid="7e47f8d6-ce81-44fe-b813-5cf26bb06891"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[SORGU SONUÇLARI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="380" width="34" height="20" uuid="64dfed5d-4432-47ad-a497-81f498ea2acd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[SGK]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="331" width="473" height="18" uuid="5426bfbe-bcb4-4b5c-b6ba-85e8c7e44324"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["İş bu talep uyap üzerinden  e-imza ile "+$F{muameleTarihiTxt}+" tarihinde gönderilmiştir."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="36" y="19" width="473" height="214" uuid="0bb54fda-6262-441d-8471-56d9c795fb5e"/>
+				<textElement textAlignment="Justified">
+					<font size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Proportional" lineSpacingSize="1.2"/>
+				</textElement>
+				<text><![CDATA[Maaş Haciz Talebi
+
+Borçlunun uyap üzerinden e-imza ile uyap üzerinden sgk sorgusu yapılmıştır.Sonuçlarına ilişkin bilgi ve belgeler icra dosyası içerisine evrak olarak konmuştur. Buna göre SGK’SI AKTİF OLAN borçlu hakkında çalıştığı işyerine,işverenine maaş ,ek ücret, ÇİFT MAAŞ veya ÜCRET ALAMAKTA ise ve borçlu ikramiye almakta ise borç miktarını geçmemek üzere bu ikramiyenin de TAMAMININ haczine, NEMA VE VERGİ İDARELERİ ile borçlunun başkaca hak ve alacağı var ise bu hak ve alacaklarının da borç miktarını geçmemek üzere TAMAMININ haczi için maaş haczi müzekkeresinin gönderilmesine, haciz konulması halinde paranın dosyamıza gönderilmesini  talep ederim dedi.
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="22" y="252" width="285" height="20" uuid="1eedcee4-af45-49e7-82a4-9d53b3f6f030"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{borcluIsyeriAdi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="275" width="285" height="56" uuid="6614f82d-0289-4345-ab16-31833c9d8502"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Calibri" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{borcluIsyeriAdres}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

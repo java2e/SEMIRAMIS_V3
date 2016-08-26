@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<style>
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 500px;
+    right:0;
+    float:right;
+    z-index: 99;
+}
+
+select option{ color:red;}
+
+
+
+
+</style>
+
+	<script type="text/javascript">
+	<!--//--><![CDATA[//><!--
+	      
+		var webSocket = new WebSocket(
+				'ws://192.168.16.74:8181/WebSocketPrj02_tomcat8/chatroomServerEndpoint');
+		webSocket.onopen=function(){
+			webSocket.send('#{aktifbean.chatUserNamey}');
+			
+
+		}
+		
+		webSocket.onmessage = function processMessage(message) {
+			var jsonData = JSON.parse(message.data);
+			if (jsonData.users != null) {
+				//usersTextArea.value="";
+				var userTextSelectLength=userTextSelect.options.length;
+				for (i = 0; i < userTextSelectLength; i++) {
+					userTextSelect.options[0] = null;
+				}
+				userArray=jsonData.users.split(',')
+				var ausers="";
+				for(var i=0;i<userArray.length-1;i++){
+					ausers += userArray[i] + "\n";
+					userTextSelect.options[userTextSelect.options.length]=new Option(userArray[i],userArray[i]);
+				}
+				//usersTextArea.value+=ausers;
+				//userTextSelect.options[userTextSelect.options.length]=new Option('Text 1','Mehmet')
+				//userTextSelect.options[userTextSelect.options.length]=new Option('Text 2','Mehmet2')
+			}
+			if (jsonData.message != null) {
+				messagesTextArea.value += jsonData.message + "\n";
+				messagesTextArea.scrollTop=messagesTextArea.scrollHeight;
+			}
+		}
+		function sendMessage() {
+/* 			var selectedUserName=getSelectValues(userTextSelect);
+			if(selectedUserName[0].indexOf("(")>0)
+			selectedUserName[0]=selectedUserName[0].substring(0,selectedUserName[0].indexOf("("))
+			webSocket.send(selectedUserName[0]+":user"+messagetextField.value); */
+			webSocket.send(messagetextField.value);
+			messagetextField.value = "";
+		}
+		
+		
+		function getSelectValues(select) {
+			  var result = [];
+			  var options = select && select.options;
+			  var opt;
+
+			  for (var i=0, iLen=options.length; i<iLen; i++) {
+			    opt = options[i];
+
+			    if (opt.selected) {
+			      result.push(opt.value || opt.text);
+			    }
+			  }
+			  return result;
+		}
+		
+		function onEnterDown(ele){
+			if(event.keyCode==13){
+				webSocket.send(messagetextField.value);
+				messagetextField.value = "";
+			}
+		}
+
+
+		//--><!]]>
+	</script>
+
+	<script language="javascript" type="text/javascript">
+function showHide(shID) {
+     
+        if(document.getElementById(shID).style.display != 'none'){
+        	document.getElementById(shID).style.display = 'none';
+        	//document.getElementById('title').src = 'img/message_title_2.png';
+        	
+        	
+        
+        }
+        else
+        	{
+       
+        	
+        	document.getElementById(shID).style.display = 'block';
+        	//document.getElementById('title').src = 'img/message_title.png';
+        	
+        	
+        	}
+        	
+        	
+   }
+   </script>
+
+<div id="footer">
+
+<div  style="height: 40px;" 	onclick="showHide('panel');return false;">
+<img id="title" src="img/message_title.png" width="500" height="40"/>
+</div>
+
+
+
+<div id="panel" style="display:none">
+<div style="width: 150px;height: 300px;float: left;margin-right: 10px;background-image: url('img/message_back_1.png'); ">
+
+<select id="userTextSelect" multiple="multiple"  style="margin-top: 5px;margin-left: 5px;margin-right: 5px;width:10.5em;height:21.5em;">
+
+</select>
+	<!--  
+		<textarea id="usersTextArea" readonly="readonly" rows="16" cols="16" style="margin-top: 5px;margin-left: 10px;margin-right: 10px;"></textarea>
+		-->
+ 
+
+</div>
+
+<div style="width: 340px;height: 280px; float:left;">
+
+<div style="width: 340px;height: 250px;background-image: url('img/message_back_2.png');">
+<textarea id="messagesTextArea" readonly="readonly" rows="15" cols="43" style="margin-top: 5px;margin-left: 10px;margin-right: 10px;" ></textarea>
+</div>
+<div style="width: 340px;height: 50px;background-image: url('img/message_back_3.png');">
+<input id="messagetextField" type="text" size="40" style="margin-top: 2px;margin-left: 10px;" onkeydown="onEnterDown(this)"/>
+<input type="button" value="Gönder" onclick="sendMessage()" style="margin-top: 2px;margin-left: 12px;" />
+	
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+</ui:composition>

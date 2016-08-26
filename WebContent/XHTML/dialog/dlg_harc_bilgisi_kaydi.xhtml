@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fcore="http://java.sun.com/jsf/core">
+
+
+
+<h:body>
+
+
+	<p:panel rendered="#{harcBean.panelRender}">
+		<p:panelGrid columns="2">
+
+			<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
+			<p:inputText id="icraDosyaNo" value="#{harcBean.icraDosyaNo}"
+				style="width: 250px" readonly="true"></p:inputText>
+
+			<h:outputLabel>İcra Müdürlüğü :</h:outputLabel>
+			<p:inputText id="icraMd" style="width: 250px" readonly="true"
+				value="#{harcBean.icraMd}">
+
+			</p:inputText>
+
+			<p:outputLabel style="width: 150px"> Müvekkil Adı :</p:outputLabel>
+
+			<p:inputText id="müvekkilAdi" style="width: 250px"
+				value="#{harcBean.muvekkilAdi}" readonly="true">
+			</p:inputText>
+
+			<h:outputLabel>Borçlu Adı :</h:outputLabel>
+			<p:inputText id="müvekkilborclu" style="width: 250px"
+				value="#{harcBean.borcluAdi}" readonly="true">
+			</p:inputText>
+
+			<p:outputLabel>Harç Tarihi :</p:outputLabel>
+			<p:calendar pattern="dd/MM/yyyy" mask="true"
+				value="#{harcBean.harcBilgi.harc_tarihi}" size="39">
+			</p:calendar>
+
+			<h:outputLabel>Harç Tipi :</h:outputLabel>
+			<p:selectOneMenu id="selectOneMenuHarcTipi" required="false"
+				value="#{harcBean.harcBilgi.harc_tipi}"
+				requiredMessage="Bu alanı doldurunuz" style="width:260px">
+				<f:selectItems value="#{geneltanimbean.ListeGetir('tbl_harc_tipi')}"
+					var="list" itemLabel="#{list.adi}" itemValue="#{list.adi}"></f:selectItems>
+			</p:selectOneMenu>
+
+
+			<p:outputLabel>Harç Oranı :</p:outputLabel>
+			<p:inputText id="inputTextHarcRatio"
+				value="#{harcBean.harcBilgi.harc_orani}" style="width: 250px"
+				
+											required="true"
+											requiredMessage="Bu alanı boş bırakamazsınız..."
+											onkeyup="var pos=this.selectionStart;
+									var size = this.value.length;														
+this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
+             						
+             						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
+										this.value=this.value.substring(0,size-1);
+             					"
+											onfocus="this.value=''" >
+
+			</p:inputText>
+
+			<p:outputLabel>Harç Miktarı :</p:outputLabel>
+			<p:inputText id="inputTextHarcAmount" 
+				value="#{harcBean.harcBilgi.harc_miktari}"
+				
+											required="true"
+											requiredMessage="Bu alanı boş bırakamazsınız..."
+											onkeyup="var pos=this.selectionStart;
+									var size = this.value.length;														
+this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
+             						
+             						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
+										this.value=this.value.substring(0,size-1);
+             					"
+											onfocus="
+															this.value=''
+									"  style="width: 250px">
+
+			</p:inputText>
+
+			<p:outputLabel>Uygulama Aşaması :</p:outputLabel>
+			<p:inputText id="inputTextUygulamaAsamasi" required="false"
+				value="#{harcBean.harcBilgi.uygulama_asamasi}"
+				requiredMessage="Bu alanı doldurunuz" style="width: 250px">
+			</p:inputText>
+
+
+		</p:panelGrid>
+
+
+
+		<p:growl id="growl" showDetail="true" />
+
+		<p:commandButton id="cmdButtonVAZGEC" style="margin-top:10px"
+			action="#{harcBean.dlgVazgec}" value="Vazgeç"
+			update=":#{p:component('dialog')}"></p:commandButton>
+
+		<p:commandButton id="cmdButtonKAYDET"
+			actionListener="#{harcBean.dlgKaydet}"
+			action="#{icradosyaislemleribean.Hesapla()}"
+			update="growl, :#{p:component('dialog')}, :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi"
+			value="Kaydet"></p:commandButton>
+
+	</p:panel>
+
+
+	<p:dataTable value="#{harcBean.harcList}" var="hb" id="tblharc"
+		style="width:900px ">
+		
+		<f:facet name="header">
+			<p:panelGrid>
+				<p:commandButton value="Yeni Kayıt" style="float:left"
+					disabled="#{harcBean.buttonDisabled}"
+		update=":#{p:component('dialog')}"
+		actionListener="#{harcBean.dlgYeniKayit}"/>
+				<h:outputText value="Harç Listesi" />
+			</p:panelGrid>
+		</f:facet>
+
+		<p:column headerText="Düzenle" width="145">
+
+			<p:commandButton icon="ui-icon-disk" value="Düzenle"
+				action="#{harcBean.dlgDuzenle}" update=":#{p:component('dialog')}"
+				disabled="#{harcBean.buttonDisabled}">
+				<f:param name="duzenle" value="#{hb.id}" />
+			</p:commandButton>
+
+		</p:column>
+
+		<p:column headerText="SİL" width="115">
+
+			<p:commandButton icon="ui-icon-cancel" value="Sil"
+				action="#{icradosyaislemleribean.Hesapla}"
+				actionListener="#{harcBean.dlgSil}"
+				disabled="#{harcBean.buttonDisabled}"
+				update=":#{p:component('dialog')}, :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi">
+				<f:param name="sil" value="#{hb.id}" />
+
+			</p:commandButton>
+
+		</p:column>
+
+		<p:column headerText="Harç Tarihi">
+			<h:outputText value="#{hb.harc_tarihi}" />
+		</p:column>
+
+		<p:column headerText="Harç Tipi">
+			<h:outputText value="#{hb.harc_tipi}" />
+		</p:column>
+
+		<p:column headerText="Harç Oranı">
+			<h:outputText value="#{hb.harc_orani}" />
+		</p:column>
+
+		<p:column headerText="Harç Miktarı">
+			<h:outputText value="#{hb.harc_miktari}" />
+		</p:column>
+
+
+		<p:column headerText="Uygulama Aşaması">
+			<h:outputText value="#{hb.uygulama_asamasi}" />
+		</p:column>
+
+
+	</p:dataTable>
+
+
+</h:body>
+</html>

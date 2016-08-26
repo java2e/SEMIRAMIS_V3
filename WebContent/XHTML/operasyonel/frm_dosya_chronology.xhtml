@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<p:growl id="growl" showSummary="true" showDetail="false"
+		autoUpdate="true" />
+
+	<h:form id="formChr">
+		<p:panel>
+			<p:outputLabel>
+İcra Dosya No:
+				<p:inputText size="30"
+					value="#{basicTimelineController.icraDosyaNo}" />
+	  ||
+	  <p:commandButton icon="ui-icon-search" style="color:red"
+					value="Ara !" onclick="PF('dlgdetayliarama').show();" />
+
+			</p:outputLabel>
+
+		</p:panel>
+
+		<p:panel id="kronolojiDt">
+			<p:dataTable id="datatable" var="list" rows="10" paginator="true"
+				value="#{basicTimelineController.chronologies}"
+				rowIndexVar="rowIndex">
+
+				<p:column headerText="Departman" width="10%">
+					<p:outputLabel value="#{list.departman}" />
+				</p:column>
+
+				<p:column headerText="Borclu Adı" width="15%">
+					<p:outputLabel value="#{list.borcluAdi}" />
+				</p:column>
+				<p:column headerText="İşlem" width="15%">
+					<p:outputLabel value="#{list.islem}" />
+				</p:column>
+				<p:column headerText="Açıklama" width="15%">
+					<p:outputLabel value="#{list.aciklama}" />
+				</p:column>
+				<p:column headerText="Belge Tarihi" width="15%">
+					<p:outputLabel value="#{list.tarih}" />
+				</p:column>
+				<p:column headerText="Personel" width="15%">
+					<p:outputLabel value="#{list.personelAdi}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+		<h:outputStylesheet id="timelineCSS">  
+    table .formColumn {  
+        padding: 0 5px 0 20px;  
+        text-align: right;  
+        white-space: nowrap;  
+    }         
+		</h:outputStylesheet>
+
+
+
+
+
+
+		<p:dialog header="DETAYLI ARAMA" widgetVar="dlgdetayliarama"
+			minHeight="340" height="690">
+
+			<ui:include src="../dialog/dlg_detail_search.xhtml" />
+		</p:dialog>
+
+	</h:form>
+</h:body>
+</html>
