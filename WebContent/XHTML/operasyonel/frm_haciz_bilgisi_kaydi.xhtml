@@ -128,12 +128,11 @@
 
 					<p:outputLabel>Personel Adı :</p:outputLabel>
 
-					<p:selectOneMenu id="selectOneMenuPersonelAdi" required="false"
-						value="#{hacizBilgisiBean.hacizkayit.personelId}"
-						style="width:260px" requiredMessage="Bu alanı doldurunuz">
-						<f:selectItems value="#{userbean.ListeGetir()}" var="list"
-							itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-					</p:selectOneMenu>
+					<p:inputText id="inputTextPersoneladi"
+				value="#{hacizBilgisiBean.personelAdi}" required="false"
+				readonly="true" requiredMessage="Bu alanı doldurunuz"
+				style="width: 250px">
+			</p:inputText>
 
 					<p:outputLabel>Şehir :</p:outputLabel>
 

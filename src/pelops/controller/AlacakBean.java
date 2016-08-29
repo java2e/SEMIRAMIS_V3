@@ -164,9 +164,14 @@ public class AlacakBean extends DBConnection {
 
 	public void YeniKayit() {
 
-		status = 0;
-		alacakKayit = new AlacakBilgisi();
-		PanelOpen();
+		if (AktifBean.getIcraDosyaID() != 0) {
+			status = 0;
+			alacakKayit = new AlacakBilgisi();
+			PanelOpen();
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("İcra Dosya takibinden Lütfen bir icra Dosyası seçiniz!"));
+		}
 
 	}
 

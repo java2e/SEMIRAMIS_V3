@@ -25,7 +25,8 @@
 
 		<h:form id="vizitForm">
 
-			<p:panel id="panelForm" rendered="#{vizitBilgisiKaydiBean.panelRender}">
+			<p:panel id="panelForm"
+				rendered="#{vizitBilgisiKaydiBean.panelRender}">
 				<p:panelGrid columns="2" style="margin-top:10px">
 
 					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
@@ -88,14 +89,11 @@
 						style="width: 250px"></p:inputTextarea>
 
 					<h:outputLabel>Vizit Personeli :</h:outputLabel>
-					<p:selectOneMenu id="vizitPersoneli" required="false"
-						value="#{vizitBilgisiKaydiBean.vizitBilgisi.vizitPersoneliId}"
-						requiredMessage="Bu alanı doldurunuz" style="width:260px">
-						<f:selectItem itemValue=""></f:selectItem>
-
-						<f:selectItems value="#{vizitBilgisiKaydiBean.users}" var="list"
-							itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-					</p:selectOneMenu>
+					<p:inputText id="inputTextPersoneladi"
+						value="#{vizitBilgisiKaydiBean.personelAdi}" required="false"
+						readonly="true" requiredMessage="Bu alanı doldurunuz"
+						style="width: 250px">
+					</p:inputText>
 				</p:panelGrid>
 
 				<p:growl id="growl" showDetail="true" sticky="true" />
@@ -112,86 +110,88 @@
 
 
 			</p:panel>
-			
-			  <p:toolbar id="toolbar">
-        <f:facet name="left">
 
-			<p:commandButton value="Yeni Kayıt" style="float:left"
-				disabled="#{vizitBilgisiKaydiBean.buttonDisabled}"
-				action="#{vizitBilgisiKaydiBean.YeniKayit}" update=":vizitForm" />
-</f:facet>
- <f:facet name="left">
-			<p:commandButton value="Listeyi Yenile" style="float:left"
-				disabled="#{vizitBilgisiKaydiBean.buttonDisabled}"
-				update=":vizitForm" />
-				</f:facet>
-				</p:toolbar>
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
 
-
-
-<p:panel header="#{vizitBilgisiKaydiBean.icradosyaNo} nolu dosyanın vizit listesi" id="panelTable">
-
-			<p:dataTable value="#{vizitBilgisiKaydiBean.listVizit}" var="vb"
-				id="tblVizitBilgisi" paginator="true" rows="6">
-
-				<p:column headerText="Düzenle" width="145">
-
-					<p:commandButton icon="ui-icon-disk" value="Düzenle"
-						action="#{vizitBilgisiKaydiBean.Duzenle}" update=":vizitForm"
-						disabled="#{vizitBilgisiKaydiBean.buttonDisabled}">
-						<f:param name="duzenle" value="#{vb.id}" />
-
-
-					</p:commandButton>
-
-				</p:column>
-
-				<p:column headerText="SİL" width="115">
-
-					<p:commandButton icon="ui-icon-cancel" value="Sil"
-						actionListener="#{vizitBilgisiKaydiBean.Sil}"
+					<p:commandButton value="Yeni Kayıt" style="float:left"
 						disabled="#{vizitBilgisiKaydiBean.buttonDisabled}"
-						update=":vizitForm">
-						<f:param name="sil" value="#{vb.id}" />
-						<p:confirm header="Onaylama"
-							message="Silmek istediğinize emin misiniz?" icon="ui-icon-alert" />
-					</p:commandButton>
-
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Evet" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="Hayır" type="button"
-							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-					</p:confirmDialog>
+						action="#{vizitBilgisiKaydiBean.YeniKayit}" update=":vizitForm" />
+				</f:facet>
+				<f:facet name="left">
+					<p:commandButton value="Listeyi Yenile" style="float:left"
+						disabled="#{vizitBilgisiKaydiBean.buttonDisabled}"
+						update=":vizitForm" />
+				</f:facet>
+			</p:toolbar>
 
 
-				</p:column>
 
-				<p:column headerText="Vizit Tarihi">
-					<h:outputText value="#{vb.vizitTarihi}" />
-				</p:column>
+			<p:panel
+				header="#{vizitBilgisiKaydiBean.icradosyaNo} nolu dosyanın vizit listesi"
+				id="panelTable">
 
-				<p:column headerText="Ödeme Sözü Tarihi">
-					<h:outputText value="#{vb.odemeSozuTarihi}" />
-				</p:column>
+				<p:dataTable value="#{vizitBilgisiKaydiBean.listVizit}" var="vb"
+					id="tblVizitBilgisi" paginator="true" rows="6">
 
-				<p:column headerText="Ödeme Sözü Miktarı">
-					<h:outputText value="#{vb.odemeMiktari}" />
-				</p:column>
-				
-				<p:column headerText="Vizit Notu">
-					<h:outputText value="#{vb.vizitNotu}" />
-				</p:column>
-				
-				<p:column headerText="Vizit Statüsü">
-					<h:outputText value="#{vb.vizitStatusu}" />
-				</p:column>
+					<p:column headerText="Düzenle" width="145">
 
-				<p:column headerText="Personel">
-					<h:outputText value="#{vb.userName}" />
-				</p:column>
-			</p:dataTable>
-			
+						<p:commandButton icon="ui-icon-disk" value="Düzenle"
+							action="#{vizitBilgisiKaydiBean.Duzenle}" update=":vizitForm"
+							disabled="#{vizitBilgisiKaydiBean.buttonDisabled}">
+							<f:param name="duzenle" value="#{vb.id}" />
+
+
+						</p:commandButton>
+
+					</p:column>
+
+					<p:column headerText="SİL" width="115">
+
+						<p:commandButton icon="ui-icon-cancel" value="Sil"
+							actionListener="#{vizitBilgisiKaydiBean.Sil}"
+							disabled="#{vizitBilgisiKaydiBean.buttonDisabled}"
+							update=":vizitForm">
+							<f:param name="sil" value="#{vb.id}" />
+							<p:confirm header="Onaylama"
+								message="Silmek istediğinize emin misiniz?" icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Evet" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Hayır" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
+
+					</p:column>
+
+					<p:column headerText="Vizit Tarihi">
+						<h:outputText value="#{vb.vizitTarihi}" />
+					</p:column>
+
+					<p:column headerText="Ödeme Sözü Tarihi">
+						<h:outputText value="#{vb.odemeSozuTarihi}" />
+					</p:column>
+
+					<p:column headerText="Ödeme Sözü Miktarı">
+						<h:outputText value="#{vb.odemeMiktari}" />
+					</p:column>
+
+					<p:column headerText="Vizit Notu">
+						<h:outputText value="#{vb.vizitNotu}" />
+					</p:column>
+
+					<p:column headerText="Vizit Statüsü">
+						<h:outputText value="#{vb.vizitStatusu}" />
+					</p:column>
+
+					<p:column headerText="Personel">
+						<h:outputText value="#{vb.userName}" />
+					</p:column>
+				</p:dataTable>
+
 			</p:panel>
 
 		</h:form>

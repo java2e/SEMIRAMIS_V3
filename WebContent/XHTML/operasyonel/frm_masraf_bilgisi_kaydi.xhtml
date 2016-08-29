@@ -90,13 +90,11 @@
 
 
 					<h:outputLabel>Personel Adı :</h:outputLabel>
-					<p:selectOneMenu id="selectOneMenuPersonelAdi" required="true"
-						value="#{masrafBilgisiBean.masrafBilgisi.masrafPersonel_adi_id}"
-						style="width:260px">
-						<f:selectItem itemLabel="" itemValue="0" />
-						<f:selectItems value="#{userbean.ListeGetir()}" var="list"
-							itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-					</p:selectOneMenu>
+					<p:inputText id="inputTextPersoneladi"
+						value="#{masrafBilgisiBean.personelAdi}" required="false"
+						readonly="true" requiredMessage="Bu alanı doldurunuz"
+						style="width: 250px">
+					</p:inputText>
 
 
 
@@ -151,7 +149,7 @@
 
 				<p:column headerText="SİL" width="70">
 
-					<p:commandButton icon="ui-icon-cancel" value="Sil" 
+					<p:commandButton icon="ui-icon-cancel" value="Sil"
 						action="#{masrafBilgisiBean.Sil}"
 						disabled="#{masrafBilgisiBean.buttonDisabled}"
 						update=":MasrafBilgisiKaydi,:growl">
@@ -182,8 +180,8 @@
 				<p:column headerText="Masraf Tipi">
 					<h:outputText value="#{mb.masrafTipiName}" />
 				</p:column>
-				
-			  <p:column headerText="Açıklama" width="500">
+
+				<p:column headerText="Açıklama" width="500">
 					<h:outputText value="#{mb.masrafAciklama}" />
 				</p:column>
 

@@ -9,22 +9,18 @@
 
 <ui:composition>
 
-<style>
-
-.ui-panelgrid-cell{
-	border-width:0px !important;
-	
+	<style>
+.ui-panelgrid-cell {
+	border-width: 0px !important;
 }
 
-	.titleColor > .ui-panel-titlebar {
-    background: white;
-    height: 20px;
-    text-align: center !important;
-    font-size: 15px;
-    color:red;
-    }
-    
-	
+.titleColor>.ui-panel-titlebar {
+	background: white;
+	height: 20px;
+	text-align: center !important;
+	font-size: 15px;
+	color: red;
+}
 </style>
 
 
@@ -44,161 +40,167 @@
 
 		<h:form id="formIzlemeBilgisi">
 
-			<p:panel id="girisPaneli"
-				style="margin-bottom:10px"
+			<p:panel id="girisPaneli" style="margin-bottom:10px"
 				rendered="#{izlemebilgisibean.panelRender}">
 
 
-<p:panel styleClass="titleColor" header="#{izlemebilgisibean.izleme.cagriAdet} ÇAGRI YAPILDI" style="width:600px;">
-				<p:panelGrid columns="2" style="border-style: hidden !important">
+				<p:panel styleClass="titleColor"
+					header="#{izlemebilgisibean.izleme.cagriAdet} ÇAGRI YAPILDI"
+					style="width:600px;">
+					<p:panelGrid columns="2" style="border-style: hidden !important">
 
-					<p:outputLabel>İcra Dosyası No :</p:outputLabel>
-					<p:inputText id="icradosya"
-						value="#{izlemebilgisibean.staticDegerler.icraDosyaNo}"
-						style="width: 250px" readonly="true"></p:inputText>
+						<p:outputLabel>İcra Dosyası No :</p:outputLabel>
+						<p:inputText id="icradosya"
+							value="#{izlemebilgisibean.staticDegerler.icraDosyaNo}"
+							style="width: 250px" readonly="true"></p:inputText>
 
-					<p:outputLabel style="width: 150px"> Müvekkil Adı :</p:outputLabel>
-					<p:inputText id="müvekkilAdi" readonly="true"
-						value="#{izlemebilgisibean.staticDegerler.muvekkilAdi}"
-						style="width: 250px">
-					</p:inputText>
+						<p:outputLabel style="width: 150px"> Müvekkil Adı :</p:outputLabel>
+						<p:inputText id="müvekkilAdi" readonly="true"
+							value="#{izlemebilgisibean.staticDegerler.muvekkilAdi}"
+							style="width: 250px">
+						</p:inputText>
 
-					<p:outputLabel>Borçlu Adı :</p:outputLabel>
-					<p:inputText id="borcluAdi" readonly="true"
-						value="#{izlemebilgisibean.staticDegerler.borcluAdi}"
-						style="width: 250px">
-					</p:inputText>
+						<p:outputLabel>Borçlu Adı :</p:outputLabel>
+						<p:inputText id="borcluAdi" readonly="true"
+							value="#{izlemebilgisibean.staticDegerler.borcluAdi}"
+							style="width: 250px">
+						</p:inputText>
 
-					<p:outputLabel value="İzleme Tarihi" />
-					<p:calendar id="mask" size="32"
-						value="#{izlemebilgisibean.izleme.izlemeTarihi}"
-						pattern="dd-MM-yyyy" mask="true" />
+						<p:outputLabel value="İzleme Tarihi" />
+						<p:calendar id="mask" size="32"
+							value="#{izlemebilgisibean.izleme.izlemeTarihi}"
+							pattern="dd-MM-yyyy" mask="true" />
 
-					<p:outputLabel value="İzleme Sonucu" />
-					<p:selectOneMenu id="selectOneMenuIzlemeSonucu" required="false"
-						style="width:260px"
-						value="#{izlemebilgisibean.izleme.izlemeSonucuId}"
-						requiredMessage="Bu alanı doldurunuz">
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_izleme_sonucu')}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
-					</p:selectOneMenu>
+						<p:outputLabel value="İzleme Sonucu" />
+						<p:selectOneMenu id="selectOneMenuIzlemeSonucu" required="false"
+							style="width:260px"
+							value="#{izlemebilgisibean.izleme.izlemeSonucuId}"
+							requiredMessage="Bu alanı doldurunuz">
+							<f:selectItems
+								value="#{geneltanimbean.ListeGetir('tbl_izleme_sonucu')}"
+								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
+						</p:selectOneMenu>
 
-					<p:outputLabel value="Ödeme Sözü Tarihi" />
-					<p:calendar id="mask1" size="32"
-						value="#{izlemebilgisibean.izleme.odemeSozuTarihi}"
-						pattern="dd-MM-yyyy" mask="true" />
+						<p:outputLabel value="Ödeme Sözü Tarihi" />
+						<p:calendar id="mask1" size="32"
+							value="#{izlemebilgisibean.izleme.odemeSozuTarihi}"
+							pattern="dd-MM-yyyy" mask="true" />
 
-					<p:outputLabel value="Ödeme Sözü Miktarı" />
-					<p:inputText id="inputTextİzlemeMiktarı" style="width:250px"
-						converterMessage="Sayısal bir değer giriniz"
-						value="#{izlemebilgisibean.izleme.odemeSozuMiktari}">
-						<f:validateDoubleRange minimum="0.0" />
-					</p:inputText>
+						<p:outputLabel value="Ödeme Sözü Miktarı" />
+						<p:inputText id="inputTextİzlemeMiktarı" style="width:250px"
+							converterMessage="Sayısal bir değer giriniz"
+							value="#{izlemebilgisibean.izleme.odemeSozuMiktari}">
+							<f:validateDoubleRange minimum="0.0" />
+						</p:inputText>
 
-					<p:outputLabel value="Açıklama" />
-					<p:inputTextarea rows="7" cols="33" queryDelay="750"
-						minQueryLength="4" value="#{izlemebilgisibean.izleme.aciklama}" />
+						<p:outputLabel value="Açıklama" />
+						<p:inputTextarea rows="7" cols="33" queryDelay="750"
+							minQueryLength="4" value="#{izlemebilgisibean.izleme.aciklama}" />
 
-					<p:outputLabel value="Personel" />
-					<p:selectOneMenu id="selectOneMenuIzlemePersonel" required="false"
-						style="width:260px" value="#{izlemebilgisibean.izleme.personelId}"
-						requiredMessage="Bu alanı doldurunuz">
-						<f:selectItems value="#{hesapTanimlamaBean.users}" var="list"
-							itemLabel="#{list.usrAdSoyad}" itemValue="#{list.usrId}"></f:selectItems>
-					</p:selectOneMenu>
-					
-					<p:outputLabel value="Vizit Talebi" />
-                 	  <p:selectBooleanCheckbox value="#{izlemebilgisibean.izleme.vizitDurumu}" />
+						<p:outputLabel value="Personel" />
+						<p:inputText id="inputTextPersoneladi"
+							value="#{izlemebilgisibean.personelAdi}" required="false"
+							readonly="true" requiredMessage="Bu alanı doldurunuz"
+							style="width: 250px">
+						</p:inputText>
 
-				</p:panelGrid>
+						<p:outputLabel value="Vizit Talebi" />
+						<p:selectBooleanCheckbox
+							value="#{izlemebilgisibean.izleme.vizitDurumu}" />
+
+					</p:panelGrid>
 
 
 
-				<p:commandButton value="Vazgeç" immediate="true"
-					action="#{izlemebilgisibean.Vazgec()}" update=":formIzlemeBilgisi" />
+					<p:commandButton value="Vazgeç" immediate="true"
+						action="#{izlemebilgisibean.Vazgec()}" update=":formIzlemeBilgisi" />
 
-				<p:commandButton value="Kaydet"
-					style="margin-top:10px;margin-right:5px"
-					action="#{izlemebilgisibean.Kaydet()}"
-					update=":growl,:formIzlemeBilgisi" />
+					<p:commandButton value="Kaydet"
+						style="margin-top:10px;margin-right:5px"
+						action="#{izlemebilgisibean.Kaydet()}"
+						update=":growl,:formIzlemeBilgisi" />
 
-</p:panel>
+				</p:panel>
 
 
 			</p:panel>
 
 
-  <p:toolbar id="toolbar">
-        <f:facet name="left">
-			<p:commandButton value="Yeni Kayıt" style="float:left"
-				disabled="#{izlemebilgisibean.buttonDisabled}"
-				action="#{izlemebilgisibean.PanelOpen}" update=":formIzlemeBilgisi" />
-				</f:facet>
-   <f:facet name="left">
-			<p:commandButton value="Listeyi Yenile" style="float:left"
-				disabled="#{izlemebilgisibean.buttonDisabled}"
-				update=":formIzlemeBilgisi" />
-				</f:facet>
-				</p:toolbar>
-
-
-<p:panel header="#{izlemebilgisibean.staticDegerler.icraDosyaNo} nolu dosyanın izleme listesi" id="panelTable">
-
-			<p:dataTable value="#{izlemebilgisibean.izlemeList}" var="list"
-				id="tblIzlemeBilgisi" update="tblIzlemeBilgisi" paginator="true" rows="6">
-
-				<p:column headerText="Düzenle" width="145">
-
-					<p:commandButton icon="ui-icon-disk" value="Düzenle"
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Yeni Kayıt" style="float:left"
 						disabled="#{izlemebilgisibean.buttonDisabled}"
-						action="#{izlemebilgisibean.Duzenle()}"
-						update=":formIzlemeBilgisi">
-						<f:param name="buttonDuzenle" value="#{list.id}" />
-					</p:commandButton>
-
-				</p:column>
-
-				<p:column headerText="SİL" width="115">
-
-					<p:commandButton icon="ui-icon-cancel" value="Sil"
-						action="#{izlemebilgisibean.Sil()}"
+						action="#{izlemebilgisibean.PanelOpen}"
+						update=":formIzlemeBilgisi" />
+				</f:facet>
+				<f:facet name="left">
+					<p:commandButton value="Listeyi Yenile" style="float:left"
 						disabled="#{izlemebilgisibean.buttonDisabled}"
-						update=":growl,:formIzlemeBilgisi">
-						<f:param name="buttonSil" value="#{list.id}" />
-						<p:confirm header="Uyarı Mesajı" message=" Silmek istediğinize emin misiniz ?"
-							icon="ui-icon-alert" />
-					</p:commandButton>
-
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Evet" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="Hayır" type="button"
-							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-					</p:confirmDialog>
+						update=":formIzlemeBilgisi" />
+				</f:facet>
+			</p:toolbar>
 
 
-				</p:column>
+			<p:panel
+				header="#{izlemebilgisibean.staticDegerler.icraDosyaNo} nolu dosyanın izleme listesi"
+				id="panelTable">
 
-				<p:column headerText="İzleme Tarihi" width="450px">
-					<p:outputLabel value="#{list.izlemeTarihi}" />
-				</p:column>
+				<p:dataTable value="#{izlemebilgisibean.izlemeList}" var="list"
+					id="tblIzlemeBilgisi" update="tblIzlemeBilgisi" paginator="true"
+					rows="6">
 
-				<p:column headerText="Ödeme Sözü Tarihi" width="450px">
-					<p:outputLabel value="#{list.odemeSozuTarihi}" />
-				</p:column>
+					<p:column headerText="Düzenle" width="145">
 
-				<p:column headerText="Ödeme Sözü Miktarı" width="450px">
-					<p:outputLabel value="#{list.odemeSozuMiktari}"
-						maxFractionDigits="3" />
-				</p:column>
+						<p:commandButton icon="ui-icon-disk" value="Düzenle"
+							disabled="#{izlemebilgisibean.buttonDisabled}"
+							action="#{izlemebilgisibean.Duzenle()}"
+							update=":formIzlemeBilgisi">
+							<f:param name="buttonDuzenle" value="#{list.id}" />
+						</p:commandButton>
 
-				<p:column headerText="Açıklama" width="450px">
-					<p:outputLabel value="#{list.aciklama}" />
-				</p:column>
+					</p:column>
 
-			</p:dataTable>
-			
+					<p:column headerText="SİL" width="115">
+
+						<p:commandButton icon="ui-icon-cancel" value="Sil"
+							action="#{izlemebilgisibean.Sil()}"
+							disabled="#{izlemebilgisibean.buttonDisabled}"
+							update=":growl,:formIzlemeBilgisi">
+							<f:param name="buttonSil" value="#{list.id}" />
+							<p:confirm header="Uyarı Mesajı"
+								message=" Silmek istediğinize emin misiniz ?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Evet" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Hayır" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
+
+					</p:column>
+
+					<p:column headerText="İzleme Tarihi" width="450px">
+						<p:outputLabel value="#{list.izlemeTarihi}" />
+					</p:column>
+
+					<p:column headerText="Ödeme Sözü Tarihi" width="450px">
+						<p:outputLabel value="#{list.odemeSozuTarihi}" />
+					</p:column>
+
+					<p:column headerText="Ödeme Sözü Miktarı" width="450px">
+						<p:outputLabel value="#{list.odemeSozuMiktari}"
+							maxFractionDigits="3" />
+					</p:column>
+
+					<p:column headerText="Açıklama" width="450px">
+						<p:outputLabel value="#{list.aciklama}" />
+					</p:column>
+
+				</p:dataTable>
+
 			</p:panel>
 
 		</h:form>
