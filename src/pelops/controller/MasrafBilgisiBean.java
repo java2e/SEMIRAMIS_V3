@@ -6,7 +6,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
@@ -15,14 +17,17 @@ import pelops.dao.UtilDAO;
 import pelops.db.DBConnection;
 import pelops.model.GenelTanimSablon;
 import pelops.model.MasrafBilgisi;
+import pelops.users.User;
+import pelops.util.Util;
+import semiramis.operasyon.controller.Utils;
 
 /**
  * @author Ozgen
  *
  */
 @ManagedBean(name = "masrafBilgisiBean")
-@RequestScoped
-public class MasrafBilgisiBean extends DBConnection {
+@SessionScoped
+public class MasrafBilgisiBean {
 
 	private MasrafBilgisi masrafBilgisi = new MasrafBilgisi();
 
@@ -47,6 +52,8 @@ public class MasrafBilgisiBean extends DBConnection {
 
 	private int status = 0;
 
+	private String personelAdi;
+
 	public MasrafBilgisi getMasrafBilgisi() {
 
 		masrafBilgisi.setMuvekkilAdi(AktifBean.getMuvekkilAdi());
@@ -59,21 +66,26 @@ public class MasrafBilgisiBean extends DBConnection {
 		this.masrafBilgisi = masrafBilgisi;
 	}
 
-	public MasrafBilgisiBean() throws Exception {
-		
-		 masrafBilListesi=dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+	public MasrafBilgisiBean() {
+
+		try {
+			masrafBilListesi = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+			HttpSession session = Util.getSession();
+			User user = (User) session.getAttribute("user");
+			personelAdi = user.getUsrAdSoyad();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		PanelClose();
 		ButtonOpen();
 	}
 
-
-	
-	
-
 	@SuppressWarnings("unused")
 	public void Kaydet() throws Exception {
-
+		HttpSession session = Util.getSession();
+		User user = (User) session.getAttribute("user");
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if ((masrafBilgisi.getMasrafMiktari() == null) && masrafBilgisi.getMasrafTarihi() == null) {
@@ -88,8 +100,13 @@ public class MasrafBilgisiBean extends DBConnection {
 			} else {
 
 				if (status == 0) {
-
-					boolean result = dao.kaydet(masrafBilgisi);
+					boolean result = false;
+					masrafBilgisi.setMasrafPersonel_adi_id(user.getUsrId());
+					if (masrafBilgisi.getMasrafMiktari() != 0) {
+						result = dao.kaydet(masrafBilgisi);
+					} else {
+						context.addMessage(null, new FacesMessage("Lütfen masraf miktarını doldurunuz!"));
+					}
 
 					GenelTanimBean bean = new GenelTanimBean();
 					ArrayList<GenelTanimSablon> a = bean.ListeGetir("tbl_uygulama_asamasi");
@@ -97,6 +114,7 @@ public class MasrafBilgisiBean extends DBConnection {
 					if (result) {
 						// Pop up a��lmas�n� sa�lar
 						context.addMessage(null, new FacesMessage("Kaydedildi!"));
+						masrafBilListesi = dao.getAllListFromIcraDosyaID(AktifBean.getIcraDosyaID());
 
 					} else {
 
@@ -105,8 +123,14 @@ public class MasrafBilgisiBean extends DBConnection {
 					}
 				} else {
 					masrafBilgisi.setIcra_dosyasi_id(AktifBean.icraDosyaID);
-					boolean duzenlendi = dao.guncelle(masrafBilgisi);
+					masrafBilgisi.setMasrafPersonel_adi_id(user.getUsrId());
+					boolean duzenlendi = false;
+					if (masrafBilgisi.getMasrafMiktari() != 0) {
 
+						duzenlendi = dao.guncelle(masrafBilgisi);
+					} else {
+						context.addMessage(null, new FacesMessage("Lütfen masraf miktarını doldurunuz!"));
+					}
 					if (duzenlendi) {
 						context.addMessage(null, new FacesMessage("Düzenlendi!"));
 					} else {
@@ -123,8 +147,6 @@ public class MasrafBilgisiBean extends DBConnection {
 
 		}
 	}
-
-
 
 	public void Duzenle() throws Exception {
 
@@ -153,6 +175,9 @@ public class MasrafBilgisiBean extends DBConnection {
 	}
 
 	public void PanelOpen() {
+		HttpSession session = Util.getSession();
+		User user = (User) session.getAttribute("user");
+		personelAdi = user.getUsrAdSoyad();
 		this.setPanelRender(true);
 		ButtonClose();
 
@@ -254,8 +279,7 @@ public class MasrafBilgisiBean extends DBConnection {
 		YeniKayit();
 		RequestContext.getCurrentInstance().execute("PF('dialogWidget').show()");
 	}
-	
-	
+
 	public String getIcraMd() {
 		return UtilDAO.getInstance().getIcraMdwithID(AktifBean.icraDosyaID);
 	}
@@ -286,7 +310,13 @@ public class MasrafBilgisiBean extends DBConnection {
 	public void setMasrafBilListesi(ArrayList<MasrafBilgisi> masrafBilListesi) {
 		this.masrafBilListesi = masrafBilListesi;
 	}
-	
-	
+
+	public String getPersonelAdi() {
+		return personelAdi;
+	}
+
+	public void setPersonelAdi(String personelAdi) {
+		this.personelAdi = personelAdi;
+	}
 
 }

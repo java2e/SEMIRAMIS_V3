@@ -64,21 +64,19 @@
 
 			<p:outputLabel value="Ödeme Sözü Miktarı" />
 			<p:inputText id="inputTextİzlemeMiktarı" style="width:250px"
-				value="#{izlemebilgisibean.izleme.odemeSozuMiktari}"
-				
-											required="true"
-											requiredMessage="Bu alanı boş bırakamazsınız..."
-											onkeyup="var pos=this.selectionStart;
+				value="#{izlemebilgisibean.izleme.odemeSozuMiktari}" required="true"
+				requiredMessage="Bu alanı boş bırakamazsınız..."
+				onkeyup="var pos=this.selectionStart;
 									var size = this.value.length;														
 this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
              						
              						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
 										this.value=this.value.substring(0,size-1);
              					"
-											onfocus="
+				onfocus="
 															this.value=''
-									" >
-				
+									">
+
 			</p:inputText>
 
 			<p:outputLabel value="Açıklama" />
@@ -86,12 +84,11 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 				minQueryLength="4" value="#{izlemebilgisibean.izleme.aciklama}" />
 
 			<p:outputLabel value="Personel" />
-			<p:selectOneMenu id="selectOneMenuIzlemePersonel" required="false"
-				style="width:260px" value="#{izlemebilgisibean.izleme.personelId}"
-				requiredMessage="Bu alanı doldurunuz">
-				<f:selectItems value="#{userbean.ListeGetir()}" var="list"
-					itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-			</p:selectOneMenu>
+			<p:inputText id="inputTextPersoneladi"
+				value="#{izlemebilgisibean.personelAdi}" required="false"
+				readonly="true" requiredMessage="Bu alanı doldurunuz"
+				style="width: 250px">
+			</p:inputText>
 
 		</p:panelGrid>
 

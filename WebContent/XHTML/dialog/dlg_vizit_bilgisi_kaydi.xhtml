@@ -65,16 +65,18 @@
 			<p:outputLabel>Ödeme Sözü Miktarı:</p:outputLabel>
 			<p:inputText id="odemeMiktari"
 				value="#{vizitBilgisiKaydiBean.vizitBilgisi.odemeMiktari}"
-				required="true"
-										requiredMessage="Bu alanı boş bırakamazsınız..." onkeyup="var pos=this.selectionStart;
+				required="true" requiredMessage="Bu alanı boş bırakamazsınız..."
+				onkeyup="var pos=this.selectionStart;
 								var size = this.value.length;														
 this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
              						
              						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
 										this.value=this.value.substring(0,size-1);
-             					" onfocus="
+             					"
+				onfocus="
 															this.value=''
-									" style="width: 250px"></p:inputText>
+									"
+				style="width: 250px"></p:inputText>
 
 
 			<p:outputLabel>Vizit Notu :</p:outputLabel>
@@ -84,12 +86,11 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 				style="width: 250px"></p:inputTextarea>
 
 			<h:outputLabel>Vizit Personeli :</h:outputLabel>
-			<p:selectOneMenu id="vizitPersoneli" required="false"
-				value="#{vizitBilgisiKaydiBean.vizitBilgisi.vizitPersoneliId}"
-				requiredMessage="Bu alanı doldurunuz" style="width:260px">
-				<f:selectItems value="#{vizitBilgisiKaydiBean.users}" var="list"
-					itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-			</p:selectOneMenu>
+			<p:inputText id="inputTextPersoneladi"
+				value="#{vizitBilgisiKaydiBean.personelAdi}" required="false"
+				readonly="true" requiredMessage="Bu alanı doldurunuz"
+				style="width: 250px">
+			</p:inputText>
 		</p:panelGrid>
 
 		<p:growl id="growl" showDetail="true" sticky="true" />

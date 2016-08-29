@@ -23,120 +23,51 @@ public class MasrafDAO extends DBConnection {
 
 	ArrayList<MasrafBilgisi> masrafListesi = new ArrayList<MasrafBilgisi>();
 
-	public boolean kaydet(MasrafBilgisi masraf)  {
+	public boolean kaydet(MasrafBilgisi masraf) {
 
 		boolean kaydedildi = false;
-		
+
 		try {
-		
-		
-		java.sql.Date dateMasraf = convertFromJAVADateToSQLDate(masraf.getMasrafTarihi());
 
-		
+			java.sql.Date dateMasraf = convertFromJAVADateToSQLDate(masraf.getMasrafTarihi());
 
-		SQL = "INSERT INTO tbl_masraf_bilgisi("
-				+ " miktar, aciklama, tarih, personel_id, masraf_tipi_id, icra_dosyasi_id, "
-				+ " borclu_id, uygulama_asamasi_id) " + "VALUES ( ?, ?, ?, ?, ?, ?,  ?, ?);";
+			SQL = "INSERT INTO tbl_masraf_bilgisi("
+					+ " miktar, aciklama, tarih, personel_id, masraf_tipi_id, icra_dosyasi_id, "
+					+ " borclu_id, uygulama_asamasi_id) " + "VALUES ( ?, ?, ?, ?, ?, ?,  ?, ?);";
 
-		newConnectDB();
+			newConnectDB();
 
-		pstmt = conn.prepareStatement(SQL);
+			pstmt = conn.prepareStatement(SQL);
 
-		pstmt.setDouble(1, masraf.getMasrafMiktari());
-		pstmt.setString(2, masraf.getMasrafAciklama());
-		pstmt.setDate(3, dateMasraf);
-		pstmt.setInt(4, Util.getUser().getUsrId());
-		pstmt.setInt(5, masraf.getMasrafTipiId());
-		pstmt.setInt(6, AktifBean.getIcraDosyaID());
-		pstmt.setInt(7, masraf.getBorcluId());
-		pstmt.setInt(8, masraf.getMasrafUygulamaAsamasiId());
+			pstmt.setDouble(1, masraf.getMasrafMiktari());
+			pstmt.setString(2, masraf.getMasrafAciklama());
+			pstmt.setDate(3, dateMasraf);
+			pstmt.setInt(4, Util.getUser().getUsrId());
+			pstmt.setInt(5, masraf.getMasrafTipiId());
+			pstmt.setInt(6, AktifBean.getIcraDosyaID());
+			pstmt.setInt(7, masraf.getBorcluId());
+			pstmt.setInt(8, masraf.getMasrafUygulamaAsamasiId());
 
-		int sonuc = pstmt.executeUpdate();
-		disconnectDB();
-		if (sonuc == 1) {
+			int sonuc = pstmt.executeUpdate();
+			disconnectDB();
+			if (sonuc == 1) {
 
-			kaydedildi = true;
-			BaglantiDAO hsdao = new BaglantiDAO();
-			int hsID = hsdao.Listele(AktifBean.getIcraDosyaID()).getHesaplamaID();
-			System.out.println(hsID);
-			dao.guncelleMasraf(hsID, masraf.getMasrafMiktari());
-			
-		}
-		
-		
+				kaydedildi = true;
+				BaglantiDAO hsdao = new BaglantiDAO();
+				int hsID = hsdao.Listele(AktifBean.getIcraDosyaID()).getHesaplamaID();
+				dao.guncelleMasraf(hsID, masraf.getMasrafMiktari());
+
+			}
+
 		} catch (Exception e) {
-			
-			System.out.println("Hata masrafdao kaydet :"+e.getMessage());
+
+			System.out.println("Hata masrafdao kaydet :" + e.getMessage());
 			// TODO: handle exception
 		}
 
 		return kaydedildi;
 
 	}
-
-	// public void hesaplaraEkle(int icraDosyaID, MasrafBilgisi masraf) throws
-	// Exception {
-	//
-	// SQL = "SELECT tahsilat_tutari FROM tbl_hesap where id='" +
-	// AktifBean.getIcraDosyaID() + "';";
-	//
-	// newConnectDB();
-	//
-	// stmt = conn.createStatement();
-	// rs = stmt.executeQuery(SQL);
-	//
-	// while (rs.next()) {
-	//
-	// oldTahsilatTutari = rs.getDouble("tahsilat_tutari");
-	//
-	// }
-	//
-	// newTahsilatTutari = oldTahsilatTutari + masraf.getMasrafMiktari();
-	//
-	// SQL = "UPDATE tbl_hesap SET tahsilat_tutari=? WHERE id=" +
-	// AktifBean.getIcraDosyaID() + ";";
-	//
-	// pstmt = conn.prepareStatement(SQL);
-	//
-	// pstmt.setDouble(1, newTahsilatTutari);
-	//
-	// pstmt.executeUpdate();
-	//
-	// disconnectDB();
-	//
-	// }
-	//
-	// public void hesaplaraEkleForDelete(int icraDosyaID, MasrafBilgisi masraf)
-	// throws Exception {
-	//
-	// SQL = "SELECT tahsilat_tutari FROM tbl_hesap where id='" +
-	// AktifBean.getIcraDosyaID() + "';";
-	//
-	// newConnectDB();
-	//
-	// stmt = conn.createStatement();
-	// rs = stmt.executeQuery(SQL);
-	//
-	// while (rs.next()) {
-	//
-	// oldTahsilatTutari = rs.getDouble("tahsilat_tutari");
-	//
-	// }
-	//
-	// newTahsilatTutari = oldTahsilatTutari - masraf.getMasrafMiktari();
-	//
-	// SQL = "UPDATE tbl_hesap SET tahsilat_tutari=? WHERE id=" +
-	// AktifBean.getIcraDosyaID() + ";";
-	//
-	// pstmt = conn.prepareStatement(SQL);
-	//
-	// pstmt.setDouble(1, newTahsilatTutari);
-	//
-	// pstmt.executeUpdate();
-	//
-	// disconnectDB();
-	//
-	// }
 
 	public java.sql.Date convertFromJAVADateToSQLDate(java.util.Date javaDate) {
 		java.sql.Date sqlDate = null;
@@ -154,8 +85,7 @@ public class MasrafDAO extends DBConnection {
 				+ "mt.adi as mtadi, m.uygulama_asamasi_id , m.icra_dosyasi_id"
 				+ ", m.personel_id, m.masraf_tipi_id FROM tbl_masraf_bilgisi m "
 				+ "inner join tbl_kullanici u on m.personel_id=u.id "
-				+ "inner join tbl_masraf_tipi mt on m.masraf_tipi_id = mt.id "
-				+ " where m.icra_dosyasi_id = " + id
+				+ "inner join tbl_masraf_tipi mt on m.masraf_tipi_id = mt.id " + " where m.icra_dosyasi_id = " + id
 				+ ";";
 
 		newConnectDB();
@@ -222,28 +152,40 @@ public class MasrafDAO extends DBConnection {
 		return masraf;
 	}
 
-	public boolean guncelle(MasrafBilgisi masraf) throws Exception {
+	public boolean guncelle(MasrafBilgisi masraf) {
 		boolean duzenlendi = false;
-		SQL = "UPDATE tbl_masraf_bilgisi SET  miktar=?, aciklama=?, tarih=?, personel_id=?, masraf_tipi_id=?,  uygulama_asamasi_id=? WHERE id=?;";
+		SQL = "UPDATE tbl_masraf_bilgisi  SET  miktar=?, aciklama=?, tarih=?, personel_id=?,"
+				+ " masraf_tipi_id=?, uygulama_asamasi_id=?  " + "WHERE id=" + masraf.getId() + ";";
 
-		MasrafBilgisi masrafBilgisi = getMasrafBilgisi(masraf.getId());
-		dao.guncelleMasraf(AktifBean.getIcraDosyaID(), (masraf.getMasrafMiktari() - masrafBilgisi.getMasrafMiktari()));
 		newConnectDB();
 
-		pstmt = conn.prepareStatement(SQL);
-		System.out.println(masraf.getId() + " id");
-		pstmt.setDouble(1, masraf.getMasrafMiktari());
-		pstmt.setString(2, masraf.getMasrafAciklama());
-		java.sql.Date date = convertFromJAVADateToSQLDate(masraf.getMasrafTarihi());
-		pstmt.setDate(3, date);
-		pstmt.setInt(4, masraf.getMasrafPersonel_adi_id());
-		pstmt.setInt(5, masraf.getMasrafTipiId());
-		pstmt.setInt(6, masraf.getMasrafUygulamaAsamasiId());
-		pstmt.setInt(7, masraf.getId());
+		try {
+			pstmt = conn.prepareStatement(SQL);
 
-		duzenlendi = pstmt.execute();
-		disconnectDB();
+			pstmt.setDouble(1, masraf.getMasrafMiktari());
+			pstmt.setString(2, masraf.getMasrafAciklama());
+			java.sql.Date date = convertFromJAVADateToSQLDate(masraf.getMasrafTarihi());
+			pstmt.setDate(3, date);
+			pstmt.setInt(4, masraf.getMasrafPersonel_adi_id());
+			pstmt.setInt(5, masraf.getMasrafTipiId());
+			pstmt.setInt(6, masraf.getMasrafUygulamaAsamasiId());
 
+			int sonuc = pstmt.executeUpdate();
+			disconnectDB();
+			if (sonuc == 1) {
+
+				duzenlendi = true;
+				MasrafBilgisi masrafBilgisi = getMasrafBilgisi(masraf.getId());
+				if (masrafBilgisi != null && masrafBilgisi.getMasrafMiktari() != null) {
+					dao.guncelleMasraf(AktifBean.getIcraDosyaID(),
+							(masraf.getMasrafMiktari() - masrafBilgisi.getMasrafMiktari()));
+				}
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("MasrafDAO.java message:" + e.getMessage());
+		}
 		return duzenlendi;
 	}
 
@@ -252,14 +194,14 @@ public class MasrafDAO extends DBConnection {
 		boolean silindi = true;
 		String SQLdelete = "DELETE FROM tbl_masraf_bilgisi where id=" + id;
 		MasrafBilgisi masrafBilgisi = getMasrafBilgisi(id);
-		BaglantiDAO bddao  = new BaglantiDAO();
+		BaglantiDAO bddao = new BaglantiDAO();
 		int masrafid = bddao.Listele(AktifBean.getIcraDosyaID()).getHesaplamaID();
 		dao.guncelleMasraf(masrafid, (-masrafBilgisi.getMasrafMiktari()));
-		
-		 newConnectDB();
-	        Statement stmt = conn.createStatement();
-	       stmt.execute(SQLdelete);
-	        disconnectDB();
+
+		newConnectDB();
+		Statement stmt = conn.createStatement();
+		stmt.execute(SQLdelete);
+		disconnectDB();
 
 		return silindi;
 	}

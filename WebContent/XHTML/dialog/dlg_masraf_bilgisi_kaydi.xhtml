@@ -75,19 +75,16 @@
 			<p:inputText id="inputTextAmount"
 				value="#{masrafBilgisiBean.masrafBilgisi.masrafMiktari}"
 				style="width: 250px"
-				
-											required="true"
-											requiredMessage="Bu alanı boş bırakamazsınız..."
-											onkeyup="var pos=this.selectionStart;
+				onkeyup="var pos=this.selectionStart;
 									var size = this.value.length;														
 this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
              						
              						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
 										this.value=this.value.substring(0,size-1);
              					"
-											onfocus="
+				onfocus="
 															this.value=''
-									" >
+									">
 				<f:converter converterId="javax.faces.Double" />
 			</p:inputText>
 
@@ -100,12 +97,11 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 
 
 			<h:outputLabel>Personel Adı :</h:outputLabel>
-			<p:selectOneMenu id="selectOneMenuPersonelAdi" required="true"
-				value="#{masrafBilgisiBean.masrafBilgisi.masrafPersonel_adi_id}"
-				style="width:260px">
-				<f:selectItems value="#{userbean.ListeGetir()}" var="list"
-					itemLabel="#{list.adSoyad}" itemValue="#{list.id}"></f:selectItems>
-			</p:selectOneMenu>
+			<p:inputText id="inputTextPersoneladi"
+				value="#{masrafBilgisiBean.personelAdi}" required="false"
+				readonly="true" requiredMessage="Bu alanı doldurunuz"
+				style="width: 250px">
+			</p:inputText>
 
 
 
@@ -127,7 +123,8 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 		<p:commandButton id="cmdButtonVazgec" style="margin-top:10px"
 			value="Vazgeç" action="#{masrafBilgisiBean.dlgVazgec}"
 			update=":#{p:component('dialog')}"></p:commandButton>
-		<p:commandButton id="cmdButtonKaydet" value="Kaydet" action="#{icradosyaislemleribean.Hesapla}"
+		<p:commandButton id="cmdButtonKaydet" value="Kaydet"
+			action="#{icradosyaislemleribean.Hesapla}"
 			actionListener="#{masrafBilgisiBean.dlgKaydet}"
 			update=":#{p:component('dialog')}, :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi"></p:commandButton>
 
@@ -163,12 +160,14 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 		<p:column headerText="SİL" width="115">
 
 			<p:commandButton icon="ui-icon-cancel" value="Sil"
-				action="#{icradosyaislemleribean.Hesapla}" actionListener="#{masrafBilgisiBean.dlgSil}"
+				action="#{icradosyaislemleribean.Hesapla}"
+				actionListener="#{masrafBilgisiBean.dlgSil}"
 				disabled="#{masrafBilgisiBean.buttonDisabled}"
 				update=":#{p:component('dialog')}, :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi">
 				<f:param name="sil" value="#{mb.id}" />
 
 			</p:commandButton>
+
 
 		</p:column>
 

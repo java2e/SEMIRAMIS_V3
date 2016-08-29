@@ -23,28 +23,29 @@ public class VizitBilgisiKaydiBean {
 
 	public VizitBilgisiKaydiBean() {
 		// TODO Auto-generated constructor stub
-		
-		icradosyaNo=AktifBean.icraDosyaNo;
-		
+
+		icradosyaNo = AktifBean.icraDosyaNo;
+		pelops.users.User user = Util.getUser();
+		personelAdi = user.getUsrAdSoyad();
 		PanelClose();
 		ButtonOpen();
 	}
 
 	private int status = 0;
 
-	ArrayList<VizitBilgisi> listVizit = new ArrayList<VizitBilgisi>();
+	private ArrayList<VizitBilgisi> listVizit = new ArrayList<VizitBilgisi>();
 
-	VizitBilgisiDAO dao = new VizitBilgisiDAO();
+	private VizitBilgisiDAO dao = new VizitBilgisiDAO();
 
-	ArrayList<VizitStatusu> vizitStatuleri = new ArrayList<VizitStatusu>();
+	private ArrayList<VizitStatusu> vizitStatuleri = new ArrayList<VizitStatusu>();
 
-	VizitBilgisi vizitBilgisi = new VizitBilgisi();
+	private VizitBilgisi vizitBilgisi = new VizitBilgisi();
 
-	ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<User> users = new ArrayList<User>();
 
 	private String icradosyaNo;
 
-	String borcluAdi;
+	private String borcluAdi;
 
 	private String icraMd;
 
@@ -52,9 +53,7 @@ public class VizitBilgisiKaydiBean {
 
 	boolean buttonDisabled;
 
-
-	
-	
+	private String personelAdi;
 
 	public String getIcradosyaNo() {
 		return icradosyaNo;
@@ -114,23 +113,23 @@ public class VizitBilgisiKaydiBean {
 
 	public void Kaydet() throws Exception {
 		// burada aktifBeanden icra dosyası idyi set edilecek...
-
+		pelops.users.User user = Util.getUser();
+		vizitBilgisi.setVizitPersoneliId(user.getUsrId());
 		if (status == 0) {
 			FacesContext context = FacesContext.getCurrentInstance();
 
 			vizitBilgisi.setIcraDosyaID(AktifBean.getIcraDosyaID());
-		
+
 			boolean kaydedildi = dao.vizitBilgisiKaydet(vizitBilgisi);
-			
+
 			if (kaydedildi) {
-					// Pop Up Çıkacak... Kaydedildiğine dair.
-					context.addMessage(null, new FacesMessage("Kaydedildi!"));
+				// Pop Up Çıkacak... Kaydedildiğine dair.
+				context.addMessage(null, new FacesMessage("Kaydedildi!"));
 
-				} else {
-					context.addMessage(null, new FacesMessage("Kaydet işlemi başarısız!"));
+			} else {
+				context.addMessage(null, new FacesMessage("Kaydet işlemi başarısız!"));
 
-				}
-		
+			}
 
 			vizitBilgisi = new VizitBilgisi();
 
@@ -151,7 +150,6 @@ public class VizitBilgisiKaydiBean {
 			listVizit = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
 		}
-		
 
 		PanelClose();
 		ButtonOpen();
@@ -176,9 +174,9 @@ public class VizitBilgisiKaydiBean {
 	public void Duzenle() throws Exception {
 
 		status = 1;
-
+		pelops.users.User user = Util.getUser();
 		ArrayList<VizitBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-
+		personelAdi = user.getUsrAdSoyad();
 		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
 				.get("duzenle").toString());
 
@@ -209,7 +207,7 @@ public class VizitBilgisiKaydiBean {
 
 	public void PanelClose() {
 
-		panelRender=false;
+		panelRender = false;
 
 	}
 
@@ -238,6 +236,14 @@ public class VizitBilgisiKaydiBean {
 
 		dao.Sil(id);
 
+	}
+
+	public String getPersonelAdi() {
+		return personelAdi;
+	}
+
+	public void setPersonelAdi(String personelAdi) {
+		this.personelAdi = personelAdi;
 	}
 
 	public void dlgKaydet() throws Exception {

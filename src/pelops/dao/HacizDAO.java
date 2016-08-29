@@ -19,10 +19,8 @@ public class HacizDAO extends DBConnection {
 
 	public boolean kaydet(HacizBilgisi haciz) {
 
-		java.sql.Date dateTalimat = convertFromJAVADateToSQLDate(haciz
-				.getTalimatTarihi());
-		java.sql.Date dateHaciz = convertFromJAVADateToSQLDate(haciz
-				.getHacizTarihi());
+		java.sql.Date dateTalimat = convertFromJAVADateToSQLDate(haciz.getTalimatTarihi());
+		java.sql.Date dateHaciz = convertFromJAVADateToSQLDate(haciz.getHacizTarihi());
 
 		boolean kaydedildi = false;
 
@@ -67,8 +65,7 @@ public class HacizDAO extends DBConnection {
 
 	}
 
-	public ArrayList<HacizBilgisi> getAllListFromIcraDosyaID(int id)
-			throws Exception {
+	public ArrayList<HacizBilgisi> getAllListFromIcraDosyaID(int id) throws Exception {
 
 		ArrayList<HacizBilgisi> list = new ArrayList<HacizBilgisi>();
 
@@ -79,8 +76,7 @@ public class HacizDAO extends DBConnection {
 				+ " u.\"adSoyad\" as uadi, h.teslim_yeri_id, ty.adi as tyadi "
 				+ "FROM tbl_haciz_bilgisi h inner join tbl_haciz_tipi ht on h.haciz_tipi_id=ht.id "
 				+ "inner join tbl_user u on h.personel_adi_id=u.id "
-				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id where h.icra_dosyasi_id="
-				+ id + ";";
+				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id where h.icra_dosyasi_id=" + id + ";";
 
 		newConnectDB();
 
@@ -94,8 +90,7 @@ public class HacizDAO extends DBConnection {
 			hacizBilgisi.setBorcluId(rs.getInt("borclu_id"));
 			hacizBilgisi.setHacizTipiId(rs.getInt("haciz_tipi_id"));
 			hacizBilgisi.setHacizTipiAdi(rs.getString("htadi"));
-			hacizBilgisi.setTalimatIcraMd(rs
-					.getString("talimat_icra_mudurlugu"));
+			hacizBilgisi.setTalimatIcraMd(rs.getString("talimat_icra_mudurlugu"));
 			hacizBilgisi.setDosyaNo(rs.getString("talimat_dosya_no"));
 			hacizBilgisi.setTalimatTarihi(rs.getDate("talimat_tarihi"));
 			hacizBilgisi.setHacizTarihi(rs.getDate("haciz_tarihi"));
@@ -127,12 +122,10 @@ public class HacizDAO extends DBConnection {
 
 	public boolean guncelle(HacizBilgisi haciz) throws Exception {
 		boolean duzenlendi = false;
-		SQL = "UPDATE tbl_haciz_bilgisi SET "
-				+ " borclu_id=?, haciz_tipi_id=?, talimat_icra_mudurlugu=?, "
+		SQL = "UPDATE tbl_haciz_bilgisi SET " + " borclu_id=?, haciz_tipi_id=?, talimat_icra_mudurlugu=?, "
 				+ "talimat_dosya_no=?, talimat_tarihi=?, haciz_tarihi=?, haciz_bedeli=?, "
 				+ " sehir=?, aciklama=?, icra_dosyasi_id=?, haczedilen_tipi_id=?, "
-				+ " personel_adi_id=?, teslim_yeri_id=?" + " WHERE id="
-				+ haciz.getId() + ";";
+				+ " personel_adi_id=?, teslim_yeri_id=?" + " WHERE id=" + haciz.getId() + ";";
 
 		newConnectDB();
 
@@ -142,8 +135,7 @@ public class HacizDAO extends DBConnection {
 		pstmt.setInt(2, haciz.getHacizTipiId());
 		pstmt.setString(3, haciz.getTalimatIcraMd());
 		pstmt.setString(4, haciz.getDosyaNo());
-		java.sql.Date date = convertFromJAVADateToSQLDate(haciz
-				.getTalimatTarihi());
+		java.sql.Date date = convertFromJAVADateToSQLDate(haciz.getTalimatTarihi());
 		pstmt.setDate(5, date);
 		date = convertFromJAVADateToSQLDate(haciz.getHacizTarihi());
 		pstmt.setDate(6, date);
@@ -208,23 +200,21 @@ public class HacizDAO extends DBConnection {
 	}
 
 	public int getHesapID(int id) throws Exception {
-		SQL = "SELECT id, \"icradosyasiID\", \"alacakliID\", \"borcluID\", "
-				+ "\"hesaplamaID\" FROM tbl_baglanti where \"icradosyasiID\" = "
-				+ id + ";";
+		SQL = "SELECT id, icra_dosyasi_id, alacakli_id, borclu_id, hesap_id, ekleme_tarihi, "
+				+ " guncelleme_tarihi FROM tbl_baglanti where icra_dosyasi_id  = " + id + ";";
 		newConnectDB();
 		int hesapid = 0;
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
-			hesapid = rs.getInt("hesaplamaID");
+			hesapid = rs.getInt("hesap_id");
 		}
 		disconnectDB();
 		return hesapid;
 
 	}
 
-	public void hesapDuzenle(int hesapID, int ekleCikar, double tutar)
-			throws Exception {
+	public void hesapDuzenle(int hesapID, int ekleCikar, double tutar) throws Exception {
 		SQL = "select * from tbl_hesap where id= " + hesapID + ";";
 		newConnectDB();
 		stmt = conn.createStatement();
@@ -249,8 +239,7 @@ public class HacizDAO extends DBConnection {
 			break;
 		}
 
-		String update = "UPDATE tbl_hesap SET  tahsilat_tutari=?  WHERE id = "
-				+ hesapID + ";";
+		String update = "UPDATE tbl_hesap SET  tahsilat_tutari=?  WHERE id = " + hesapID + ";";
 		newConnectDB();
 		pstmt = conn.prepareStatement(update);
 		pstmt.setDouble(1, tahsilatTutari);
@@ -267,14 +256,11 @@ public class HacizDAO extends DBConnection {
 		return sqlDate;
 	}
 
-	public ArrayList<String> getHaczeEsasMalBilgisiFromBorcluID(int id)
-			throws Exception {
+	public ArrayList<String> getHaczeEsasMalBilgisiFromBorcluID(int id) throws Exception {
 		ArrayList<String> malList = new ArrayList<String>();
 		SQL = "SELECT mal.adi as mal_tipi FROM tbl_hacze_esas_mal_bilgisi hcz "
-				+ " INNER JOIN tbl_mal_tipi mal on hcz.mal_tipi_id=mal.id"
-				+ " where hcz.borclu_id ="
-				+ id + ";";
-		
+				+ " INNER JOIN tbl_mal_tipi mal on hcz.mal_tipi_id=mal.id" + " where hcz.borclu_id =" + id + ";";
+
 		newConnectDB();
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(SQL);
@@ -287,8 +273,7 @@ public class HacizDAO extends DBConnection {
 		return malList;
 	}
 
-	public ArrayList<Tipi> getHacizTipiList(ArrayList<String> malTipiList)
-			throws Exception {
+	public ArrayList<Tipi> getHacizTipiList(ArrayList<String> malTipiList) throws Exception {
 
 		ArrayList<Tipi> hacizTipiList = new ArrayList<Tipi>();
 		SQL = "SELECT id, adi FROM tbl_haciz_tipi;";
@@ -303,16 +288,15 @@ public class HacizDAO extends DBConnection {
 		}
 		disconnectDB();
 		ArrayList<Tipi> borcluMalTipiList = new ArrayList<Tipi>();
-		
+
 		if (malTipiList.size() > 0) {
 			for (int j = 0; j < malTipiList.size(); j++) {
 				for (int i = 0; i < hacizTipiList.size(); i++) {
 
-					if (malTipiList.get(j)
-							.equals(hacizTipiList.get(i).getAdi())) {
+					if (malTipiList.get(j).equals(hacizTipiList.get(i).getAdi())) {
 
 						borcluMalTipiList.add(hacizTipiList.get(i));
-						
+
 					}
 				}
 			}

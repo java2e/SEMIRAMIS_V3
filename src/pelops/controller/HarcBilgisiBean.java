@@ -41,9 +41,9 @@ public class HarcBilgisiBean {
 	private boolean buttonDisabled;
 
 	private int status = 0;
-	
+
 	private String icraMd;
-	
+
 	public String getIcraMd() {
 		return UtilDAO.getInstance().getIcraMdwithID(AktifBean.icraDosyaID);
 	}
@@ -130,7 +130,6 @@ public class HarcBilgisiBean {
 		harcBilgi.setHarc_tarihi(new Date());
 		this.setPanelRender(true);
 		ButtonClose();
-		
 
 	}
 
@@ -154,14 +153,18 @@ public class HarcBilgisiBean {
 	public void Kaydet() throws Exception {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-
+		boolean result = false;
 		if (status == 0) {
-
-			boolean result = dao.kaydet(harcBilgi);
-
+			if (harcBilgi.getHarc_miktari() != 0 && harcBilgi.getHarc_orani() != 0) {
+				result = dao.kaydet(harcBilgi);
+			} else {
+				context.addMessage(null, new FacesMessage("Harç miktarı ve harç oranını duldurunuz!"));
+			}
 			if (result) {
 				// Pop up a��lmas�n� sa�lar
 				context.addMessage(null, new FacesMessage("Kaydedildi!"));
+				PanelClose();
+				ButtonOpen();
 
 			} else {
 
@@ -169,10 +172,18 @@ public class HarcBilgisiBean {
 
 			}
 		} else {
-			boolean duzenlendi = dao.guncelle(harcBilgi);
+			boolean duzenlendi = false;
+			if (harcBilgi.getHarc_miktari() != 0 && harcBilgi.getHarc_orani() != 0) {
+
+				duzenlendi = dao.guncelle(harcBilgi);
+			} else {
+				context.addMessage(null, new FacesMessage("Harç miktarı ve harç oranını duldurunuz!"));
+			}
 
 			if (duzenlendi) {
 				context.addMessage(null, new FacesMessage("Düzenlendi!"));
+				PanelClose();
+				ButtonOpen();
 			} else {
 				context.addMessage(null, new FacesMessage("Güncelleme işlemi başarısız!"));
 			}
@@ -181,8 +192,7 @@ public class HarcBilgisiBean {
 
 		harcList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
-		PanelClose();
-		ButtonOpen();
+		
 
 	}
 
@@ -215,8 +225,6 @@ public class HarcBilgisiBean {
 		System.out.println(id);
 		boolean result = dao.Sil(id);
 
-		
-		
 		if (result) {
 
 			context.addMessage(null, new FacesMessage("Silindi!"));

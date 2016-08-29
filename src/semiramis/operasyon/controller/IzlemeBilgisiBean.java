@@ -15,6 +15,7 @@ import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
 import pelops.model.StaticDegerler;
+import pelops.users.User;
 import pelops.users.Util;
 import semiramis.operasyon.dao.IzlemeBilgisiDAO;
 import semiramis.operasyon.model.IzlemeBilgisi;
@@ -23,15 +24,16 @@ import semiramis.operasyon.model.IzlemeBilgisi;
 @ViewScoped
 public class IzlemeBilgisiBean {
 
-	ArrayList<IzlemeBilgisi> izlemeList = new ArrayList<IzlemeBilgisi>();
-	IzlemeBilgisi izleme = new IzlemeBilgisi();
-	IzlemeBilgisiDAO dao = new IzlemeBilgisiDAO();
-	StaticDegerler staticDegerler = new StaticDegerler();
-	
+	private ArrayList<IzlemeBilgisi> izlemeList = new ArrayList<IzlemeBilgisi>();
+	private IzlemeBilgisi izleme = new IzlemeBilgisi();
+	private IzlemeBilgisiDAO dao = new IzlemeBilgisiDAO();
+	private StaticDegerler staticDegerler = new StaticDegerler();
+
 	private int status;
-	boolean panelRender;
-	boolean buttonDisabled;
-	
+	private boolean panelRender;
+	private boolean buttonDisabled;
+	private String personelAdi;
+
 	public IzlemeBilgisiBean() throws Exception {
 
 		status = 0;
@@ -42,13 +44,11 @@ public class IzlemeBilgisiBean {
 		izleme.setCagriAdet(dao.izlemeSayisi(AktifBean.icraDosyaID));
 		izleme.setIzlemeTarihi(new Date());
 		izleme.setPersonelId(Util.getUser().getUsrId());
-		
+		User user = Util.getUser();
+		personelAdi = user.getUsrAdSoyad();
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-		
+
 	}
-	
-	
-	
 
 	public StaticDegerler getStaticDegerler() {
 		staticDegerler.setBorcluAdi(AktifBean.borcluAdi);
@@ -59,17 +59,12 @@ public class IzlemeBilgisiBean {
 
 		return staticDegerler;
 	}
-	
-	
-	
-	
 
 	public void setStaticDegerler(StaticDegerler staticDegerler) {
 		this.staticDegerler = staticDegerler;
 	}
 
-
-	public ArrayList<IzlemeBilgisi> getIzlemeList()  {
+	public ArrayList<IzlemeBilgisi> getIzlemeList() {
 
 		return this.izlemeList;
 
@@ -111,8 +106,6 @@ public class IzlemeBilgisiBean {
 		this.buttonDisabled = buttonDisabled;
 	}
 
-	
-
 	public void onDateSelect(SelectEvent event) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -130,11 +123,11 @@ public class IzlemeBilgisiBean {
 
 	public void PanelOpen() {
 		this.setPanelRender(true);
-		
-		izleme=new IzlemeBilgisi();
+
+		izleme = new IzlemeBilgisi();
 		izleme.setIzlemeTarihi(new Date());
 		izleme.setCagriAdet(dao.izlemeSayisi(AktifBean.icraDosyaID));
-		
+
 		ButtonClose();
 
 	}
@@ -159,53 +152,49 @@ public class IzlemeBilgisiBean {
 	public void Kaydet() throws Exception {
 
 		FacesContext context = FacesContext.getCurrentInstance();
+		User user = Util.getUser();
 
+		izleme.setPersonelId(user.getUsrId());
+		if (status == 0) {
 
+			boolean result = dao.kaydet(izleme);
 
-				if (status == 0) {
+			if (result) {
 
-					boolean result = dao.kaydet(izleme);
+				context.addMessage(null, new FacesMessage("Kaydedildi!"));
 
-					if (result) {
+				izleme.setCagriAdet(izleme.getCagriAdet() + 1);
+				izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
-						context.addMessage(null, new FacesMessage("Kaydedildi!"));
-						
-						izleme.setCagriAdet(izleme.getCagriAdet()+1);
-						izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-						
+			} else {
 
-					} else {
+				context.addMessage(null, new FacesMessage("Kaydetme i�lemi ba�ar�s�z!"));
 
-						context.addMessage(null, new FacesMessage("Kaydetme i�lemi ba�ar�s�z!"));
+			}
 
-					}
+			PanelClose();
+			ButtonOpen();
 
-					PanelClose();
-					ButtonOpen();
+		} else {
 
-				} else {
+			izleme.setIcraDosyasiId(AktifBean.icraDosyaID);
 
-					izleme.setIcraDosyasiId(AktifBean.icraDosyaID);
+			boolean duzenlendi = dao.guncelle(izleme);
+			izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
-					boolean duzenlendi = dao.guncelle(izleme);
-					izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+			if (duzenlendi) {
+				context.addMessage(null, new FacesMessage("G�ncellendi!"));
+			} else {
+				context.addMessage(null, new FacesMessage("G�ncelleme i�lemi ba�ar�s�z!"));
+			}
+			status = 0;
 
-					if (duzenlendi) {
-						context.addMessage(null, new FacesMessage("G�ncellendi!"));
-					} else {
-						context.addMessage(null, new FacesMessage("G�ncelleme i�lemi ba�ar�s�z!"));
-					}
-					status = 0;
+		}
 
-				}
+		PanelClose();
+		ButtonOpen();
 
-				PanelClose();
-				ButtonOpen();
-
-			
-		
-		izleme=new IzlemeBilgisi();
-		
+		izleme = new IzlemeBilgisi();
 
 	}
 
@@ -213,9 +202,8 @@ public class IzlemeBilgisiBean {
 
 		status = 1;
 
-		
 		PanelOpen();
-		
+
 		ArrayList<IzlemeBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
 		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
@@ -228,8 +216,7 @@ public class IzlemeBilgisiBean {
 		}
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 		izleme.setCagriAdet(dao.izlemeSayisi(AktifBean.icraDosyaID));
-		
-		
+
 		ButtonClose();
 
 	}
@@ -242,7 +229,7 @@ public class IzlemeBilgisiBean {
 		IzlemeBilgisiDAO dao = new IzlemeBilgisiDAO();
 
 		boolean result = dao.sil(id);
-		
+
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -295,6 +282,14 @@ public class IzlemeBilgisiBean {
 	public void dlgYeniKayit() {
 		YeniKayit();
 		RequestContext.getCurrentInstance().execute("PF('dialogWidget').show()");
+	}
+
+	public String getPersonelAdi() {
+		return personelAdi;
+	}
+
+	public void setPersonelAdi(String personelAdi) {
+		this.personelAdi = personelAdi;
 	}
 
 }

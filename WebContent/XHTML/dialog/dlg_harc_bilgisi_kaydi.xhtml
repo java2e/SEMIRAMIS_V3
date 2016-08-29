@@ -55,36 +55,33 @@
 			<p:outputLabel>Harç Oranı :</p:outputLabel>
 			<p:inputText id="inputTextHarcRatio"
 				value="#{harcBean.harcBilgi.harc_orani}" style="width: 250px"
-				
-											required="true"
-											requiredMessage="Bu alanı boş bırakamazsınız..."
-											onkeyup="var pos=this.selectionStart;
+				requiredMessage="Bu alanı boş bırakamazsınız..."
+				onkeyup="var pos=this.selectionStart;
 									var size = this.value.length;														
 this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
              						
              						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
 										this.value=this.value.substring(0,size-1);
              					"
-											onfocus="this.value=''" >
+				onfocus="this.value=''">
 
 			</p:inputText>
 
 			<p:outputLabel>Harç Miktarı :</p:outputLabel>
-			<p:inputText id="inputTextHarcAmount" 
-				value="#{harcBean.harcBilgi.harc_miktari}"
-				
-											required="true"
-											requiredMessage="Bu alanı boş bırakamazsınız..."
-											onkeyup="var pos=this.selectionStart;
+			<p:inputText id="inputTextHarcAmount"
+				value="#{harcBean.harcBilgi.harc_miktari}" required="true"
+				requiredMessage="Bu alanı boş bırakamazsınız..."
+				onkeyup="var pos=this.selectionStart;
 									var size = this.value.length;														
 this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
              						
              						if(this.value.indexOf('.')!=this.value.lastIndexOf('.'))
 										this.value=this.value.substring(0,size-1);
              					"
-											onfocus="
+				onfocus="
 															this.value=''
-									"  style="width: 250px">
+									"
+				style="width: 250px">
 
 			</p:inputText>
 
@@ -116,13 +113,13 @@ this.value=this.value.replace(/,/g,'.').replace(/[^0-9,'.']+/g, '');
 
 	<p:dataTable value="#{harcBean.harcList}" var="hb" id="tblharc"
 		style="width:900px ">
-		
+
 		<f:facet name="header">
 			<p:panelGrid>
 				<p:commandButton value="Yeni Kayıt" style="float:left"
 					disabled="#{harcBean.buttonDisabled}"
-		update=":#{p:component('dialog')}"
-		actionListener="#{harcBean.dlgYeniKayit}"/>
+					update=":#{p:component('dialog')}"
+					actionListener="#{harcBean.dlgYeniKayit}" />
 				<h:outputText value="Harç Listesi" />
 			</p:panelGrid>
 		</f:facet>

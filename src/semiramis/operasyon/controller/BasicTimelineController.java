@@ -20,7 +20,7 @@ import semiramis.operasyon.model.Chronology;
 import semiramis.report.util.ReportPublish;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class BasicTimelineController implements Serializable {
 
 	/**
@@ -44,37 +44,25 @@ public class BasicTimelineController implements Serializable {
 	private Utils utils = new Utils();
 
 	public BasicTimelineController() {
-		// initialize();
+		initialize();
 	}
 
-	// public void initialize() {
-	// model = new TimelineModel();
-	//
-	// ArrayList<TimelineEvent> events = null;
-	// try {
-	// if (icraDosyaID == 0 && AktifBean.getIcraDosyaID() != 0) {
-	// events = utils.getAllTimeLineEventsFromID(AktifBean.getIcraDosyaID());
-	// chronologies = utils.getChronologyList(AktifBean.getIcraDosyaID());
-	// } else {
-	// events = utils.getAllTimeLineEventsFromID(icraDosyaID);
-	// chronologies = utils.getChronologyList(icraDosyaID);
-	//
-	// }
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// if (events != null) {
-	// if (events.size() > 0) {
-	// for (TimelineEvent timelineEvent : events) {
-	//
-	// model.add(timelineEvent);
-	// }
-	// }
-	//
-	// }
-	//
-	// }
+	public void initialize() {
+		model = new TimelineModel();
+
+		try {
+			if (icraDosyaID == 0 && AktifBean.getIcraDosyaID() != 0) {
+				chronologies = utils.getChronologyList(AktifBean.getIcraDosyaID());
+			} else {
+				chronologies = utils.getChronologyList(icraDosyaID);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public void icraDosyaSec(int id) {
 		RequestContext.getCurrentInstance().execute("PF('dlgdetayliarama').hide()");
@@ -102,7 +90,7 @@ public class BasicTimelineController implements Serializable {
 	}
 
 	public void printExcell() {
-		if (icraDosyaID != 0) {
+		if (AktifBean.icraDosyaID != 0) {
 			if (chronologies.size() > 0) {
 				publish.getReportXLS(chronologies, DOSYA_CRH_JASPER);
 			}
@@ -113,7 +101,7 @@ public class BasicTimelineController implements Serializable {
 	}
 
 	public void printPDF() {
-		if (icraDosyaID != 0) {
+		if (AktifBean.icraDosyaID != 0) {
 			if (chronologies.size() > 0) {
 				publish.getReportPDF(chronologies, new HashMap<>(), DOSYA_CRH_JASPER);
 			}
