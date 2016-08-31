@@ -111,36 +111,40 @@
 					>
 
 				
-				<p:column headerText="Banka Servis No" width="105" filterBy="#{hb.bankaServisNo}" filterMatchMode="contains" sortBy="#{hb.bankaServisNo}">
+				<p:column headerText="Banka Servis No" width="105" style="color:#{hb.renk}" filterBy="#{hb.bankaServisNo}" filterMatchMode="contains" sortBy="#{hb.bankaServisNo}">
 					<h:outputText value="#{hb.bankaServisNo}" />
 				</p:column>
+				
+				<p:column headerText="Dosya Statüsü" width="105" style="color:#{hb.renk}" filterBy="#{hb.dosyaStatuAdi}" filterMatchMode="contains" sortBy="#{hb.dosyaStatuAdi}">
+					<h:outputText value="#{hb.dosyaStatuAdi}" />
+				</p:column>
 
-				<p:column headerText="Avukat Servis No" width="105" filterBy="#{hb.avukatCikisSevisNo}" filterMatchMode="contains" sortBy="#{hb.avukatCikisSevisNo}">
+				<p:column headerText="Avukat Servis No" width="105" style="color:#{hb.renk}" filterBy="#{hb.avukatCikisSevisNo}" filterMatchMode="contains" sortBy="#{hb.avukatCikisSevisNo}">
 					<h:outputText value="#{hb.avukatCikisSevisNo}" />
 				</p:column>
 
-				<p:column headerText="İcra Dosya No" width="105" filterBy="#{hb.icraDosyaNo}" filterMatchMode="contains" sortBy="#{hb.icraDosyaNo}">
+				<p:column headerText="İcra Dosya No" style="color:#{hb.renk}" width="105" filterBy="#{hb.icraDosyaNo}" filterMatchMode="contains" sortBy="#{hb.icraDosyaNo}">
 				<h:outputText value="#{hb.icraDosyaNo}" />
 				</p:column>
 
-				<p:column headerText="İcra Müdürlüğü" width="195" filterBy="#{hb.icraMudurlugu}" filterMatchMode="contains" sortBy="#{hb.icraMudurlugu}" >
+				<p:column headerText="İcra Müdürlüğü" width="195" style="color:#{hb.renk}" filterBy="#{hb.icraMudurlugu}" filterMatchMode="contains" sortBy="#{hb.icraMudurlugu}" >
 					<h:outputText value="#{hb.icraMudurlugu}" />
 				</p:column>
 				
-				<p:column headerText="Müvekkil Adı" width="250" filterBy="#{hb.muvekkilAdi}" filterMatchMode="contains" sortBy="#{hb.muvekkilAdi}">
+				<p:column headerText="Müvekkil Adı" style="color:#{hb.renk}" width="250" filterBy="#{hb.muvekkilAdi}" filterMatchMode="contains" sortBy="#{hb.muvekkilAdi}">
 				<h:outputText value="#{hb.muvekkilAdi}" />
 				</p:column>
 
-				<p:column headerText="Borçlu Adı" width="195" filterBy="#{hb.borcluAdi}" filterMatchMode="contains" sortBy="#{hb.borcluAdi}">
+				<p:column headerText="Borçlu Adı" style="color:#{hb.renk}" width="195" filterBy="#{hb.borcluAdi}" filterMatchMode="contains" sortBy="#{hb.borcluAdi}">
 					<h:outputText value="#{hb.borcluAdi}" />
 				</p:column>
 
 
-				<p:column headerText="Geliş Tarihi" width="100" filterBy="#{hb.sonucGelisTarihi}" filterMatchMode="contains" sortBy="#{hb.sonucGelisTarihi}">
+				<p:column headerText="Geliş Tarihi" style="color:#{hb.renk}" width="100" filterBy="#{hb.sonucGelisTarihi}" filterMatchMode="contains" sortBy="#{hb.sonucGelisTarihi}">
 					<h:outputText value="#{hb.sonucGelisTarihi}" />
 				</p:column>
 
-				<p:column headerText="Takip Tarihi" width="100" filterBy="#{hb.sonucTakipTarihi}" filterMatchMode="contains" sortBy="#{hb.sonucTakipTarihi}">
+				<p:column headerText="Takip Tarihi" style="color:#{hb.renk}" width="100" filterBy="#{hb.sonucTakipTarihi}" filterMatchMode="contains" sortBy="#{hb.sonucTakipTarihi}">
 					<h:outputText value="#{hb.sonucTakipTarihi}" />
 				</p:column>
 				

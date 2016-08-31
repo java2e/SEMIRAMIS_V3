@@ -35,7 +35,7 @@ public class DetayliAramaBean {
 
 	private String muvekkilAdi, borcluAdi, icraDosyaNo, icraMudurlugu, cepTel, isTel;
 	private int bankaServisNo, avukatCikisSevisNo, bankaMusteriNo;
-	String oldDate="01/01/1900";
+	String oldDate="01/01/1999";
 	@SuppressWarnings("deprecation")
 	private Date gelisTarihi1 = new Date(oldDate), gelisTarihi2=new Date(), hitamTarihi1=new Date(oldDate), hitamTarihi2=new Date(), takipTarihi1=new Date(oldDate), takipTarihi2=new Date();
 	

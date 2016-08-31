@@ -7,6 +7,7 @@ import java.util.Date;
 
 import pelops.db.DBConnection;
 import pelops.model.DetayliArama;
+import semiramis.operasyon.model.DosyaStatusu;
 
 public class GelismisAramaDAO {
 
@@ -23,7 +24,7 @@ public class GelismisAramaDAO {
 	        
 	    
 	        
-	        String oldDate="01/01/1900";
+	        String oldDate="01/01/1999";
 	        Date tarih = new Date(oldDate);
 	        String fullSQL="";
 	        if (gelisTarihi1.equals(tarih)!=true) {fullSQL += " and gelis_tarihi between '"+gelisTarihi1+"' and '"+gelisTarihi2+"'";	}
@@ -66,6 +67,23 @@ public class GelismisAramaDAO {
 	        	
 	        	dtyArama.setBankaServisNo(rs.getString("banka_servis_no"));
 	        	
+	        	dtyArama.setDosyaStatuAdi(rs.getString("dosya_statu_adi"));
+	        	dtyArama.setDosyaStatuId(rs.getInt("dosya_statu_id"));
+	        	
+	        	if(dtyArama.getDosyaStatuId()==DosyaStatusu.DERDEST_ID)
+	        		dtyArama.setRenk(DosyaStatusu.DERDEST_RENK);
+	        	else if(dtyArama.getDosyaStatuId()==DosyaStatusu.HITAM_ID)
+	        		dtyArama.setRenk(DosyaStatusu.HITAM_RENK);
+	         	else if(dtyArama.getDosyaStatuId()==DosyaStatusu.ITIRAZ_ID)
+	        		dtyArama.setRenk(DosyaStatusu.ITIRAZ_RENK);
+	         	else if(dtyArama.getDosyaStatuId()==DosyaStatusu.TEMLIK_ID)
+	        		dtyArama.setRenk(DosyaStatusu.TEMLIK_RENK);
+	         	else if(dtyArama.getDosyaStatuId()==DosyaStatusu.VEFAT_ID)
+	        		dtyArama.setRenk(DosyaStatusu.VEFAT_RENK);
+	        	
+	        		
+	        		
+	        		
 	        	dtyList.add(dtyArama);
 	        }
 	        

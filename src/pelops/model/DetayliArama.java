@@ -14,6 +14,34 @@ public void setId(int id) {
 	private int avukatCikisSevisNo, bankaMusteriNo;
 	private String bankaServisNo;
 	private Date gelisTarihi1, gelisTarihi2, hitamTarihi1, hitamTarihi2, takipTarihi1, takipTarihi2, sonucGelisTarihi, sonucHitamTarihi, sonucTakipTarihi;
+	private String renk;
+	private String dosyaStatuAdi;
+	private int dosyaStatuId;
+	
+	
+	
+	
+	
+	
+	
+	public String getDosyaStatuAdi() {
+		return dosyaStatuAdi;
+	}
+	public void setDosyaStatuAdi(String dosyaStatuAdi) {
+		this.dosyaStatuAdi = dosyaStatuAdi;
+	}
+	public int getDosyaStatuId() {
+		return dosyaStatuId;
+	}
+	public void setDosyaStatuId(int dosyaStatuId) {
+		this.dosyaStatuId = dosyaStatuId;
+	}
+	public String getRenk() {
+		return renk;
+	}
+	public void setRenk(String renk) {
+		this.renk = renk;
+	}
 	public Date getSonucGelisTarihi() {
 		return sonucGelisTarihi;
 	}
