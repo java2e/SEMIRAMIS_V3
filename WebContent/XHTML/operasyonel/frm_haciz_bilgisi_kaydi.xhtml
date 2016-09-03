@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -46,13 +46,13 @@
 						value="#{hacizBilgisiBean.borcluAdi}" style="width: 250px">
 					</p:inputText>
 
-					<p:outputLabel>Haciz Tipi :</p:outputLabel>
+					<p:outputLabel>Haciz Statüsü :</p:outputLabel>
 					<p:selectOneMenu id="selectOneMenuHacizTipi" required="false"
 						style="width:260px"
-						value="#{hacizBilgisiBean.hacizkayit.hacizTipiId}"
+						value="#{hacizBilgisiBean.hacizkayit.hacizStatusuId}"
 						requiredMessage="Bu alanı doldurunuz">
 						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_haciz_tipi')}"
+							value="#{geneltanimbean.ListeGetir('tbl_haciz_statusu')}"
 							var="hacizListesi" itemLabel="#{hacizListesi.adi}"
 							itemValue="#{hacizListesi.id}"></f:selectItems>
 					</p:selectOneMenu>
@@ -88,18 +88,8 @@
 						value="#{hacizBilgisiBean.hacizkayit.hacizTarihi}" size="39">
 					</p:calendar>
 
-					<p:outputLabel>Haczedilen Tipi :</p:outputLabel>
-
-					<p:selectOneMenu id="selectOneMenuHaczedilenTipi" required="false"
-						style="width:260px"
-						value="#{hacizBilgisiBean.hacizkayit.haczedilenTipiId}"
-						requiredMessage="Bu alanı doldurunuz">
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_haczedilen_tipi')}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
-					</p:selectOneMenu>
-
-					<p:outputLabel>Haciz Bedeli :</p:outputLabel>
+			
+				<p:outputLabel>Haciz Bedeli :</p:outputLabel>
 
 					<p:inputText id="inputTextHacizBedeli" style="width:250px"
 						value="#{hacizBilgisiBean.hacizkayit.hacizBedeli}"
@@ -152,7 +142,7 @@
 				<p:growl id="growl" showDetail="true" sticky="true" />
 
 
-				<p:commandButton value="Kaydet" update="hacizForm, growl"
+				<p:commandButton value="Kaydet" update=":hacizForm:tblHacizBilgisi, growl"
 					actionListener="#{hacizBilgisiBean.Kaydet}"
 					style="margin-top:10px;margin-right:5px"></p:commandButton>
 
@@ -175,7 +165,7 @@
 
 
 			<p:dataTable value="#{hacizBilgisiBean.hacizList}" var="list"
-				id="tblHacizBilgisi" update=":tblHacizBilgisi" style="width:900px">
+				id="tblHacizBilgisi" update=":tblHacizBilgisi"  paginator="true" rows="6">
 
 				<p:column headerText="Düzenle" width="145">
 
@@ -206,24 +196,25 @@
 
 				</p:column>
 
-				<p:column headerText="Haciz Tipi" width="450px">
-					<p:outputLabel value="#{list.hacizTipiAdi}" />
+				<p:column headerText="Haciz Statüsü">
+					<p:outputLabel value="#{list.hacizStatusuAdi}" />
 				</p:column>
 
-				<p:column headerText="Haciz Talimat Tarihi" width="450px">
+				<p:column headerText="Haciz Talimat Tarihi">
 					<p:outputLabel value="#{list.talimatTarihi}" />
 				</p:column>
 
-				<p:column headerText="Haciz Tarihi" width="450px">
+				<p:column headerText="Haciz Tarihi">
 					<p:outputLabel value="#{list.hacizTarihi}" />
 				</p:column>
 
-				<p:column headerText="Haczedilen Tipi" width="450px">
-					<p:outputLabel value="#{list.haczedilenTipiAdi}" />
-				</p:column>
-
-				<p:column headerText="Haciz Bedeli" width="450px">
+				<p:column headerText="Haciz Bedeli">
 					<p:outputLabel value="#{list.hacizBedeli}" />
+				</p:column>
+				
+				
+				<p:column headerText="Açıklama" >
+					<p:outputLabel value="#{list.aciklama}" />
 				</p:column>
 
 			</p:dataTable>

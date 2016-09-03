@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition>
+	<p:panel id="panelPG" header="TEBLİGAT BİLGİSİ KAYIT PANELİ" style="text-align:left;">
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; width: 256px; left:0%; top:0%; z-index:2; height: 100%; width: 100%">
+			<p:graphicImage value="img/yukleme.gif" height="80" width="80" />
+		</p:dialog>
+
+		<h:form id="tebligatForm">
+
+			<p:panel id="panelForm">
+				<p:panelGrid columns="2" style="margin-top:10px">
+
+					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
+					<p:inputText id="icraDosyaNo"
+						value="#{tebligatBean.tebligat.icraDosyaNo}" style="width: 250px"
+						readonly="true">
+					</p:inputText>
+
+
+
+					<p:outputLabel for="vizitDate">Tebligat Türü :</p:outputLabel>
+					<p:selectOneMenu id="vizitDate" value="#{tebligatBean.tebligat.tebligatTuruId}">
+					
+					<f:selectItem itemLabel="Tür Seçiniz " itemValue="0"/>
+					<f:selectItems
+							value="#{geneltanimbean.ListeGetir('tbl_tebligat_tipi')}"
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"/>
+					
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="tebligatStatusu">Tebligat Statüsü :</p:outputLabel>
+					<p:selectOneMenu id="tebligatStatusu" value="#{tebligatBean.tebligat.tebligatStatusuId}">
+					
+					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
+					<f:selectItems
+							value="#{geneltanimbean.ListeGetir('tbl_tebligat_statusu')}"
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
+					
+					</p:selectOneMenu>
+
+					<p:outputLabel for="tebligatSonucu">Tebligat Sonucu :</p:outputLabel>
+					<p:selectOneMenu id="tebligatSonucu" value="#{tebligatBean.tebligat.tebligatSonucuId}">
+					
+					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
+					<f:selectItems
+							value="#{geneltanimbean.ListeGetir('tbl_tebligat_sonucu')}"
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
+					
+					</p:selectOneMenu>
+
+					
+
+				<p:growl id="growl" showDetail="true" sticky="true" />
+
+			
+
+				<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
+					actionListener="#{tebligatBean.kaydet}"/>
+
+
+</p:panelGrid>
+			</p:panel>
+
+
+</h:form>
+
+</p:panel>
+
+</ui:composition>
+
+</html>

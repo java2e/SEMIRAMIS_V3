@@ -308,6 +308,10 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 					<p:submenu label="OPERASYONEL İŞLEMLER" expanded="false"
 						id="operasyonel">
+							<p:menuitem value="Tebligat Bilgisi Kaydı" ajax="false"
+							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(217)}"
+							icon="ui-icon-home" />
+							
 						<p:menuitem value="Haciz Bilgisi Kaydı" ajax="false"
 							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(201)}"
 							icon="ui-icon-home" />

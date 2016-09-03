@@ -8,9 +8,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import pelops.dao.IlDAO;
-import pelops.model.HacizBilgisi;
 import pelops.model.HarcBilgisi;
 import pelops.model.Il;
+import semiramis.operasyon.model.HacizBilgisi;
 
 @ManagedBean(name="ilBean")
 @SessionScoped
