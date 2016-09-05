@@ -337,8 +337,8 @@ public class BorcluBilgisiDAO extends DBConnection {
 
 		if (result == 1) {
 			guncelle = true;
-			// :TODO: id ye göre güncelleme olayını tekrar değiştirdim.
-			// saveCoordinate(borcluBilgisi.getTcNo());
+			saveCoordinate(tcSorgulama(borcluBilgisi.getTcNo()));
+
 		}
 
 		return guncelle;
