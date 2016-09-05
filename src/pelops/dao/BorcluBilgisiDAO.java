@@ -278,6 +278,8 @@ public class BorcluBilgisiDAO extends DBConnection {
 
 	}
 
+	// :TODO borclu listesini cağıran bir method yazılmalı ve buna setX ve setY
+	// eklenmeli
 	public boolean uyapKimlikBilgisiGuncelle(BorcluBilgisi borcluBilgisi) throws Exception {
 		boolean guncelle = false;
 		// String SQL = "UPDATE tbl_borclu SET baba_adi=?, ana_adi=?,
