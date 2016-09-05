@@ -337,7 +337,8 @@ public class BorcluBilgisiDAO extends DBConnection {
 
 		if (result == 1) {
 			guncelle = true;
-			saveCoordinate(borcluBilgisi.getTcNo());
+			// :TODO: id ye göre güncelleme olayını tekrar değiştirdim.
+			// saveCoordinate(borcluBilgisi.getTcNo());
 		}
 
 		return guncelle;
@@ -433,9 +434,9 @@ public class BorcluBilgisiDAO extends DBConnection {
 		return list;
 	}
 
-	public String getBocluAdress(String tcNo) {
+	public String getBocluAdress(int borcluId) {
 		String adress = "";
-		String sql = "SELECT  il_adi, adres FROM tbl_borclu where tc_no = " + tcNo + ";";
+		String sql = "SELECT  il_adi, adres FROM tbl_borclu where id = " + borcluId + ";";
 		newConnectDB();
 		try {
 			Statement statement = conn.createStatement();
@@ -468,9 +469,9 @@ public class BorcluBilgisiDAO extends DBConnection {
 		return adress;
 	}
 
-	private String getBorcluIlAdi(String tcNo) {
+	private String getBorcluIlAdi(int borcluId) {
 		String ilAdi = "";
-		String sql = "SELECT  il_adi from tbl_borclu where tc_no = " + tcNo + ";";
+		String sql = "SELECT  il_adi from tbl_borclu where id = " + borcluId + ";";
 		newConnectDB();
 		Statement statement;
 		try {
@@ -533,10 +534,10 @@ public class BorcluBilgisiDAO extends DBConnection {
 		return jsonObj;
 	}
 
-	public void saveCoordinate(String tcNo) {
-		JSONObject jsonObj = getGoogleApiResults(getBocluAdress(tcNo));
+	public void saveCoordinate(int borcluId) {
+		JSONObject jsonObj = getGoogleApiResults(getBocluAdress(borcluId));
 		if (jsonObj == null) {
-			jsonObj = getGoogleApiResults(getBorcluIlAdi(tcNo));
+			jsonObj = getGoogleApiResults(getBorcluIlAdi(borcluId));
 		}
 		try {
 			if (jsonObj == null) {
@@ -550,7 +551,7 @@ public class BorcluBilgisiDAO extends DBConnection {
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setString(1, location.getString("lng"));
 			pstm.setString(2, location.getString("lat"));
-			pstm.setString(3, tcNo);
+			pstm.setInt(3, borcluId);
 			pstm.executeUpdate();
 			disconnectDB();
 
