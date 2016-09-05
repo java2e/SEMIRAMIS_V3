@@ -1,14 +1,24 @@
 package pelops.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.apache.commons.httpclient.util.URIUtil;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONObject;
 
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
 import pelops.model.BorcluBilgisi;
 import pelops.model.BorcluTipi;
+import pelops.report.model.ReportUtils;
 
 public class BorcluBilgisiDAO extends DBConnection {
 
@@ -147,35 +157,28 @@ public class BorcluBilgisiDAO extends DBConnection {
 		return id;
 
 	}
-	
-	public void guncellemeMuhattapBilgisi(String isYeriAdi,String isYeriAdres,int borcluId)
-	{
-		
-		
-		try {
-			
-			String sql="UPDATE tbl_borclu SET is_yeri_adi='"+isYeriAdi+"',isyeri_adres='"+isYeriAdres+"' WHERE id="+borcluId;
-			
-			newConnectDB();
-			
-			Statement stmt=conn.createStatement();
-			
-			stmt.execute(sql);
-			
-			disconnectDB();
-			
-			
-			
-		} catch (Exception e) {
-			
 
-			System.out.println("HATA borcluDAO guncellemeMuhattapBilgisi :"+e.getMessage());
-			
-			
+	public void guncellemeMuhattapBilgisi(String isYeriAdi, String isYeriAdres, int borcluId) {
+
+		try {
+
+			String sql = "UPDATE tbl_borclu SET is_yeri_adi='" + isYeriAdi + "',isyeri_adres='" + isYeriAdres
+					+ "' WHERE id=" + borcluId;
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			stmt.execute(sql);
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("HATA borcluDAO guncellemeMuhattapBilgisi :" + e.getMessage());
+
 		}
-		
-		
-		
+
 	}
 
 	public BorcluBilgisi getBorcluBilgisi(String ad) throws Exception {
@@ -263,7 +266,6 @@ public class BorcluBilgisiDAO extends DBConnection {
 		pstm.setString(25, borcluBilgisi.getIsYeriAdi().toUpperCase());
 		pstm.setString(26, borcluBilgisi.getIsYeriAdres().toUpperCase());
 		pstm.setInt(27, AktifBean.getBorcluId());
-	
 
 		int result = pstm.executeUpdate();
 
@@ -315,24 +317,25 @@ public class BorcluBilgisiDAO extends DBConnection {
 		System.out.println(borcluBilgisi.getTcNo());
 		int result = pstm.executeUpdate();
 		disconnectDB();
-		
-		
 
-//		SQL = "select \"icradosyasiID\" from tbl_baglanti where \"borcluID\" =" + tcSorgulama(borcluBilgisi.getTcNo())
-//				+ ";";
-//		Statement statement = conn.createStatement();
-//		ResultSet resultSet = statement.executeQuery(SQL);
-//		int icraDosyaId = 0;
-//		while (resultSet.next()) {
-//			icraDosyaId = resultSet.getInt("borcluID");
-//			ChronologyUtil.getInstance().insertInstance(
-//					new Instance(icraDosyaId, null, "Uyap Güncelleme", "Uyap Borclu Bilgisi Güncellendi", 2));
-//		}
+		// SQL = "select \"icradosyasiID\" from tbl_baglanti where \"borcluID\"
+		// =" + tcSorgulama(borcluBilgisi.getTcNo())
+		// + ";";
+		// Statement statement = conn.createStatement();
+		// ResultSet resultSet = statement.executeQuery(SQL);
+		// int icraDosyaId = 0;
+		// while (resultSet.next()) {
+		// icraDosyaId = resultSet.getInt("borcluID");
+		// ChronologyUtil.getInstance().insertInstance(
+		// new Instance(icraDosyaId, null, "Uyap Güncelleme", "Uyap Borclu
+		// Bilgisi Güncellendi", 2));
+		// }
 
 		disconnectDB();
 
 		if (result == 1) {
 			guncelle = true;
+			saveCoordinate(borcluBilgisi.getTcNo());
 		}
 
 		return guncelle;
@@ -427,4 +430,140 @@ public class BorcluBilgisiDAO extends DBConnection {
 		disconnectDB();
 		return list;
 	}
+
+	public String getBocluAdress(String tcNo) {
+		String adress = "";
+		String sql = "SELECT  il_adi, adres FROM tbl_borclu where tc_no = " + tcNo + ";";
+		newConnectDB();
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String il = rs.getString("il_adi") != null ? rs.getString("il_adi").toLowerCase().trim() : "";
+				String defAdress = rs.getString("adres") != null ? rs.getString("adres").toLowerCase().trim() : "";
+				if (defAdress.contains(il)) {
+					if (defAdress.contains("dış")) {
+						String a = defAdress;
+						String b = defAdress;
+						defAdress = a.substring(0, a.indexOf("dış")) + " " + b.substring(b.indexOf(il));
+					}
+					adress = defAdress;
+				} else {
+					adress = defAdress + " " + il;
+					String a = adress;
+					String b = adress;
+					if (adress.contains("dış")) {
+						adress = a.substring(0, a.indexOf("dış")) + " " + b.substring(b.indexOf(il));
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return adress;
+	}
+
+	private String getBorcluIlAdi(String tcNo) {
+		String ilAdi = "";
+		String sql = "SELECT  il_adi from tbl_borclu where tc_no = " + tcNo + ";";
+		newConnectDB();
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String il = rs.getString("il_adi") != null ? rs.getString("il_adi").toLowerCase().trim() : "";
+				if (il.equals("bulunamadı.") || il.equals("")) {
+					ilAdi = "ankara";
+				} else {
+					String a = ReportUtils.extractNumber(il);
+					if (a.length() > 0) {
+						ilAdi = "ankara";
+					} else {
+						ilAdi = il;
+
+					}
+				}
+			}
+			disconnectDB();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ilAdi;
+	}
+
+	private JSONObject getGoogleApiResults(String adres) {
+		URL url;
+		JSONObject jsonObj = null;
+		try {
+			url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=" + URIUtil.encodeQuery(adres)
+					+ "&sensor=true");
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			String output = "", full = "";
+			while ((output = br.readLine()) != null) {
+				full += output;
+			}
+			jsonObj = new JSONObject(full);
+			if (jsonObj.get("status").equals("OK")) {
+
+			} else {
+				jsonObj = null;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonObj;
+	}
+
+	public void saveCoordinate(String tcNo) {
+		JSONObject jsonObj = getGoogleApiResults(getBocluAdress(tcNo));
+		if (jsonObj == null) {
+			jsonObj = getGoogleApiResults(getBorcluIlAdi(tcNo));
+		}
+		try {
+			if (jsonObj == null) {
+				return;
+			}
+			JSONArray array = jsonObj.getJSONArray("results");
+			JSONObject jsonObject = array.getJSONObject(0);
+			JSONObject location = jsonObject.getJSONObject("geometry").getJSONObject("location");
+			String sql = "update tbl_borclu SET x=?, y=? where tc_no =?";
+			newConnectDB();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, location.getString("lng"));
+			pstm.setString(2, location.getString("lat"));
+			pstm.setString(3, tcNo);
+			pstm.executeUpdate();
+			disconnectDB();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				disconnectDB();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 }

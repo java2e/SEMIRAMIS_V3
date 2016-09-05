@@ -66,7 +66,7 @@ public class BorcluBilgisi {
 	private String telefon_no1;
 
 	private String isYeriAdi;
-	
+
 	private String isYeriAdres;
 
 	private String departman;
@@ -112,6 +112,23 @@ public class BorcluBilgisi {
 	private String telefon_no2, telefon_no3;
 
 	private String ad, soyad;
+	private String X, Y;
+
+	public String getX() {
+		return X;
+	}
+
+	public void setX(String x) {
+		X = x;
+	}
+
+	public String getY() {
+		return Y;
+	}
+
+	public void setY(String y) {
+		Y = y;
+	}
 
 	public String getUyap_rol() {
 		return uyap_rol;
@@ -556,7 +573,5 @@ public class BorcluBilgisi {
 	public void setIsYeriAdres(String isYeriAdres) {
 		this.isYeriAdres = isYeriAdres;
 	}
-	
-	
 
 }
