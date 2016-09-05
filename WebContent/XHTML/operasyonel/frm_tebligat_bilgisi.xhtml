@@ -34,7 +34,7 @@
 
 
 					<p:outputLabel for="vizitDate">Tebligat Türü :</p:outputLabel>
-					<p:selectOneMenu id="vizitDate" value="#{tebligatBean.tebligat.tebligatTuruId}">
+					<p:selectOneMenu id="vizitDate" value="#{tebligatBean.tebligat.tebligatTuruId}"  style="width: 250px">
 					
 					<f:selectItem itemLabel="Tür Seçiniz " itemValue="0"/>
 					<f:selectItems
@@ -44,7 +44,7 @@
 					</p:selectOneMenu>
 					
 					<p:outputLabel for="tebligatStatusu">Tebligat Statüsü :</p:outputLabel>
-					<p:selectOneMenu id="tebligatStatusu" value="#{tebligatBean.tebligat.tebligatStatusuId}">
+					<p:selectOneMenu id="tebligatStatusu" value="#{tebligatBean.tebligat.tebligatStatusuId}"  style="width: 250px">
 					
 					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
 					<f:selectItems
@@ -54,7 +54,7 @@
 					</p:selectOneMenu>
 
 					<p:outputLabel for="tebligatSonucu">Tebligat Sonucu :</p:outputLabel>
-					<p:selectOneMenu id="tebligatSonucu" value="#{tebligatBean.tebligat.tebligatSonucuId}">
+					<p:selectOneMenu id="tebligatSonucu" value="#{tebligatBean.tebligat.tebligatSonucuId}"  style="width: 250px">
 					
 					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
 					<f:selectItems
@@ -70,7 +70,7 @@
 			
 
 				<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
-					actionListener="#{tebligatBean.kaydet}"/>
+					actionListener="#{tebligatBean.kaydet}"  style="width: 250px"/>
 
 
 </p:panelGrid>

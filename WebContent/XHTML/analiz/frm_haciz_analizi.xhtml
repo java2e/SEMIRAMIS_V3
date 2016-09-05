@@ -21,6 +21,7 @@
 <!-- Resources -->
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
@@ -60,18 +61,9 @@ var chart = AmCharts.makeChart( "chartdiv", {
 var chart2 = AmCharts.makeChart( "chartdiv2", {
 	  "type": "pie",
 	  "theme": "none",
-	  "dataProvider": [ {
-		"id":3,  
-	    "country": "YAPILMADI",
-	    "litres": 143
-	  }, {
-		  "id":4,  
-	    "country": "YAPILDI",
-	    "litres": 175
-	  }
-	  ],
-	  "valueField": "litres",
-	  "titleField": "country",
+	  "dataProvider": #{hacizAnalizBean.hacizTahsilat},
+	  "valueField": "adet",
+	  "titleField": "durum",
 	   "balloon":{
 	   "fixedPosition":true
 	  },
@@ -80,7 +72,7 @@ var chart2 = AmCharts.makeChart( "chartdiv2", {
 		    "method": function(event) {
 		      var chart = event.chart;
 		      
-		      console.log(event.dataItem.dataContext.country)
+		      console.log(event.dataItem.dataContext.id)
 		       document.getElementById("form:durumId").value = event.dataItem.dataContext.id;
 		      
 		      $("#form\\:hh").click();
@@ -94,40 +86,53 @@ var chart2 = AmCharts.makeChart( "chartdiv2", {
 	} );
 	           
 
-var chart3 = AmCharts.makeChart( "chartdiv3", {
-	  "type": "pie",
-	  "theme": "none",
-	  "dataProvider": [ {
-	    "country": "STATÜ 1",
-	    "litres": 128
-	  }, {
-	    "country": "STATÜ 2",
-	    "litres": 135
-	  }
-	  ],
-	  "valueField": "litres",
-	  "titleField": "country",
-	   "balloon":{
-	   "fixedPosition":true
-	  },
-	  "listeners": [{
-		    "event": "clickSlice",
-		    "method": function(event) {
-		      var chart = event.chart;
-		      
-		      console.log(event.dataItem.dataContext.country)
-		       document.getElementById("form:durumId").value = event.dataItem.dataContext.country;
-		      
-		      $("#form\\:hh").click();
-		      
-		     
-		    }
-		  }],
-	  "export": {
-	    "enabled": true
-	  }
-	} );
-	
+var chart3 = AmCharts.makeChart("chartdiv3", {
+  "type": "serial",
+  "theme": "light",
+  "marginRight": 70,
+  "dataProvider": #{hacizAnalizBean.hacizStatusu},
+  "valueAxes": [{
+    "axisAlpha": 0,
+    "position": "left",
+    "title": "HACİZ MENKUL STATÜSÜ"
+  }],
+  "listeners": [{
+	    "event": "clickGraphItem",
+	    "method": function(event) {
+	      var chart = event.chart;
+	      
+	      console.log(event.item.dataContext.id)
+	       document.getElementById("form:durumId").value = event.item.dataContext.id;
+	      
+	      $("#form\\:hh").click();
+	      
+	     
+	    }
+	  }],
+  "startDuration": 1,
+  "graphs": [{
+    "balloonText": "<b>[[adet]]: [[durum]]</b>",
+    "fillColorsField": "color",
+    "fillAlphas": 0.9,
+    "lineAlpha": 0.2,
+    "type": "column",
+    "valueField": "adet"
+  }],
+  "chartCursor": {
+    "categoryBalloonEnabled": false,
+    "cursorAlpha": 0,
+    "zoomable": false
+  },
+  "categoryField": "durum",
+  "categoryAxis": {
+    "gridPosition": "start",
+    "labelRotation": 45
+  },
+  "export": {
+    "enabled": true
+  }
+
+});
 	
 
 
@@ -139,8 +144,8 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 
 
 <h:form id="form">
-<h:inputHidden id="durumId" value="#{vizitAnalizBean.id}" />
-<p:commandButton style="display:none" id="hh" value="kaydet"  update=":form:panelTable" actionListener="#{vizitAnalizBean.getList}"/>
+<h:inputHidden id="durumId" value="#{hacizAnalizBean.id}" />
+<p:commandButton style="display:none" id="hh" value="kaydet"  update=":form:panelTable" actionListener="#{hacizAnalizBean.getList}"/>
 
 <div style="margin: auto;width: 100%">
 
@@ -149,11 +154,7 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 
 <div style="margin:auto;height: 300px;width: 100%;">
 
-<div style="height: 300px; width:30%; float: left;">
-<div style="margin-top:10px;"><center>HACİZ MENKUL DURUMU</center></div>
-<div id="chartdiv" style="margin: 10px 10px 0 20px; height: 300px; width:100%; float: left;">
-</div>
-</div>
+
 
 <div style="height: 300px; width:30%; float: left;">
 <div style="margin-top:10px;"><center>HACİZ TAHSİLAT</center></div>
@@ -161,7 +162,7 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 </div>
 </div>
 
-<div style="height: 300px; width:30%; float: left;">
+<div style="height: 300px;margin-left:50px; width:60%; float: right;">
 <div style="margin-top:10px;"><center>HACİZ MENKUL STATÜSÜ</center></div>
 <div id="chartdiv3" style="margin: 10px 10px 0 20px; height: 300px; width:100%; float: left;">
 </div>
@@ -177,7 +178,7 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 
 <p:panel id="panelTable" header="HACİZ BİLGİSİ LİSTESİ" style="text-align: center !important;
 	font-size: 14px;margin-top:10px;">
-<p:dataTable value="#{vizitAnalizBean.liste}" var="vb"
+<p:dataTable value="#{hacizAnalizBean.liste}" var="vb"
 				id="tblVizitBilgisi">
 
 		
@@ -190,34 +191,27 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 					<h:outputText value="#{vb.icraDosyaNo}" />
 				</p:column>
 
-				<p:column headerText="İZLEME TARİHİ">
-					<h:outputText value="#{vb.izlemeTarihi}" />
+				<p:column headerText="HACİZ TARİHİ">
+					<h:outputText value="#{vb.hacizTarihi}" />
 				</p:column>
 				
-				<p:column headerText="İZLEME SONUCU">
-					<h:outputText value="#{vb.izlemeSonucu}" />
+				<p:column headerText="HACİZ STATÜSÜ">
+					<h:outputText value="#{vb.hacizStatusuAdi}" />
 				</p:column>
 				
-				<p:column headerText="VİZİT TARİHİ">
-					<h:outputText value="#{vb.vizitTarihi}" />
+				<p:column headerText="TOPLAM ALACAK">
+					<h:outputText value="#{vb.toplamAlacak}" />
 				</p:column>
 
-				<p:column headerText="VİZİT STATÜSÜ">
-					<h:outputText value="#{vb.vizitStatusu}" />
+				<p:column headerText="TAHSİLAT MİKTARI">
+					<h:outputText value="#{vb.tahsilatMiktari}" />
 				</p:column>
 				
-					<p:column headerText="ÖDEME SÖZÜ TARİHİ">
-					<h:outputText value="#{vb.odemeSozuTarih}" />
+					<p:column headerText="KALAN MİKTAR">
+					<h:outputText value="#{vb.kalanMiktar}" />
 				</p:column>
 				
-				
-					<p:column headerText="ÖDEME SÖZÜ MİKTARI">
-					<h:outputText value="#{vb.odemeSozuMiktari}" />
-				</p:column>
-				
-					<p:column headerText="VİZİT NOTU">
-					<h:outputText value="#{vb.vizitNotu}" />
-				</p:column>
+	
 				
 					<f:facet name="footer">
     					   <p:commandButton value="LİSTE TOPLU PDF"  actionListener="#{muameleBean.topluListe}" />
