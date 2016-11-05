@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:panel header="MÜVEKKİL BİLGİSİ" id="alacaklibilgisi"
+		style="width:100%" toggleable="true" collapsed="true">
+		<p:panelGrid columns="2"
+			style=" border-style: hidden !important; width:100%"
+			columnClasses="ui-grid-col-4,ui-grid-col-8">
+			<p:outputLabel value="Müvekkil Adı :" />
+			<p:inputText style="width:100%"
+				value="#{icradosyaislemleribean.alacaklilistesi.muvekkilAdi}"
+				readonly="true" />
+			<p:outputLabel value="Adresi :" />
+			<p:inputTextarea rows="3" style="width:100%" queryDelay="750"
+				minQueryLength="4"
+				value="#{icradosyaislemleribean.alacaklilistesi.adres}"
+				readonly="true" />
+			<p:outputLabel value="Vergi Numarası :" />
+			<p:inputText style="width:100%"
+				value="#{icradosyaislemleribean.alacaklilistesi.vergiNo}"
+				readonly="true" />
+			<p:outputLabel value="Vergi Dairesi" />
+			<p:inputText style="width:100%"
+				value="#{icradosyaislemleribean.alacaklilistesi.vergiDairesi}"
+				readonly="true" />
+
+		</p:panelGrid>
+	</p:panel>
+
+</ui:composition>
+</html>

@@ -16,10 +16,16 @@
 	<p:panel id="tbl"
 		style="width:200 ;height:100;">
 		<h:form id="form" onkeypress="return event.keyCode !=13">
+		
+
+		
 			<p:growl id="msgs" showDetail="true" />
 			<p:panel id="girisPanel" header="Hacze Esas Mal Bilgisi Ekleme/Güncelleme Paneli"
 				visible="#{haczeEsasMalBilgisiBean2.updatedVisible}">
 				
+	<p:commandButton id="btnDetayliArama" value="Detaylı Arama" icon="ui-icon-extlink" actionListener="#{haczeEsasMalBilgisiBean2.chooseIcraDosyasi}" style="width:50%;background-color:red;">
+        <p:ajax event="dialogReturn" listener="#{haczeEsasMalBilgisiBean2.onIcraDosyasiChosen}" update=":form,:form2" />
+    </p:commandButton>	
 				<p:panelGrid columns="2"
 					style="margin-top:10px;border-style: hidden !important">
 
@@ -126,12 +132,12 @@
 
 					<p:outputLabel style="width: 150px">Tapu İl :</p:outputLabel>
 					<p:selectOneMenu id="il"
-						value="#{haczeEsasMalBilgisiBean2.updatedHczEsasMal.tapuIlId}"
+						value="#{haczeEsasMalBilgisiBean2.ilId}"
 						style="width: 260px">
 						<f:selectItem itemValue="" itemLabel=""></f:selectItem>
-						<p:ajax event="change" update="ilce" />
-						<f:selectItems value="#{genelSehirlerBean.ListeGetirForIl()}"
-							var="iller" itemLabel="#{iller.il_adi}"
+						<p:ajax event="change" update="ilce" listener="#{haczeEsasMalBilgisiBean2.changeIlceList}"/>
+						<f:selectItems value="#{haczeEsasMalBilgisiBean2.ilList}"
+							var="iller" itemLabel="#{iller.adi}"
 							itemValue="#{iller.id}">
 						</f:selectItems>
 					</p:selectOneMenu>
@@ -142,8 +148,8 @@
 						value="#{haczeEsasMalBilgisiBean2.updatedHczEsasMal.tapuIlceId}"
 						style="width: 260px">
 
-						<f:selectItems value="#{genelSehirlerBean.handleValueChange(6)}"
-							var="ilceler" itemLabel="#{ilceler.ilce_adi}"
+						<f:selectItems value="#{haczeEsasMalBilgisiBean2.ilceList}"
+							var="ilceler" itemLabel="#{ilceler.adi}"
 							itemValue="#{ilceler.id}"></f:selectItems>
 					</p:selectOneMenu>
 					
@@ -153,7 +159,7 @@
 						style="width: 250px">
 					</p:inputText>
 
-				<p:outputLabel value="Açıklama"></p:outputLabel>
+				<p:outputLabel value="Nitelik"></p:outputLabel>
 					
 					<p:selectOneMenu id="aciklama"  value="#{haczeEsasMalBilgisiBean2.updatedHczEsasMal.tapuAciklama}">
 					
@@ -183,7 +189,7 @@
 						style="width: 250px">
 					</p:inputText>
 
-					<h:outputLabel>Cilt No:</h:outputLabel>
+					<h:outputLabel>YÜZ ÖLÇÜMÜ:</h:outputLabel>
 
 					<p:inputText id="inputTextCiltNo"
 						value="#{haczeEsasMalBilgisiBean2.updatedHczEsasMal.tapuCiltNo}"
@@ -294,15 +300,28 @@
 				</p:column>
 				
 				
-				<p:column headerText="Borclu ID">
-					<h:outputText value="#{bara.borcluId}" />
+				<p:column headerText="ID">
+					<h:outputText value="#{bara.id}" />
+				</p:column>
+				
+				<p:column headerText="Borclu Adı Soyadı">
+					<h:outputText value="#{bara.borcluAdSoyad}" />
+				</p:column>
+				
+				<p:column headerText="Borclu İcra No">
+					<h:outputText value="#{bara.icraDosyaNo}" />
 				</p:column>
 
 				<p:column headerText="Borclu Asıl Alacak">
-					<h:outputText value="#{bara.borcMiktari}" />
+					<h:outputText value="#{bara.borcMiktari} TL" />
 				</p:column>
 
-				<p:column headerText="Mal Tipi ID" width="70">
+			<p:column headerText="Borclu Mal Tipi">
+					<h:outputText value="#{bara.malTipi}" />
+				</p:column>
+
+
+				<p:column headerText="Mal Tipi" width="70">
 					<p:graphicImage value="/img/#{bara.maltipiId==1 ? 'Gayrimenkul_1':bara.maltipiId==2 ? 'Maas' :'arac_1'}.png" height="50" width="50" />
 					
 				</p:column>

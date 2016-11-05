@@ -94,6 +94,8 @@ public class LoginBean {
 		} else {
 			
 			if (user.getUsrPwd().equals(MD5Sifreleme.sifrele(formatterP.toString().trim()))) {
+				
+			
 			//if (true) {	
 			girisHatasiSayisi = 0;
 				return true;
@@ -117,7 +119,7 @@ public class LoginBean {
 			HttpSession session = Util.getSession();
 			session.setAttribute("username", uname);
 			
-			user.setPage(userDAO.getPages(user.getUsrId()));
+			user.setPage(userDAO.getPages(user.getUsrKullaniciTipi()));
 			//user.setWriteList(userDAO.getWriteList(user.getUsrId()));
 			//user.setReadList(userDAO.getReadList(user.getUsrId()));
 			

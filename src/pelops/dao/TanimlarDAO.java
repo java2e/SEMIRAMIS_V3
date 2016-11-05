@@ -14,18 +14,13 @@ import java.sql.PreparedStatement;
 
 public class TanimlarDAO extends DBConnection {
 
-	public static Connection conn = null;
-	public static PreparedStatement psmt = null;
-	public static ResultSet rs = null;
-
 	public ArrayList<GenelTanimSablon> Liste(String DBAdi) throws Exception {
 
-        DBConnection DB = new DBConnection();
-        DB.newConnectDB();
+         newConnectDB();
         String SQL = "SELECT * FROM " + DBAdi;
         Statement stmt;
         ResultSet rs;
-        stmt = DB.conn.createStatement();
+        stmt = conn.createStatement();
         rs = stmt.executeQuery(SQL);
         GenelTanimSablon Sablon;
         ArrayList<GenelTanimSablon> SablonListesi = new ArrayList<GenelTanimSablon>();
@@ -35,7 +30,7 @@ public class TanimlarDAO extends DBConnection {
             Sablon.setId(rs.getInt("id"));
             SablonListesi.add(Sablon);
         }
-       DB.disconnectDB();
+         disconnectDB();
         return SablonListesi;
       
         
@@ -44,31 +39,29 @@ public class TanimlarDAO extends DBConnection {
 	public boolean Kayit(GenelTanimSablon Sablon, String DBAdi) throws Exception {
 
 		String SQL = "INSERT INTO " + DBAdi + "(\"adi\") VALUES ('" + Sablon.getAdi() + "')";
-		DBConnection DB = new DBConnection();
-		DB.newConnectDB();
-		Statement stmt = DB.conn.createStatement();
+		
+		newConnectDB();
+		Statement stmt = conn.createStatement();
 		boolean st = stmt.execute(SQL);
-		DB.disconnectDB();
+		disconnectDB();
 		return st;
 	}
 
 	public boolean Sil(int id, String DBAdi) throws Exception {
 		String SQL = "DELETE FROM " + DBAdi + " WHERE \"id\"='" + id + "'";
-		DBConnection DB = new DBConnection();
-		DB.newConnectDB();
-		Statement stmt = DB.conn.createStatement();
+		newConnectDB();
+		Statement stmt = conn.createStatement();
 		boolean st = stmt.execute(SQL);
-		DB.disconnectDB();
+		disconnectDB();
 		return st;
 	}
 
 	public boolean Duzenle(GenelTanimSablon Sablon, String DBAdi) throws Exception {
 		String SQL = "UPDATE " + DBAdi + " SET \"adi\"='" + Sablon.getAdi() + "' WHERE \"id\"='" + Sablon.getId() + "'";
-		DBConnection DB = new DBConnection();
-		DB.newConnectDB();
-		Statement stmt = DB.conn.createStatement();
+		newConnectDB();
+		Statement stmt = conn.createStatement();
 		boolean st = stmt.execute(SQL);
-		DB.disconnectDB();
+		disconnectDB();
 		return st;
 	}
 

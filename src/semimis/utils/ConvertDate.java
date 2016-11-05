@@ -5,46 +5,60 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ConvertDate {
-	
-	//metod parametre listesindeki date argumaninin tipini Date den Strin ge ceviren metod
-	public String convertDateToString(Date date)
-	{
+public class ConvertDate  {
+
+	// metod parametre listesindeki date argumaninin tipini Date den Strin ge
+	// ceviren metod
+	public String convertDateToString(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(false);
 		String dt = sdf.format(date);
-		
+
 		return dt;
 	}
-	
-	
-	//bugunun tarihini done metod
-	public String getNowDate()
-	{
-		
-		
-		
+
+	// bugunun tarihini done metod
+	public String getNowDate() {
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		   //get current date time with Date()
-		 Date date = new Date();
-		
-		 return dateFormat.format(date);
+		// get current date time with Date()
+		Date date = new Date();
+
+		return dateFormat.format(date);
 	}
-	
-	//dunku tarihi String olarak doner
-	public String yesterdayString() 
+
+	public int getAy() // Bugunkü ayı döner
 	{
-	       DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	       Calendar cal = Calendar.getInstance();
-	       cal.add(Calendar.DATE, -1);
-	       return dateFormat.format(cal.getTime());
+		java.util.Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int month = cal.get(Calendar.MONTH);
+
+		return month;
 	}
-	
-	//bugnku tarihi Date doner
-	public Date nowDate() 
+
+	public int getYil() // Bugünkü yılı döner
 	{
-    Calendar cal = Calendar.getInstance();
-    return cal.getTime();
+		java.util.Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int year = cal.get(Calendar.YEAR);
+
+		return year;
+	}
+
+	// dunku tarihi String olarak doner
+	public String yesterdayString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		return dateFormat.format(cal.getTime());
+	}
+
+	// bugnku tarihi Date doner
+	public Date nowDate() {
+		Calendar cal = Calendar.getInstance();
+		return cal.getTime();
 	}
 
 }

@@ -1,6 +1,6 @@
 package OtherOPCode;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 
 import pelops.dao.BaglantiDAO;
 import pelops.dao.BorcluBilgisiDAO;

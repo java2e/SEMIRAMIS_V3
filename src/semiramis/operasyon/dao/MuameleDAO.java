@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pelops.controller.AktifBean;
@@ -18,6 +19,11 @@ import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.Muamele;
 
 public class MuameleDAO extends DBConnection {
+	
+	
+	
+
+	
 
 	public void kaydet(Muamele muamele) {
 		try {
@@ -123,6 +129,167 @@ public class MuameleDAO extends DBConnection {
 		}
 	}
 
+	
+	public Muamele getMuameleByIcraId(int id) {
+
+		Muamele muamele = null;
+
+		try {
+			
+			
+
+			String sql = "select mb.id,mb.barkod,mb.muamele_tarihi,mb.tapu_aciklama,mb.hacze_esas_id, "
+					+ "  borclu.ad_soyad,borclu.adres as borclu_adres,borclu.is_yeri_adi,borclu.isyeri_adres,borclu.urun_no,borclu.tc_no,borclu.musteri_no, "
+					+ "  alacakli.muvekkil_adi, "
+					+ "  icra.icra_dosyasi_no,icra.id as icra_dosyasi_id,imud.adi as icra_mudurluk,imud.id as icra_mudurluk_id,  "
+					+ "  mtip.adi as muzekkere_adi,mtip.sira as muzekkere_id, "
+					+ "  hesap.toplam_alacak,hesap.takip_alacagi,hesap.asil_alacak " + "  from tbl_muamele_bilgisi mb "
+					+ "  inner join tbl_borclu borclu on mb.borclu_id=borclu.id "
+					+ "  inner join tbl_alacakli_bilgisi alacakli on mb.alacak_id=alacakli.id "
+					+ "  inner join tbl_icra_dosyasi icra on mb.icra_dosyasi_id=icra.id "
+					+ "  inner join tbl_icra_mudurlugu imud on icra.icra_mudurlugu_id=imud.id "
+					+ "  inner join tbl_muzekkere_tipi mtip on mb.muzekkere_talep_id=mtip.sira "
+					+ "  inner join tbl_baglanti bag on bag.borclu_id=mb.borclu_id "
+					+ "  inner join tbl_hesap hesap on bag.hesap_id=hesap.id where icra.id=" + id;
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			while (set.next()) {
+				muamele = new Muamele();
+
+				muamele.setId(set.getInt("id"));
+				muamele.setBarkodTxt(set.getString("barkod"));
+				muamele.setMumaleTarihi(set.getDate("muamele_tarihi"));
+				muamele.setBorcluAdSoyad(set.getString("ad_soyad"));
+				muamele.setBorcluAdres(set.getString("borclu_adres"));
+				muamele.setBorcluIsyeriAdi(set.getString("is_yeri_adi"));
+				muamele.setBorcluIsyeriAdres(set.getString("isyeri_adres"));
+				muamele.setUrunNo(set.getString("urun_no"));
+				muamele.setBorcluTcNo(set.getString("tc_no"));
+				muamele.setMuvekkilAdi(set.getString("muvekkil_adi"));
+				muamele.setIcraDosyaNo(set.getString("icra_dosyasi_no"));
+				muamele.setIcraDosyaID(set.getInt("icra_dosyasi_id"));
+				muamele.setIcraMudurluguID(set.getInt("icra_mudurluk_id"));
+				muamele.setIcraMudurlugu(set.getString("icra_mudurluk"));
+				muamele.setMuzekkereAdi(set.getString("muzekkere_adi"));
+				muamele.setMuzekkereId(set.getInt("muzekkere_id"));
+				muamele.setToplamAlacak(set.getDouble("toplam_alacak"));
+				muamele.setTakipAlacak(set.getDouble("takip_alacagi"));
+				muamele.setAsilAlacak(set.getDouble("asil_alacak"));
+				muamele.setTapuAciklama(set.getString("tapu_aciklama"));
+				muamele.setHaczeEsasMalId(set.getString("hacze_esas_id"));
+
+			}
+
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
+			muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
+			muamele.setBorcMiktari(
+					Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
+			muamele.setBorcMiktariTxt(new DecimalFormat("###,###.##").format(muamele.getBorcMiktari()));
+			muamele.setAvukatIBAN("TR3000 1230 0067 1038 9292 8100");
+			muamele.setAvukatAdi("M.Oruç SASA");
+
+			disconnectDB();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return muamele;
+
+	}
+	
+	public List<Muamele> getMuameleList(int icraDosyaId,int muzekkereId) {
+
+		List<Muamele> liste = null;
+
+		try {
+			
+			
+
+			String sql = "select mb.id,mb.barkod,mb.muamele_tarihi,mb.tapu_aciklama,mb.hacze_esas_id, "
+					+ "  borclu.ad_soyad,borclu.adres as borclu_adres,borclu.is_yeri_adi,borclu.isyeri_adres,borclu.urun_no,borclu.tc_no,borclu.musteri_no, "
+					+ "  alacakli.muvekkil_adi, "
+					+ "  icra.icra_dosyasi_no,icra.id as icra_dosyasi_id,imud.adi as icra_mudurluk,imud.id as icra_mudurluk_id,  "
+					+ "  mtip.adi as muzekkere_adi,mtip.mal_tipi_id as muzekkere_id, mb.borclu_id, "
+					+ "  hesap.toplam_alacak,hesap.takip_alacagi,hesap.asil_alacak from tbl_muamele_bilgisi mb "
+					+ "  inner join tbl_borclu borclu on mb.borclu_id=borclu.id "
+					+ "  inner join tbl_alacakli_bilgisi alacakli on mb.alacak_id=alacakli.id "
+					+ "  inner join tbl_icra_dosyasi icra on mb.icra_dosyasi_id=icra.id "
+					+ "  inner join tbl_icra_mudurlugu imud on icra.icra_mudurlugu_id=imud.id "
+					+ "  inner join tbl_muzekkere_tipi mtip on mb.muzekkere_talep_id=mtip.mal_tipi_id "
+					+ "  inner join tbl_baglanti bag on bag.borclu_id=mb.borclu_id "
+					+ "  inner join tbl_hesap hesap on bag.hesap_id=hesap.id"
+					+ " where icra.id ="+icraDosyaId;
+			
+			if(muzekkereId!=0)
+				sql=sql+" and mb.muzekkere_talep_id="+muzekkereId;
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+			
+			liste=new ArrayList<Muamele>();
+
+			while (set.next()) {
+				Muamele muamele = new Muamele();
+
+				muamele.setId(set.getInt("id"));
+				muamele.setBorcluId(set.getInt("borclu_id"));
+				muamele.setBarkodTxt(set.getString("barkod"));
+				muamele.setMumaleTarihi(set.getDate("muamele_tarihi"));
+				muamele.setBorcluAdSoyad(set.getString("ad_soyad"));
+				muamele.setBorcluAdres(set.getString("borclu_adres"));
+				muamele.setBorcluIsyeriAdi(set.getString("is_yeri_adi"));
+				muamele.setBorcluIsyeriAdres(set.getString("isyeri_adres"));
+				muamele.setUrunNo(set.getString("urun_no"));
+				muamele.setBorcluTcNo(set.getString("tc_no"));
+				muamele.setMuvekkilAdi(set.getString("muvekkil_adi"));
+				muamele.setIcraDosyaNo(set.getString("icra_dosyasi_no"));
+				muamele.setIcraDosyaID(set.getInt("icra_dosyasi_id"));
+				muamele.setIcraMudurluguID(set.getInt("icra_mudurluk_id"));
+				muamele.setIcraMudurlugu(set.getString("icra_mudurluk"));
+				muamele.setMuzekkereAdi(set.getString("muzekkere_adi"));
+				muamele.setMuzekkereId(set.getInt("muzekkere_id"));
+				muamele.setToplamAlacak(set.getDouble("toplam_alacak"));
+				muamele.setTakipAlacak(set.getDouble("takip_alacagi"));
+				muamele.setAsilAlacak(set.getDouble("asil_alacak"));
+				muamele.setTapuAciklama(set.getString("tapu_aciklama"));
+				muamele.setHaczeEsasMalId(set.getString("hacze_esas_id"));
+				muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
+				muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
+				muamele.setBorcMiktari(
+						Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
+				muamele.setBorcMiktariTxt(new DecimalFormat("###,###.##").format(muamele.getBorcMiktari()));
+				muamele.setAvukatIBAN("TR3000 1230 0067 1038 9292 8100");
+				muamele.setAvukatAdi("M.Oruç SASA");
+				
+				liste.add(muamele);
+
+			}
+
+		
+
+			disconnectDB();
+
+		} catch (Exception e) {
+			
+			System.out.println("Hata muamaleDao getMuamaleListe :"+e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
+	}
+
+	
+	
 	public Muamele getMuameleDuzenle(int id) {
 
 		Muamele muamele = null;
@@ -210,7 +377,7 @@ public class MuameleDAO extends DBConnection {
 					+ " inner join tbl_alacakli_bilgisi alacak on bag.alacakli_id=alacak.id "
 					+ " inner join tbl_hesap hesap on bag.hesap_id=hesap.id " + " where icra.id=" + icraDosyaID;
 
-			System.out.println(sql);
+			//System.out.println(sql);
 
 			newConnectDB();
 
@@ -243,6 +410,15 @@ public class MuameleDAO extends DBConnection {
 				muamele.setMasrafTutari(set.getFloat("masraf_tutari"));
 
 			}
+			
+			muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
+			muamele.setBorcMiktari(
+					Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
+			muamele.setBorcMiktariTxt(new DecimalFormat("###,###.##").format(muamele.getBorcMiktari()));
+			muamele.setAvukatIBAN("TR3000 1230 0067 1038 9292 8100");
+			muamele.setAvukatAdi("M.Oruç SASA");
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+
 
 			disconnectDB();
 
@@ -264,7 +440,7 @@ public class MuameleDAO extends DBConnection {
 			String sql = "SELECT muamele.tapu_aciklama, muamele.id,mtip.adi as muzekkere_adi,borclu.ad_soyad,icra.icra_dosyasi_no,muamele.muzekkere_talep_miktari,alacakli.muvekkil_adi,muamele.muamele_tarihi "
 					+ " FROM tbl_muamele_bilgisi muamele "
 					+ " inner join tbl_icra_dosyasi icra on icra.id=muamele.icra_dosyasi_id "
-					+ " inner join tbl_muzekkere_tipi mtip on mtip.sira=muamele.muzekkere_talep_id "
+					+ " inner join tbl_muzekkere_tipi mtip on mtip.mal_tipi_id=muamele.muzekkere_talep_id "
 					+ " inner join tbl_borclu borclu on borclu.id=muamele.borclu_id "
 					+ " inner join tbl_alacakli_bilgisi alacakli on alacakli.id=muamele.alacak_id "
 					+ " where icra.icra_dosyasi_no='" + icraDosyaNo + "'";
@@ -311,7 +487,7 @@ public class MuameleDAO extends DBConnection {
 
 		try {
 
-			String sql = "SELECT id, adi,sira FROM tbl_muzekkere_tipi";
+			String sql = "SELECT id, adi,mal_tipi_id FROM tbl_muzekkere_tipi";
 
 			newConnectDB();
 
@@ -326,7 +502,7 @@ public class MuameleDAO extends DBConnection {
 			while (set.next()) {
 				item = new ComboItem();
 
-				item.setId(set.getInt("sira"));
+				item.setId(set.getInt("mal_tipi_id"));
 				item.setAdi(set.getString("adi"));
 
 				liste.add(item);

@@ -44,7 +44,7 @@ public class GelismisAramaDAO {
 	        if (fullSQL=="") {fullSQL = SQL;} else {fullSQL = SQL+fullSQL;}
 	        
 	       
-	  	        Statement stmt;
+	        Statement stmt;
 	        ResultSet rs;
 	        stmt = DB.conn.createStatement();
 	        rs = stmt.executeQuery(fullSQL);

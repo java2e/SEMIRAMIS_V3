@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -21,13 +23,23 @@ import pelops.model.MuameleIslemleri;
 import pelops.model.TebligatListesi;
 import pelops.model.TebligatZarfi;
 import pelops.reports.controller.GenelYazdirBean;
+import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
+import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.model.Muamele;
 
 public class MuzekkereJasper 
 {
 	
+	public final static int MUZEKKERE_MAAS = 2;
+	public final static int MUZEKKERE_MAAS_TALEP = 2;
+
+	public final static int MUZEKKERE_TAPU = 1;
 	
-	public  String genelPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\pdfler\\")+"\\";
+	
+	public  String genelPath =FacesContext.getCurrentInstance().getExternalContext()
+			.getRealPath("/pdfler/");
+			
+	//FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\pdfler\\")+"\\";
 	
 	public String zarfTipi="";
 	
@@ -47,6 +59,7 @@ public class MuzekkereJasper
 			dataBeanList.add(muamele);
 
 			HashMap<String, Object> parameters = new HashMap<String, Object>();
+		
 
 			String pathName = FacesContext.getCurrentInstance().getExternalContext()
 					.getRealPath("/reports/talep_muzekkereler/" + path + ".jrxml");
@@ -59,7 +72,56 @@ public class MuzekkereJasper
 
 			path = genelPath + path + ".pdf";
 
-			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
+ 			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
+			JasperDesign jasperDesign = new JasperDesign();
+			jasperDesign = JRXmlLoader.load(inputStream);
+			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+			// JasperExportManager.exportReportToPdfFile(jasperPrint, path);
+
+		
+			
+		} catch (Exception e) {
+
+
+			System.out.println("Hata muzekkereJasper getMuzekkere :"+e.getMessage());
+			
+		}
+		
+		return jasperPrint;
+		
+	}
+	
+	public JasperPrint getTalepler(String path,Muamele muamele)
+	{
+		
+		JasperPrint jasperPrint=null;
+		
+		try {
+			
+			
+			ArrayList<Muamele> dataBeanList = new ArrayList<Muamele>();
+			
+			muamele.setBarkod(new GenelYazdirBean().createBarcode(muamele.getBarkodTxt()));
+			
+		
+			dataBeanList.add(muamele);
+
+			HashMap<String, Object> parameters = new HashMap<String, Object>();
+		
+
+			String pathName = FacesContext.getCurrentInstance().getExternalContext()
+					.getRealPath("/reports/talep_muzekkereler/" + path + ".jrxml");
+
+			InputStream inputStream = new FileInputStream(pathName);
+
+			File file = new File(
+					genelPath+ path + ".pdf");
+			file.delete();
+
+			path = genelPath + path + ".pdf";
+
+ 			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
 			JasperDesign jasperDesign = new JasperDesign();
 			jasperDesign = JRXmlLoader.load(inputStream);
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
@@ -89,7 +151,7 @@ public class MuzekkereJasper
 		
 		// Maaş Müzekkeresi Genel Durumunda 
 		
-		if(muamele.getMuzekkereId()==1)
+		if(muamele.getMuzekkereId()==MUZEKKERE_MAAS)
 		{
 		
 		zarf.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
@@ -99,7 +161,7 @@ public class MuzekkereJasper
 
 		
 		}
-		else if(muamele.getMuzekkereId()==2)
+		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
 		{
 			zarf.setBorcluAdi(muamele.getTapuAciklama().split(" ")[1]+" TAPU SİCİL MÜDÜRLÜĞÜ");
 			zarf.setBorcluAdres(muamele.getTapuAciklama().split(" ")[1]);
@@ -142,7 +204,7 @@ public class MuzekkereJasper
 		
 		// Maaş Müzekkeresi Genel Durumunda 
 		
-		if(muamele.getMuzekkereId()==1)
+		if(muamele.getMuzekkereId()==MUZEKKERE_MAAS)
 		{
 		
 		liste.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
@@ -153,7 +215,7 @@ public class MuzekkereJasper
 		
 		
 		}
-		else if(muamele.getMuzekkereId()==2)
+		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
 		{
 			liste.setBorcluAdi(muamele.getBorcluAdSoyad());
 			liste.setIl(muamele.getTapuAciklama().split(" ")[1]);
@@ -178,6 +240,84 @@ public class MuzekkereJasper
 
 		String pathName = FacesContext.getCurrentInstance().getExternalContext()
 				.getRealPath("/reports/tebligat_listesi1.jrxml");
+		InputStream inputStream = new FileInputStream(pathName);
+		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanListForTebligat);
+		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+		jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+
+		return jasperPrint;
+
+	}
+	
+public JasperPrint tebligatListesi(List<Muamele> muameleList, String muzekkereTalep) throws Exception {
+		
+		JasperPrint jasperPrint=null;
+		String listeTipi="tebligat_listesi1";
+		
+		
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+
+		ArrayList<TebligatListesi> dataBeanListForTebligat = new ArrayList<TebligatListesi>();
+		
+		
+		for (int i = 0; i < muameleList.size(); i++) {
+		
+			Muamele muamele=muameleList.get(i);
+			
+			muamele.setBarkod(new GenelYazdirBean().createBarcode(muamele.getBarkodTxt()));
+
+		
+		TebligatListesi liste = new TebligatListesi();
+		
+		// Maaş Müzekkeresi Genel Durumunda 
+		
+		
+		if(muamele.getMuzekkereId()==MUZEKKERE_MAAS)
+		{
+			
+			List<HaczeEsasMalBilgisi> liste2 = new HaczeEsasMalBilgisiDAO().liste(muamele.getBorcluId(), MUZEKKERE_MAAS);
+			
+			muamele.setBorcluIsyeriAdres(liste2.get(0).getMuhatapAdresi());
+			muamele.setBorcluIsyeriAdi(liste2.get(0).getMuhatapAdi());	
+		
+		liste.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
+		liste.setIl(muamele.getIcraMudurlugu().split(" ")[0]);
+		zarfTipi="Maaş Müzekkeresi";
+		parameters.put("konu", zarfTipi);
+		parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());
+		
+		
+		}
+		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
+		{
+			liste.setBorcluAdi(muamele.getBorcluAdSoyad());
+			liste.setIl(muamele.getTapuAciklama().split(" ")[1]);
+			zarfTipi="Tapu Talep Müzekkeresi";
+			parameters.put("konu", zarfTipi);
+			parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());
+			
+			listeTipi="tebligat_listesi_tapu";
+		
+				
+		}
+		
+		liste.setIcraDosyaNo(muamele.getIcraDosyaNo());
+		liste.setIcraBilgi(muamele.getIcraMudurlugu());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		liste.setTarih(sdf.format(new java.util.Date()));
+		
+		liste.setBrcd(muamele.getBarkod());
+		liste.setKonu(zarfTipi);
+
+		dataBeanListForTebligat.add(liste);
+		
+		}
+
+		
+
+		String pathName = FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/reports/"+listeTipi+".jrxml");
 		InputStream inputStream = new FileInputStream(pathName);
 		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanListForTebligat);
 		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);

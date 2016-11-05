@@ -18,6 +18,14 @@ public class HacizAnaliz
 	
 	private String hacizTipiAdi;
 	
+	private int hacizTuruId;
+	
+	private String hacizTuru;
+	
+	private int hacizSonucId;
+	
+	private String hacizSonuc;
+	
 	private int hacizStatusuId;
 	
 	private String hacizStatusuAdi;
@@ -33,6 +41,41 @@ public class HacizAnaliz
 	private double tahsilatMiktari;
 	
 	private double kalanMiktar;
+	
+	
+	
+
+	public int getHacizTuruId() {
+		return hacizTuruId;
+	}
+
+	public void setHacizTuruId(int hacizTuruId) {
+		this.hacizTuruId = hacizTuruId;
+	}
+
+	public String getHacizTuru() {
+		return hacizTuru;
+	}
+
+	public void setHacizTuru(String hacizTuru) {
+		this.hacizTuru = hacizTuru;
+	}
+
+	public int getHacizSonucId() {
+		return hacizSonucId;
+	}
+
+	public void setHacizSonucId(int hacizSonucId) {
+		this.hacizSonucId = hacizSonucId;
+	}
+
+	public String getHacizSonuc() {
+		return hacizSonuc;
+	}
+
+	public void setHacizSonuc(String hacizSonuc) {
+		this.hacizSonuc = hacizSonuc;
+	}
 
 	public int getId() {
 		return id;

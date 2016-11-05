@@ -18,11 +18,34 @@ public class ViewTahsilatListesi {
 	private String banka_servis_no;
 	private Date tahsilat_tarihi;
 	private String muvekkil_adi;
+	private double vekalet_ucreti;
+	private double tahsilat_harci;
+	private double reddiyat_miktari;
 	
 	
 	
 	
 	
+	
+	
+	public double getVekalet_ucreti() {
+		return vekalet_ucreti;
+	}
+	public void setVekalet_ucreti(double vekalet_ucreti) {
+		this.vekalet_ucreti = vekalet_ucreti;
+	}
+	public double getTahsilat_harci() {
+		return tahsilat_harci;
+	}
+	public void setTahsilat_harci(double tahsilat_harci) {
+		this.tahsilat_harci = tahsilat_harci;
+	}
+	public double getReddiyat_miktari() {
+		return reddiyat_miktari;
+	}
+	public void setReddiyat_miktari(double reddiyat_miktari) {
+		this.reddiyat_miktari = reddiyat_miktari;
+	}
 	public int getSira_no() {
 		return sira_no;
 	}

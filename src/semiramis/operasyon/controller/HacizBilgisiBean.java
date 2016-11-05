@@ -1,6 +1,9 @@
 package semiramis.operasyon.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,18 +12,22 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
 import pelops.model.*;
 import pelops.users.User;
 import pelops.util.Util;
+import semimis.utils.GenelArama;
 import semiramis.operasyon.dao.HacizDAO;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HacizBilgisi;
+import semiramis.report.util.ReportPublish;
 
 @ManagedBean(name = "hacizBilgisiBean")
 @SessionScoped
-public class HacizBilgisiBean extends DBConnection {
+public class HacizBilgisiBean {
 
 	private HacizBilgisi hacizkayit = new HacizBilgisi();
 	private String icraDosyaNo = AktifBean.icraDosyaNo;
@@ -36,11 +43,249 @@ public class HacizBilgisiBean extends DBConnection {
 	private boolean lblRender;
 	private String bilgiNotu;
 	private boolean kaydetButtonRender;
+	
+	private static String HACIZBILGISIJASPER = "haciz_bilgisi";
 
 	private ArrayList<Tipi> hacizTipiList = new ArrayList<Tipi>();
 	private ArrayList<String> list = new ArrayList<String>();
 
+	private List<ComboItem> ListhacizStatusu;
+
 	private String personelAdi;
+	
+	private ReportPublish publish = new ReportPublish();
+
+
+	public ArrayList<Tipi> getHacizTipiList() throws Exception {
+		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
+		hacizTipiList = dao.getHacizTipiList(list);
+
+		if (hacizTipiList.size() == 0) {
+			LblPanelOpen();
+			bilgiNotu = "İşlem yaptığınız borclunun sistemde mal kaydi bulunamamistir!";
+
+		} else {
+			LblPanelClose();
+		}
+
+		return hacizTipiList;
+	}
+
+	public void LblPanelOpen() {
+		this.setCmbRender(false);
+		this.setLblRender(true);
+		this.setKaydetButtonRender(false);
+	}
+
+	public void LblPanelClose() {
+		this.setCmbRender(true);
+		this.setLblRender(false);
+		this.setKaydetButtonRender(true);
+	}
+
+	ArrayList<HacizBilgisi> hacizList = new ArrayList<HacizBilgisi>();
+
+	private void init() {
+		User user = Util.getUser();
+		personelAdi = user.getUsrAdSoyad();
+		status = 0;
+		icraDosyaNo = AktifBean.icraDosyaNo;
+		muvekkilAdi = AktifBean.muvekkilAdi;
+		borcluAdi = AktifBean.borcluAdi;
+
+		ListhacizStatusu = new ArrayList<>();
+
+		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+		if (buttonDisabled == false) {
+			PanelClose();
+			ButtonOpen();
+
+		}
+
+	}
+
+	public HacizBilgisiBean() {
+		init();
+	}
+
+	public void chooseIcraDosyasi() {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		options.put("contentWidth", 1800);
+		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
+
+	}
+
+	public void onIcraDosyasiChosen(SelectEvent event) {
+		GenelArama genelArama = (GenelArama) event.getObject();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Seçildi :",
+				"Id:" + genelArama.getId());
+
+		FacesContext.getCurrentInstance().addMessage(null, message);
+
+		AktifBean.borcluId = genelArama.getBorcluId();
+		AktifBean.icraDosyaID = genelArama.getId();
+		AktifBean.borcluAdi = genelArama.getBorcluAdi();
+		AktifBean.icraDosyaNo = genelArama.getIcraDosyaNo();
+		AktifBean.muvekkilAdi = genelArama.getMuvekkilAdi();
+
+		icraDosyaNo = genelArama.getIcraDosyaNo();
+		borcluAdi = genelArama.getBorcluAdi();
+
+		init();
+	}
+
+	public void changeStatusu() {
+
+		ListhacizStatusu = dao.getHacizStatusu(hacizkayit.getHacizTuruId());
+
+	}
+
+	public String getIcraDosyaNo() {
+
+		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
+		if (list.size() > 0) {
+
+		}
+		return AktifBean.icraDosyaNo;
+
+	}
+
+	public void YeniKayit() {
+
+		status = 0;
+		hacizkayit = new HacizBilgisi();
+		PanelOpen();
+
+	}
+
+	public void PanelOpen() {
+		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
+		User user = Util.getUser();
+		personelAdi = user.getUsrAdSoyad();
+		if (list.size() > 0) {
+			LblPanelClose();
+		} else {
+			LblPanelOpen();
+		}
+		this.setPanelRender(true);
+		ButtonClose();
+
+	}
+
+	@SuppressWarnings("unused")
+	public void Kaydet() throws Exception {
+		HttpSession session = Util.getSession();
+		User user = (User) session.getAttribute("user");
+		HacizDAO dao = new HacizDAO();
+		int hesapID = dao.getHesapID(AktifBean.icraDosyaID);
+		hacizkayit.setPersonelId(user.getUsrId());
+
+		if (status == 0) {
+			if (hacizkayit.getAciklama().equals("") || hacizkayit.getTeslimYeriId() == 0 || icraDosyaNo == null
+					|| personelAdi == null || hacizkayit.getHacizBedeli() == 0) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Eksik alan doldurdunuz!"));
+
+			} else {
+
+				boolean result = dao.kaydet(hacizkayit);
+				// dao.hesapDuzenle(hesapID, 1, hacizkayit.getHacizBedeli());
+
+				// dao.hesapDuzenle(hesapID, 2, hacizkayit.getHacizBedeli());
+				if (result) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Kaydedildi!"));
+					PanelClose();
+					ButtonOpen();
+
+				} else {
+
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Kaydet işlemi başarısız!!!"));
+
+				}
+
+			}
+
+		}
+		if (status == 1) {
+			hacizkayit.setPersonelId(user.getUsrId());
+			hacizkayit.setIcra_dosyasi_id(AktifBean.icraDosyaID);
+			boolean duzenlendi = dao.guncelle(hacizkayit);
+			if (duzenlendi) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Düzenlendi!"));
+				PanelClose();
+				ButtonOpen();
+			} else {
+
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Güncelleme işlemi Başarısız!"));
+			}
+
+			status = 0;
+
+		}
+		
+		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+	}
+
+	public void Duzenle() {
+
+		status = 1;
+
+		ArrayList<HacizBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("buttonDuzenle").toString());
+
+		if (id != 0) {
+			for (HacizBilgisi hem : list) {
+				if (hem.getId() == id) {
+					hacizkayit = hem;
+					changeStatusu();
+				}
+			}
+		}
+
+		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+		PanelOpen();
+		ButtonClose();
+
+	}
+
+	public void Sil() throws Exception {
+		@SuppressWarnings("unused")
+		int hesapID = dao.getHesapID(AktifBean.icraDosyaID);
+		ArrayList<HacizBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("buttonSil").toString());
+
+		if (id != 0) {
+			for (HacizBilgisi hem : list) {
+				if (hem.getId() == id) {
+					hacizkayit = hem;
+				}
+			}
+		}
+
+		if (id != 0) {
+			// dao.hesapDuzenle(hesapID, 3, hacizkayit.getHacizBedeli());
+			dao.Sil(id);
+
+		}
+		status = 0;
+
+	}
+
+	public void Vazgec() {
+
+		status = 0;
+		PanelClose();
+		ButtonOpen();
+
+	}
 
 	public boolean isKaydetButtonRender() {
 		return kaydetButtonRender;
@@ -56,21 +301,6 @@ public class HacizBilgisiBean extends DBConnection {
 
 	public void setLblRender(boolean lblRender) {
 		this.lblRender = lblRender;
-	}
-
-	public ArrayList<Tipi> getHacizTipiList() throws Exception {
-		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
-		hacizTipiList = dao.getHacizTipiList(list);
-
-		if (hacizTipiList.size() == 0) {
-			LblPanelOpen();
-			bilgiNotu = "İşlem yaptığınız borclunun sistemde mal kaydi bulunamamistir!";
-
-		} else {
-			LblPanelClose();
-		}
-
-		return hacizTipiList;
 	}
 
 	public void setHacizTipiList(ArrayList<Tipi> hacizTipiList) {
@@ -93,51 +323,12 @@ public class HacizBilgisiBean extends DBConnection {
 		this.cmbRender = cmbRender;
 	}
 
-	public void LblPanelOpen() {
-		this.setCmbRender(false);
-		this.setLblRender(true);
-		this.setKaydetButtonRender(false);
-	}
-
-	public void LblPanelClose() {
-		this.setCmbRender(true);
-		this.setLblRender(false);
-		this.setKaydetButtonRender(true);
-	}
-
-	ArrayList<HacizBilgisi> hacizList = new ArrayList<HacizBilgisi>();
-
-	public HacizBilgisiBean() throws Exception {
-		User user = Util.getUser();
-		personelAdi = user.getUsrAdSoyad();
-		status = 0;
-		
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-		
-		if (buttonDisabled == false) {
-			PanelClose();
-			ButtonOpen();
-
-		}
-
-	}
-
 	public HacizBilgisi getHacizkayit() {
 		return hacizkayit;
 	}
 
 	public void setHacizkayit(HacizBilgisi hacizkayit) {
 		this.hacizkayit = hacizkayit;
-	}
-
-	public String getIcraDosyaNo() throws Exception {
-
-		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
-		if (list.size() > 0) {
-
-		}
-		return AktifBean.icraDosyaNo;
-
 	}
 
 	public void setIcraDosyaNo(String icraDosyaNo) {
@@ -185,28 +376,6 @@ public class HacizBilgisiBean extends DBConnection {
 		this.hacizList = hacizList;
 	}
 
-	public void YeniKayit() throws Exception {
-
-		status = 0;
-		hacizkayit = new HacizBilgisi();
-		PanelOpen();
-
-	}
-
-	public void PanelOpen() throws Exception {
-		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
-		User user = Util.getUser();
-		personelAdi = user.getUsrAdSoyad();
-		if (list.size() > 0) {
-			LblPanelClose();
-		} else {
-			LblPanelOpen();
-		}
-		this.setPanelRender(true);
-		ButtonClose();
-
-	}
-
 	public void PanelClose() {
 
 		this.setPanelRender(false);
@@ -224,119 +393,27 @@ public class HacizBilgisiBean extends DBConnection {
 		this.setButtonDisabled(true);
 
 	}
-
-	@SuppressWarnings("unused")
-	public void Kaydet() throws Exception {
-		HttpSession session = Util.getSession();
-		User user = (User) session.getAttribute("user");
-		HacizDAO dao = new HacizDAO();
-		int hesapID = dao.getHesapID(AktifBean.icraDosyaID);
-		FacesContext context = FacesContext.getCurrentInstance();
-		hacizkayit.setPersonelId(user.getUsrId());
-
-		if (status == 0) {
-			if (hacizkayit.getAciklama().equals("") || hacizkayit.getTeslimYeriId() == 0) {
-				context.addMessage(null, new FacesMessage("Eksik alan doldurdunuz!"));
-				;
-			} else {
-
-				boolean result = dao.kaydet(hacizkayit);
-				// dao.hesapDuzenle(hesapID, 1, hacizkayit.getHacizBedeli());
-
-				// dao.hesapDuzenle(hesapID, 2, hacizkayit.getHacizBedeli());
-				if (result) {
-
-					context.addMessage(null, new FacesMessage("Kaydedildi!"));
-					PanelClose();
-					ButtonOpen();
-
-				} else {
-
-					context.addMessage(null, new FacesMessage("Kaydet işlemi başarısız!!!"));
-
-				}
-
-			}
-
-		}
-		if (status == 1) {
-			hacizkayit.setPersonelId(user.getUsrId());
-			hacizkayit.setIcra_dosyasi_id(AktifBean.icraDosyaID);
-			boolean duzenlendi = dao.guncelle(hacizkayit);
-
-			if (duzenlendi) {
-
-				context.addMessage(null, new FacesMessage("Düzenlendi!"));
-				PanelClose();
-				ButtonOpen();
-			} else {
-
-				context.addMessage(null, new FacesMessage("Güncelleme işlemi Başarısız!"));
-			}
-
-			status = 0;
+	public void printExcell() {
+		if (AktifBean.icraDosyaID != 0) {
 			
-		}
-		
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-
-	}
-
-	public void Duzenle() throws Exception {
-
-		status = 1;
-
-		ArrayList<HacizBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-
-		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-				.get("buttonDuzenle").toString());
-
-		if (id != 0) {
-			for (HacizBilgisi hem : list) {
-				if (hem.getId() == id) {
-					hacizkayit = hem;
-				}
+			if (hacizList.size() > 0) {
+				publish.getReportXLS(hacizList, HACIZBILGISIJASPER);
 			}
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Lütfen yazdırmak istediğiniz icra dosyasını şeçiniz!"));
 		}
-
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-
-		PanelOpen();
-		ButtonClose();
-
 	}
 
-	public void Sil() throws Exception {
-		@SuppressWarnings("unused")
-		int hesapID = dao.getHesapID(AktifBean.icraDosyaID);
-		ArrayList<HacizBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-
-		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-				.get("buttonSil").toString());
-
-		if (id != 0) {
-			for (HacizBilgisi hem : list) {
-				if (hem.getId() == id) {
-					hacizkayit = hem;
-				}
+	public void printPDF() {
+		if (AktifBean.icraDosyaID != 0) {
+			if (hacizList.size() > 0) {
+				publish.getReportPDF(hacizList, new HashMap<>(), HACIZBILGISIJASPER);
 			}
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Lütfen yazdırmak istediğiniz icra dosyasını şeçiniz!"));
 		}
-
-		if (id != 0) {
-			// dao.hesapDuzenle(hesapID, 3, hacizkayit.getHacizBedeli());
-			dao.Sil(id);
-
-		}
-		status = 0;
-
-	}
-
-	public void Vazgec() {
-
-		status = 0;
-		PanelClose();
-		ButtonOpen();
-
 	}
 
 	public void dlgKaydet() throws Exception {
@@ -379,6 +456,14 @@ public class HacizBilgisiBean extends DBConnection {
 
 	public void setPersonelAdi(String personelAdi) {
 		this.personelAdi = personelAdi;
+	}
+
+	public List<ComboItem> getListhacizStatusu() {
+		return ListhacizStatusu;
+	}
+
+	public void setListhacizStatusu(List<ComboItem> listhacizStatusu) {
+		ListhacizStatusu = listhacizStatusu;
 	}
 
 }

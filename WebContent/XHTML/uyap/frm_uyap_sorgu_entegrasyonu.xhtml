@@ -14,51 +14,51 @@
 		
 		<p:growl id="growlMesaj" showDetail="true" sticky="true" /> 
 				
-		<p:panel header="MERNİS(KİMLİK BİLGİLERİ) EXCEL VERİLERİNİ SİSTEME AKTAR">
+		<p:panel header="MERNİS(KİMLİK BİLGİLERİ) VERİLERİNİ SİSTEME AKTAR (Excel)">
 		<p:panelGrid columns="8" style=" border-style: hidden !important;">
-			<p:fileUpload label="ECXEL Dosyasını Seç "
+			<p:fileUpload label="Dosya Seçiniz (xlsx) "
 						fileUploadListener="#{uyapsorguentegrasyonu.XLSDosyaAl}"
 						mode="advanced" allowTypes="/(\.|\/)(xls|xlsx)$/"
 						sizeLimit="10000000" skinSimple="true" />
-				<p:commandButton value="EXCEL KAYITLARINI SİSTEME AKTAR" action="#{uyapsorguentegrasyonu.XSLSistemeAktar}" update="growlMesaj"/>		
+				<p:commandButton value="KAYITLARI SİSTEME AKTAR" action="#{uyapsorguentegrasyonu.XSLSistemeAktar}" update="growlMesaj"/>		
 			</p:panelGrid>
 		</p:panel>
 							
 		
 			<p:spacer height="15"/>
 
-		<p:panel header="EGM(ARAÇ BİLGİLERİ) EXCEL VERİLERİNİ SİSTEME AKTAR">
+		<p:panel header="EGM(ARAÇ BİLGİLERİ) VERİLERİNİ SİSTEME AKTAR (Excel)">
 		<p:panelGrid columns="8" style=" border-style: hidden !important;">
-			<p:fileUpload label="ECXEL Dosyasını Seç "
+			<p:fileUpload label="Dosya Seçiniz (xlsx) "
 						fileUploadListener="#{uyapsorguentegrasyonu.XLSDosyaAl}"
 						mode="advanced" allowTypes="/(\.|\/)(xls|xlsx)$/"
 						sizeLimit="10000000" skinSimple="true" />
-				<p:commandButton value="EXCEL KAYITLARINI SİSTEME AKTAR" action="#{uyapsorguentegrasyonu.XLSEMGSistemeAktar}" update="growlMesaj" />		
+				<p:commandButton value="KAYITLARI SİSTEME AKTAR" action="#{uyapsorguentegrasyonu.XLSEMGSistemeAktar}" update="growlMesaj" />		
 			</p:panelGrid>
 		</p:panel>
 
 
 		<p:spacer height="15"/>
 
-		<p:panel header="TAKBİS(TAŞINMAZ MÜLK BİLGİLERİ) EXCEL VERİLERİNİ SİSTEME AKTAR">
+		<p:panel header="TAKBİS(TAŞINMAZ MÜLK BİLGİLERİ)  VERİLERİNİ SİSTEME AKTAR (Excel)">
 		<p:panelGrid columns="8" style=" border-style: hidden !important;">
-			<p:fileUpload label="ECXEL Dosyasını Seç "
+			<p:fileUpload label="Dosya Seçiniz (xls,xlsx)"
 						fileUploadListener="#{excellParserBean.XLSDosyaAl}"
 						mode="advanced" allowTypes="/(\.|\/)(xls|xlsx)$/"
 						sizeLimit="10000000" skinSimple="true" />
-				<p:commandButton value="EXCEL KAYITLARINI SİSTEME AKTAR" action="#" update="growlMesaj" disabled="true"/>		
+				<p:commandButton value="KAYITLARI SİSTEME AKTAR" action="#" update="growlMesaj" disabled="true"/>		
 			</p:panelGrid>
 		</p:panel>
 		
 				<p:spacer height="15"/>
 
-		<p:panel header="SGK(ÇALIŞMA - MAAŞ BİLGİLERİ) EXCEL VERİLERİNİ SİSTEME AKTAR">
+		<p:panel header="SGK(ÇALIŞMA - MAAŞ BİLGİLERİ) VERİLERİNİ SİSTEME AKTAR (Excel)">
 		<p:panelGrid columns="8" style=" border-style: hidden !important;">
-			<p:fileUpload label="ECXEL Dosyasını Seç "
+			<p:fileUpload label="Dosya Seçiniz (xls,xlsx) "
 						fileUploadListener="#{excellParserBean.XLSDosyaAl}"
 						mode="advanced" allowTypes="/(\.|\/)(xls|xlsx)$/"
 						sizeLimit="10000000" skinSimple="true" />
-				<p:commandButton value="EXCEL KAYITLARINI SİSTEME AKTAR" action="#" update="growlMesaj" disabled="true"/>		
+				<p:commandButton value="KAYITLARI SİSTEME AKTAR" action="#" update="growlMesaj" disabled="true"/>		
 			</p:panelGrid>
 		</p:panel>
 

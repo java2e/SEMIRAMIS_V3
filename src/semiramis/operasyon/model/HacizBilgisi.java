@@ -2,6 +2,10 @@ package semiramis.operasyon.model;
 
 import java.util.Date;
 
+/**
+ * @author Ozgen
+ *
+ */
 public class HacizBilgisi {
 
 	private int id;
@@ -13,8 +17,8 @@ public class HacizBilgisi {
 	private int hacizStatusuId;
 	private String talimatIcraMd;
 	private String dosyaNo;
-	private Date talimatTarihi;
-	private Date hacizTarihi;
+	private String talimatTarihi;
+	private String hacizTarihi;
 	private int haczedilenTipiId; // combo
 	private double hacizBedeli;
 	private int teslimYeriId; // combo
@@ -24,9 +28,100 @@ public class HacizBilgisi {
 	private int icra_dosyasi_id;
 	private String hacizTipiAdi;
 	private String haczedilenTipiAdi;
+	private int talimatIcraMdID; // combo
+	private String hacizTuru;
+	private int hacizTuruId;
+	private String borcluAdi;
+	private String icraDosyaNo;
+
+	private int hacizSonucuId;
+	private String hacizSonucu;
+	private String yazdirmaTarih;
+	private String hacizBedeliTL;
+	private Date hacizTarihiDate;
+	private Date talimatTarihiDate;
 	
 	
-	
+
+	public Date getHacizTarihiDate() {
+		return hacizTarihiDate;
+	}
+
+	public void setHacizTarihiDate(Date hacizTarihiDate) {
+		this.hacizTarihiDate = hacizTarihiDate;
+	}
+
+	public Date getTalimatTarihiDate() {
+		return talimatTarihiDate;
+	}
+
+	public void setTalimatTarihiDate(Date talimatTarihiDate) {
+		this.talimatTarihiDate = talimatTarihiDate;
+	}
+
+	public String getHacizBedeliTL() {
+		return hacizBedeliTL;
+	}
+
+	public void setHacizBedeliTL(String hacizBedeliTL) {
+		this.hacizBedeliTL = hacizBedeliTL;
+	}
+
+	public String getIcraDosyaNo() {
+		return icraDosyaNo;
+	}
+
+	public void setIcraDosyaNo(String icraDosyaNo) {
+		this.icraDosyaNo = icraDosyaNo;
+	}
+
+	public String getBorcluAdi() {
+		return borcluAdi;
+	}
+
+	public void setBorcluAdi(String borcluAdi) {
+		this.borcluAdi = borcluAdi;
+	}
+
+	public int getTalimatIcraMdID() {
+		return talimatIcraMdID;
+	}
+
+	public void setTalimatIcraMdID(int talimatIcraMdID) {
+		this.talimatIcraMdID = talimatIcraMdID;
+	}
+
+	public String getHacizTuru() {
+		return hacizTuru;
+	}
+
+	public void setHacizTuru(String hacizTuru) {
+		this.hacizTuru = hacizTuru;
+	}
+
+	public int getHacizTuruId() {
+		return hacizTuruId;
+	}
+
+	public void setHacizTuruId(int hacizTuruId) {
+		this.hacizTuruId = hacizTuruId;
+	}
+
+	public int getHacizSonucuId() {
+		return hacizSonucuId;
+	}
+
+	public void setHacizSonucuId(int hacizSonucuId) {
+		this.hacizSonucuId = hacizSonucuId;
+	}
+
+	public String getHacizSonucu() {
+		return hacizSonucu;
+	}
+
+	public void setHacizSonucu(String hacizSonucu) {
+		this.hacizSonucu = hacizSonucu;
+	}
 
 	public String getHacizStatusuAdi() {
 		return hacizStatusuAdi;
@@ -116,20 +211,28 @@ public class HacizBilgisi {
 		this.dosyaNo = dosyaNo;
 	}
 
-	public Date getTalimatTarihi() {
+	public String getTalimatTarihi() {
 		return talimatTarihi;
 	}
 
-	public void setTalimatTarihi(Date talimatTarihi) {
+	public void setTalimatTarihi(String talimatTarihi) {
 		this.talimatTarihi = talimatTarihi;
 	}
 
-	public Date getHacizTarihi() {
+	public String getHacizTarihi() {
 		return hacizTarihi;
 	}
 
-	public void setHacizTarihi(Date hacizTarihi) {
+	public void setHacizTarihi(String hacizTarihi) {
 		this.hacizTarihi = hacizTarihi;
+	}
+
+	public String getYazdirmaTarih() {
+		return yazdirmaTarih;
+	}
+
+	public void setYazdirmaTarih(String yazdirmaTarih) {
+		this.yazdirmaTarih = yazdirmaTarih;
 	}
 
 	public double getHacizBedeli() {
@@ -187,7 +290,5 @@ public class HacizBilgisi {
 	public void setHacizStatusuId(int hacizStatusuId) {
 		this.hacizStatusuId = hacizStatusuId;
 	}
-	
-	
 
 }

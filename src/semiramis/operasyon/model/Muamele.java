@@ -69,12 +69,30 @@ public class Muamele {
 	
 	private List<SubReport> subReportList;
 	
+	private List<TapuBilgisi> tapuBilgisiListesi;
+	
+	private String plaka;
 	
 	
 	
 	
 	
-	
+
+	public String getPlaka() {
+		return plaka;
+	}
+
+	public void setPlaka(String plaka) {
+		this.plaka = plaka;
+	}
+
+	public List<TapuBilgisi> getTapuBilgisiListesi() {
+		return tapuBilgisiListesi;
+	}
+
+	public void setTapuBilgisiListesi(List<TapuBilgisi> tapuBilgisiListesi) {
+		this.tapuBilgisiListesi = tapuBilgisiListesi;
+	}
 
 	public List<SubReport> getSubReportList() {
 		return subReportList;

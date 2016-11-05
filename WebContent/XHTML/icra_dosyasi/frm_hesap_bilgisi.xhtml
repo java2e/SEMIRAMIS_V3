@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition >
+
+
+								<p:panel header="HESAP BİLGİSİ" id="hesapbilgisi">
+
+									<p:panelGrid columns="2"
+										style=" border-style: hidden !important;  width:100%"
+										columnClasses="ui-grid-col-8,ui-grid-col-4">
+
+										<p:selectOneMenu id="Borclar"
+											value="#{icradosyaislemleribean.hesapTumId}"
+											style="width: 100%">
+											<f:selectItem itemLabel="" itemValue="" />
+											<f:selectItems
+												value="#{hesapBean.hesaplarlistesi}" var="list"
+												itemLabel="#{list.hesapAdi}" itemValue="#{list.hesapId}" />
+										</p:selectOneMenu>
+										<p:commandButton value="Listele" style="width:100%"
+											ajax="false" action="#{icradosyaislemleribean.HesapGetir()}"
+											 />
+
+										<p:outputLabel style="width:100%">
+									İşlem Tarihi :
+								 <p:calendar id="hesapTarihi"
+												value="#{hesapBean.hesapTarihi}"
+												pattern="dd-MM-yyyy" mask="true" style="width:100%" />
+										</p:outputLabel>
+										<p:commandButton action="#{hesapBean.Hesapla}"
+											ajax="false" value="  Hesapla  "
+											 style="width:100%" />
+
+										<p:outputLabel value="Asıl Alacak        "
+											style="font-weight:bold" />
+
+										<p:inputText
+											style="width: 100%; font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+											value="#{hesapBean.hesap.asil_alacak_tl}">
+
+										</p:inputText>
+
+										<p:outputLabel style="width:100%; text-align:right">
+											<p:outputLabel value="Gecikme Faizi  %  " style="width:60%" />
+
+											<p:inputText style="width:30%; text-align:rigth"
+												value="#{hesapBean.hesap.akdi_faiz_orani}" />
+
+										</p:outputLabel>
+
+										<p:inputText style="width: 100%"
+											value="#{hesapBean.hesap.gecikme_faizi}" />
+
+
+
+										<p:outputLabel value="Temerrüt Faizi">
+
+											<p:spacer width="15" /> %
+								<p:inputText style="width: 45px"
+												value="#{hesapBean.hesap.temerrut_faiz_orani}" />
+
+
+										</p:outputLabel>
+
+										<p:inputText style="width: 100%"
+											value="#{hesapBean.hesap.temerrut_faizi}" />
+
+
+										<p:outputLabel value="Faiz' in %5 Gider Vergisi" />
+										<p:inputText style="width: 100%"
+											value="#{hesapBean.hesap.faiz_gider_vergisi}" />
+
+
+										<p:outputLabel value="Masraf Tutarı" />
+										<p:inputText style="width: 100%"
+											value="#{hesapBean.hesap.masraf_tutari}" />
+
+										
+
+										<p:outputLabel value="Takip Alacağı" style="font-weight:bold" />
+										<p:inputText
+											style="width: 100%; font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+											value="#{hesapBean.hesap.takip_alacagi_tl}"
+											readonly="true">
+
+										</p:inputText>
+
+									</p:panelGrid>
+
+									<p:panel header="HESAP DİĞER BİLGİLER" toggleable="true"
+										collapsed="true">
+										<p:panelGrid columns="2"
+											style=" border-style: hidden !important;  width:100%"
+											columnClasses="ui-grid-col-8,ui-grid-col-4">
+
+
+											<p:outputLabel value="Vekalet Ücreti" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.vekalet_ucreti_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+											<p:outputLabel value="Takip Faizi" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.takip_faizi_tl}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+
+											<p:outputLabel value="İndirimli Faiz Oranı" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.indirim_faiz_orani_tl}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+
+											<p:outputLabel value="Faiz' in %5 Gider Vergisi" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.faiz_gider_vergisi2_tl}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+											<p:spacer width="10" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="0,00" readonly="true" />
+
+											<p:outputLabel value="Başvuru Harcı" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.basvuruHarciTL}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+											<p:outputLabel value="Vekalet Harcı" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.vekaletHarciTL}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+											<p:outputLabel value="Peşin Harç" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.pesinHarcTL}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+
+											<p:outputLabel value="Diğer Harçlar" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.diger_harclar_tl}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+
+											<p:outputLabel value="Masraf Tutarı" />
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.masraf_tutari_tl}"
+												readonly="true">
+												<f:convertNumber pattern="#0.00" />
+											</p:inputText>
+
+
+											<p:outputLabel value="Tahsil Harcı  : ">
+												<p:spacer width="15" />
+												<p:selectOneMenu id="tahsilharci"
+													value="#{hesapBean.harcoranTL}"
+													style="width: 80px">
+													<f:selectItem itemLabel="2,27" itemValue="2.27" />
+													<f:selectItem itemLabel="4,55" itemValue="4.55" />
+													<f:selectItem itemLabel="9,10" itemValue="9.10" />
+													<f:selectItem itemLabel="11,38" itemValue="11.38" />
+
+												</p:selectOneMenu>
+
+											</p:outputLabel>
+											<p:inputText
+												style="width: 100%; background-color:Gainsboro  !important"
+												value="#{hesapBean.hesap.tahsil_harci_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+											<p:outputLabel value="Toplam Alacak" style="font-weight:bold" />
+											<p:inputText
+												style="width: 100%;font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+												value="#{hesapBean.hesap.toplam_alacak_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+											<p:outputLabel value="Tahsilat Tutarı"
+												style="font-weight:bold" />
+											<p:inputText
+												style="width: 100%;font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+												value="#{hesapBean.hesap.tahsilat_tutari_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+											<p:outputLabel value="İndirim Tutarı"
+												style="font-weight:bold" />
+											<p:inputText
+												style="width: 100%;font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+												value="#{hesapBean.hesap.indirim_tutari_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+											<p:outputLabel value="Kalan Alacak" style="font-weight:bold" />
+											<p:inputText
+												style="width: 100%;font-weight:bold;font-size:15px; background-color:GhostWhite  !important"
+												value="#{hesapBean.hesap.kalan_alacak_tl}"
+												readonly="true">
+
+											</p:inputText>
+
+
+
+										</p:panelGrid>
+									</p:panel>
+								</p:panel>
+
+</ui:composition>
+</html>

@@ -1,13 +1,23 @@
 package semiramis.operasyon.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
+import semimis.utils.GenelArama;
 import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.model.HaczeEsasMalBilgisiView;
 
@@ -37,9 +47,25 @@ public class HaczeEsasMalBilgisiBean {
 
 	private List<HaczeEsasMalBilgisiView> hczEsasMallar;
 
+	private List<ComboItem> ilList;
+
+	private List<ComboItem> ilceList;
+
+	private int ilId;
+
+	public int ilceId = 0;
+
 	private int islem;
 
 	public HaczeEsasMalBilgisiBean() {
+
+		init();
+
+	}
+
+	public void init() {
+		ilceList = new ArrayList<ComboItem>();
+		ilList = new ArrayList<ComboItem>();
 
 		updatedVisible = false;
 
@@ -48,6 +74,44 @@ public class HaczeEsasMalBilgisiBean {
 		hczEsasMalDAO = new HaczeEsasMalBilgisiDAO();
 
 		hczEsasMallar = hczEsasMalDAO.listeView(AktifBean.getBorcluId());
+
+		ilList = hczEsasMalDAO.getIlList();
+
+		eklePanelAc();
+	}
+
+	public void chooseIcraDosyasi() {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		options.put("contentWidth", 1800);
+		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
+
+	}
+
+	public void onIcraDosyasiChosen(SelectEvent event) {
+		GenelArama genelArama = (GenelArama) event.getObject();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Seçildi :",
+				"Id:" + genelArama.getId());
+
+		FacesContext.getCurrentInstance().addMessage(null, message);
+
+		AktifBean.borcluId = genelArama.getBorcluId();
+		AktifBean.icraDosyaID = genelArama.getId();
+		AktifBean.borcluAdi = genelArama.getBorcluAdi();
+		AktifBean.icraDosyaNo = genelArama.getIcraDosyaNo();
+		AktifBean.muvekkilAdi = genelArama.getMuvekkilAdi();
+
+		icraDosyaNO = genelArama.getIcraDosyaNo();
+		borcluAdi = genelArama.getBorcluAdi();
+
+		init();
+	}
+
+	public void changeIlceList() {
+		ilceList = new ArrayList<ComboItem>();
+
+		ilceList = hczEsasMalDAO.getIlceList(ilId);
 
 	}
 
@@ -101,7 +165,7 @@ public class HaczeEsasMalBilgisiBean {
 		islem = 1;
 		updatedVisible = true;
 		updatedHczEsasMal = hczEsasMalDAO.getT(id);
-		
+
 		changePanel();
 
 	}
@@ -114,6 +178,8 @@ public class HaczeEsasMalBilgisiBean {
 		islem = 0;
 		updatedHczEsasMal = new HaczeEsasMalBilgisi();
 		updatedVisible = true;
+
+		changePanel();
 	}
 
 	// sayfanin her acilisinda tum panellerin kapatilmasini saglayan metod
@@ -123,21 +189,84 @@ public class HaczeEsasMalBilgisiBean {
 	}
 
 	public void kaydet() {
+		
+		int malTipi=0;
 
 		if (islem != 1) {
 
-			hczEsasMalDAO.kaydet(updatedHczEsasMal);
+			if (updatedHczEsasMal.getMalTipiId() == 0) {
+				uyariMesaj("Mal Tipini seçiniz!");
+
+			} else {
+				if (updatedHczEsasMal.getMalTipiId() == MAL_SGK) {
+					if ((updatedHczEsasMal.getMuhatapAdi() == "" || updatedHczEsasMal.getMuhatapAdresi() == ""))
+						uyariMesaj("Muhattap Adresi ve (veya) Adini giriniz!");
+					else {
+
+						hczEsasMalDAO.kaydet(updatedHczEsasMal);
+						
+						malTipi=updatedHczEsasMal.getMalTipiId();
+
+					}
+				} 
+				else if (updatedHczEsasMal.getMalTipiId() == MAL_ARAC) {
+
+					if ((updatedHczEsasMal.getAracPlakaNo() == ""))
+						uyariMesaj("Araç plakısını giriniz!");
+					else {
+
+						hczEsasMalDAO.kaydet(updatedHczEsasMal);
+
+						malTipi=updatedHczEsasMal.getMalTipiId();
+
+					}
+
+				} else {
+
+					if (ilId == 0 || updatedHczEsasMal.getTapuIlceId() == 0) {
+						uyariMesaj("Tapu için il ve ilçe seçiniz!");
+
+					} else {
+						updatedHczEsasMal.setTapuIlId(ilId);
+
+						hczEsasMalDAO.kaydet(updatedHczEsasMal);
+
+						ilId = updatedHczEsasMal.getTapuIlId();
+
+						ilceId = updatedHczEsasMal.getTapuIlceId();
+						
+
+						malTipi=updatedHczEsasMal.getMalTipiId();
+						
+					}
+
+				}
+			}
 
 		} else {
+
+			updatedHczEsasMal.setTapuIlId(ilId);
 
 			hczEsasMalDAO.guncelleme(updatedHczEsasMal);
 
 		}
 
+		hczEsasMallar = new ArrayList<HaczeEsasMalBilgisiView>();
+
 		hczEsasMallar = hczEsasMalDAO.listeView(AktifBean.getBorcluId());
 
-		updatedVisible = false;
+		updatedHczEsasMal = new HaczeEsasMalBilgisi();
+		
+		updatedHczEsasMal.setMalTipiId(malTipi);
 
+		updatedVisible = true;
+
+	}
+
+	public void uyariMesaj(String mesaj) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Unuttunuz!", mesaj);
+
+		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 
 	public void sil(int id) {
@@ -222,6 +351,30 @@ public class HaczeEsasMalBilgisiBean {
 
 	public void setPanelMaas(boolean panelMaas) {
 		this.panelMaas = panelMaas;
+	}
+
+	public List<ComboItem> getIlList() {
+		return ilList;
+	}
+
+	public void setIlList(List<ComboItem> ilList) {
+		this.ilList = ilList;
+	}
+
+	public List<ComboItem> getIlceList() {
+		return ilceList;
+	}
+
+	public void setIlceList(List<ComboItem> ilceList) {
+		this.ilceList = ilceList;
+	}
+
+	public int getIlId() {
+		return ilId;
+	}
+
+	public void setIlId(int ilId) {
+		this.ilId = ilId;
 	}
 
 }

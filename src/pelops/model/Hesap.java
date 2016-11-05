@@ -7,9 +7,7 @@ public class Hesap {
 	private double asil_alacak, gecikme_faizi, temerrut_faizi, faiz_gider_vergisi, faiz_gider_vergisi2, noter_masrafi,
 			takip_alacagi, vekalet_ucreti, takip_faizi, indirim_faiz_orani, takip_faiz_gider_vergi, diger_harclar,
 			masraf_tutari, tahsil_harci, toplam_alacak, tahsilat_tutari, indirim_tutari, akdi_faiz_orani,
-			temerrut_faiz_orani, kalan_alacak, harcoranTL, basvuruHarciTL, vekaletHarciTL, pesinHarcTL
-
-	;
+			temerrut_faiz_orani, kalan_alacak, harcoranTL, basvuruHarciTL, vekaletHarciTL, pesinHarcTL;
 
 	String alacak_kalemi2_kalem_kod_turu, alacak_kalemi2_kalem_kod_aciklama, alacak_kalemi2_alacak_kalem_adi,
 			alacak_kalemi3_kalem_kod_turu, alacak_kalemi3_kalem_kod, alacak_kalemi3_kalem_kod_aciklama,

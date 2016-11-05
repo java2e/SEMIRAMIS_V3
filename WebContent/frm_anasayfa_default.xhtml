@@ -40,26 +40,26 @@ span.fc-event-time{
 <div style="width: 101px;height: 60px;float: left;">
 
 
-<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(101)}">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(101)}" rendered="#{anaSayfaBean.tanimlar.isReadPage(101)}">
     <img src="img/takip-ac-button.png" width="101" height="60"/>
 </p:commandLink>
 
 </div>
 
 <div style="width: 101px;height: 60px;float: left;">
-<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(102)}" immediate="true">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(102)}" immediate="true" rendered="#{anaSayfaBean.tanimlar.isReadPage(102)}">
     <img src="img/dosya-takip-button.png" width="101" height="60"/>
 </p:commandLink>
 </div>
 
 <div style="width: 101px;height: 60px;float: left;">
-<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(1010)}">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(100)}" rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
     <img src="img/talep-hazırlama-button.png" width="101" height="60"/>
 </p:commandLink>
 </div>
 
 <div style="width: 101px;height: 60px;float: left;">
-<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(501)}">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(501)}" rendered="#{anaSayfaBean.tanimlar.isReadPage(501)}">
     <img src="img/kasa-button.png" width="101" height="60"/>
 </p:commandLink>
 
@@ -67,7 +67,7 @@ span.fc-event-time{
 
 <div style="width: 101px;height: 60px;float: left;">
 
-<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(213)}">
+<p:commandLink ajax="false" update=":OrtaSayfa"	actionListener="#{anaSayfaBean.gotoPage(213)}" rendered="#{anaSayfaBean.tanimlar.isReadPage(213)}">
     <img src="img/yazdır-button.png" width="101" height="60"/>
 </p:commandLink>
 

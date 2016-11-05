@@ -18,6 +18,11 @@ public class AktifBean {
     public static  String  borcluAdi ="";
     private String chatUserNamey="";
     public static String musteriNo="";
+    
+    public static int DOSYA_STATUSU_ID=0;
+    public static int ICRA_MUDURLUK_ID=0;
+    
+    
     public static Hesap hesaplistesi = new Hesap();
     
     

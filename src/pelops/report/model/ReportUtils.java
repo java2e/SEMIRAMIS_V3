@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class ReportUtils {
 
+	public static final int ODEME_EMRI_ISLEM_ID = 5;
+
 	/*
 	 * jasper file isimleri hsbc için
 	 */

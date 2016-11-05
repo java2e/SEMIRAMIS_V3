@@ -167,7 +167,7 @@ public class MuameleBean {
 
 			tapuList = new ArrayList<TapuBilgisi>();
 
-			List<HaczeEsasMalBilgisi> liste = haczeEsasdao.liste(muamele.getBorcluId(), 1);
+			List<HaczeEsasMalBilgisi> liste = haczeEsasdao.liste(muamele.getBorcluId(), 1);  // Gayrimenkul bilgisi hacze mal bilgisi kaydından alınıyor
 
 			for (int i = 0; i < liste.size(); i++) {
 
@@ -378,8 +378,6 @@ public class MuameleBean {
 			muamele.setSubReportList(liste);
 			
 			
-			
-			
 		}
 
 		try {
@@ -388,7 +386,8 @@ public class MuameleBean {
 
 			if (muamele.getMuzekkereId() > 10)
 				listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
-			else {
+			else 
+			{
 				listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
 
 				listJasperPrint.add(new MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));

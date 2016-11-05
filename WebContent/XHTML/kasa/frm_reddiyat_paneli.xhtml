@@ -60,7 +60,8 @@
 	/>
 	
 	<p:outputLabel value="Reddiyat Tarihi"/>
-	<p:calendar id="multi"   size="30" pages="3" value="#{kasaBean.reddiyatBilgisi.reddiyatTarihi}"/> 
+		<p:calendar  locale="tr" id="mask" size="32" value="#{kasaBean.reddiyatBilgisi.reddiyatTarihi}"
+					pattern="dd-MM-yyyy" mask="true" />	
 
 		
 	<p:outputLabel value="Kasa İşlemini Yapan Kişi"/>

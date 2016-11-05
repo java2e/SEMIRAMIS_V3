@@ -265,10 +265,9 @@ public class GenelRaporDAO extends DBConnection {
 				idListe.add(rs.getInt("id"));
 
 			}
-		} 
-		
-		else
-		{
+		}
+
+		else {
 			idListe.add(ID);
 		}
 		disconnectDB();
@@ -489,7 +488,7 @@ public class GenelRaporDAO extends DBConnection {
 						String hesapModel = "";
 						report.setEk(report.getDiger1());
 						report.setDiger1(ReportUtils.getAkbankHesapTitle(report.getDiger1()));
-						
+
 						double toplam1 = 0;
 
 						int l1 = 0;
@@ -549,14 +548,14 @@ public class GenelRaporDAO extends DBConnection {
 							if (report.getToplam() != null || report.getToplam() != "") {
 								// fillAkbankList(report);
 								hesapModel = hesapModel + report.getToplam() + " TOPLAM(*)";
-								
+
 							} else {
-								
+
 							}
 
 							if (report.getHesap() == null || report.getHesap().equals("")) {
 								report.setHesap(hesapModel);
-								
+
 							}
 
 						}
@@ -620,7 +619,7 @@ public class GenelRaporDAO extends DBConnection {
 			hesap.setTarih(String.valueOf(date));
 			hesap.setTemmerutFaizi(reportGenel.getTemmerutFaizi().get(i));
 			hesap.setToplam1(reportGenel.getToplam1().get(i));
-			
+
 			akbankHesaps.add(hesap);
 
 		}

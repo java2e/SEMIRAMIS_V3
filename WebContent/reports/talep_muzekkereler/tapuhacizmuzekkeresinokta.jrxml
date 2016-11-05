@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-10-28T03:58:40 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tapuhacizmuzekkeresinokta" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15bbab6b-08e6-47a3-b8e5-3d13429efc83">
 	<property name="ireport.zoom" value="2.1435888100000047"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="192"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Mehmet Demircioglu\\git\\SEMIRAMIS\\WebContent\\reports\\talep_muzekkereler\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\SEMIRAMIS\\RAPOR\\"]]></defaultValueExpression>
 	</parameter>
 	<field name="icraMudurlugu" class="java.lang.String"/>
 	<field name="icraDosyaNo" class="java.lang.String"/>
@@ -34,7 +37,7 @@
 				<text><![CDATA[T.C.
 ANKARA]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="10" y="29" width="237" height="20" uuid="c72a6285-2aae-408e-b92a-afb07dc3a023"/>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1254"/>
@@ -48,14 +51,14 @@ ANKARA]]></text>
 				</textElement>
 				<text><![CDATA[DOSYA NO :]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="71" y="48" width="170" height="20" uuid="9c5380c5-2255-4c04-8670-a10ffa99cbd1"/>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{icraDosyaNo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="386" y="9" width="145" height="20" uuid="9025deeb-bd09-4480-b9d9-f4fe99bdb39e"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{muameleTarihiTxt}]]></textFieldExpression>
@@ -76,7 +79,7 @@ ANKARA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{avukatAdi}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Av. "+$F{avukatAdi}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="267" y="55" width="282" height="26" uuid="22fce418-539f-4c91-9ee7-b11aea33cd0f"/>
@@ -104,122 +107,122 @@ hissedarların adı soyadı adreslerinin tarafımıza bildirilmesi rica olunur.]
 				</textElement>
 				<text><![CDATA[TAPU KAYITLARI :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="280" y="268" width="239" height="20" uuid="7363cf25-61d5-4358-9dd1-a37bb41c68b6"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="380" width="239" height="20" uuid="7363cf25-61d5-4358-9dd1-a37bb41c68b6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{icraMudurlugu}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="88" y="277" width="20" height="20" uuid="680ecf24-1a7a-4b67-ab19-8ed2fd788f38"/>
+				<reportElement x="88" y="379" width="20" height="20" uuid="680ecf24-1a7a-4b67-ab19-8ed2fd788f38"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[EKİ :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="40" y="297" width="68" height="20" uuid="2070bf15-eb0d-4d33-8b34-019b6be195ff"/>
+				<reportElement x="40" y="399" width="68" height="20" uuid="2070bf15-eb0d-4d33-8b34-019b6be195ff"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[BORÇ MİKTARI :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="317" width="100" height="20" uuid="2b4c99c7-b46b-4cb8-83b3-9d691decd483"/>
+				<reportElement x="8" y="421" width="100" height="20" uuid="2b4c99c7-b46b-4cb8-83b3-9d691decd483"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[BORÇLU ADI SOYADI :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="337" width="100" height="20" uuid="39cf4fbf-65f7-4d34-80a2-390360a78954"/>
+				<reportElement x="8" y="441" width="100" height="20" uuid="39cf4fbf-65f7-4d34-80a2-390360a78954"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[DOĞUM TARİHİ :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="357" width="100" height="20" uuid="08baee3f-ee13-4b98-9133-e38c0599bf62"/>
+				<reportElement x="8" y="461" width="100" height="20" uuid="08baee3f-ee13-4b98-9133-e38c0599bf62"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[T.C. KİMLİK NO :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="111" y="277" width="125" height="20" uuid="2f2bc721-a6b4-4765-8b79-ca330c7b3c65"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="379" width="125" height="20" isRemoveLineWhenBlank="true" uuid="2f2bc721-a6b4-4765-8b79-ca330c7b3c65"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{eki}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="111" y="317" width="125" height="20" uuid="210b6ab5-84c2-4cd3-8d4d-18c3ea4ec664"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="419" width="125" height="20" uuid="210b6ab5-84c2-4cd3-8d4d-18c3ea4ec664"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{borcluAdSoyad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="316" y="319" width="100" height="20" uuid="38fc0684-3aca-47ae-bb97-006e0d0b6f3a"/>
+				<reportElement x="307" y="530" width="100" height="20" uuid="38fc0684-3aca-47ae-bb97-006e0d0b6f3a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
+					<font fontName="Times New Roman" size="8" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[Semiramis No :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="419" y="319" width="115" height="20" uuid="4a6080a7-c5df-4457-bf78-1a7771b0de0f"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="410" y="530" width="115" height="20" uuid="4a6080a7-c5df-4457-bf78-1a7771b0de0f"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{icraDosyaID}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="316" y="339" width="100" height="20" uuid="ad82830f-0cec-46b6-a6e6-d61933f7c395"/>
+				<reportElement x="307" y="550" width="100" height="20" uuid="ad82830f-0cec-46b6-a6e6-d61933f7c395"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="false" pdfEncoding="Cp1254"/>
+					<font fontName="Times New Roman" size="8" isBold="false" pdfEncoding="Cp1254"/>
 				</textElement>
 				<text><![CDATA[Hazırlayan :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="359" width="100" height="20" uuid="cae6077b-4632-4b8d-9990-132a789a9e9a"/>
+				<reportElement x="307" y="570" width="100" height="20" uuid="cae6077b-4632-4b8d-9990-132a789a9e9a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<text><![CDATA[Risk Yöneticisi :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="112" y="359" width="125" height="20" uuid="6eecdf81-0ac5-47a4-ab68-12d2727a215d"/>
+				<reportElement x="112" y="461" width="125" height="20" uuid="6eecdf81-0ac5-47a4-ab68-12d2727a215d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{borcluTcNo}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="40" y="399" width="145" height="20" uuid="5e358c84-9e66-4e84-8e21-71de1ec88145"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="40" y="501" width="145" height="20" uuid="5e358c84-9e66-4e84-8e21-71de1ec88145"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{muameleTarihiTxt}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="111" y="297" width="125" height="20" uuid="c3183a6c-0235-40f2-a21e-f82faef9105d"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="399" width="125" height="20" uuid="c3183a6c-0235-40f2-a21e-f82faef9105d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{borcMiktariTxt}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="111" y="339" width="125" height="20" uuid="04da3c5a-834c-4510-8106-3c1181c00a94"/>
+				<reportElement x="111" y="441" width="125" height="20" uuid="04da3c5a-834c-4510-8106-3c1181c00a94"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{borcluDogumTarihi}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="419" y="339" width="100" height="20" uuid="9f278910-c9b3-480d-a164-0ac05c27b492"/>
+				<reportElement x="410" y="550" width="100" height="20" uuid="9f278910-c9b3-480d-a164-0ac05c27b492"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+					<font fontName="Times New Roman" size="8" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[M. ORUÇ SASA]]></text>
+				<text><![CDATA[Av. M. ORUÇ SASA]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="4" y="55" width="98" height="26" uuid="f5ad2194-744f-4263-a9cb-f1f088bf88af"/>
@@ -229,7 +232,7 @@ hissedarların adı soyadı adreslerinin tarafımıza bildirilmesi rica olunur.]
 				<textFieldExpression><![CDATA[$F{muvekkilAdi}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="26" y="432" width="171" height="42" uuid="67d79ebb-b20a-4fd4-bb45-12d0f30b72e8"/>
+				<reportElement x="26" y="534" width="171" height="42" uuid="67d79ebb-b20a-4fd4-bb45-12d0f30b72e8"/>
 				<imageExpression><![CDATA[$F{barkod}]]></imageExpression>
 			</image>
 			<textField>
@@ -247,9 +250,9 @@ hissedarların adı soyadı adreslerinin tarafımıza bildirilmesi rica olunur.]
 				<textFieldExpression><![CDATA[$F{tapuMudurlugu}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="4" y="203" width="545" height="45" uuid="9c16a7ea-04ef-4604-8fcf-9f9568a390de"/>
+				<reportElement x="4" y="203" width="545" height="167" isPrintWhenDetailOverflows="true" uuid="9c16a7ea-04ef-4604-8fcf-9f9568a390de"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{subReportList})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "tapuhacizmuzekkeresinokta_subreport1.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"tapuhacizmuzekkeresinokta_subreport1.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

@@ -28,6 +28,11 @@
 	<p:inputText size="30" value="#{kasaBean.bilgiTahsilat.icra_dosya_no}" disabled="true"/>
 	  ||
 	  <p:commandButton icon="ui-icon-search" style="color:red" value="DETAYLI ARAMA !" onclick="PF('dlgdetayliarama').show();"/>
+	  
+	  
+		   <p:commandButton  style="color:red" id="btnDetayliArama" value="DETAYLI ARAMA !" icon="ui-icon-extlink" actionListener="#{kasaBean.chooseIcraDosyasi}">
+        <p:ajax event="dialogReturn" listener="#{kasaBean.onIcraDosyasiChosen}" update=":tahsilatyap" />
+    </p:commandButton>
 	
 	
 	</p:outputLabel>
@@ -64,31 +69,31 @@
 	/>
 	
 	<p:outputLabel value="Tahsilat Tarihi"/>
-	 <p:calendar id="hesapTarihi" value="#{kasaBean.bilgiTahsilat.tahsilat_tarihi}" pattern="dd-MM-yyyy" mask="true" style="width:100%" />
-	 
+	 <p:calendar  locale="tr" id="hesapTarihi" value="#{kasaBean.bilgiTahsilat.tahsilat_tarihi}" pattern="dd-MM-yyyy" mask="true" style="width:100%" />
+
 
 	
 	<p:outputLabel value="Tahsilat Statüsü"/>
 	<p:selectOneMenu
 								id="tstatu" 	
-					 		    value="#{kasaBean.bilgiTahsilat.tahsilat_statusu}"
+					 		    value="#{kasaBean.bilgiTahsilat.tahsilatStatusuId}"
 					 			style="width: 250px">
 					 			<f:selectItem itemLabel="Seçiniz..........." itemValue="9999"/>
 								<f:selectItems
 										value="#{kasaBean.tahsilatStatuListesi}"
-										var="list" itemLabel="#{list.adi}" itemValue="#{list.adi}" />
+										var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
 								</p:selectOneMenu>
 								
 	
 	<p:outputLabel value="Ödeme Yapılan Yer"/>
 	<p:selectOneMenu
 								id="odemeyeri" 	
-					 		    value="#{kasaBean.bilgiTahsilat.gelisYeri}"
+					 		    value="#{kasaBean.bilgiTahsilat.gelisYeriId}"
 					 			style="width: 250px">
 					 			<f:selectItem itemLabel="Seçiniz..........." itemValue="9999"/>
 								<f:selectItems
 										value="#{kasaBean.odemeYeriListesi}"
-										var="list" itemLabel="#{list.adi}" itemValue="#{list.adi}" />
+										var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
 								</p:selectOneMenu>
 	
 	<p:outputLabel value="Tahsilatı Yapan Kişi"/>
@@ -103,7 +108,7 @@
 	<p:panelGrid columns="4" style=" border-style: hidden !important;">
 	<p:commandButton value="HİTAM BELGESİ" disabled="#{kasaBean.hitam}" style="width:120px;height:55px;" />
 	<p:commandButton value="TAHSİLAT MAKBUZU" disabled="#{kasaBean.makbuz}" style="width:120px;height:55px;" ajax="false" action="#{kasaBean.print(null)}" update=":tahsilatyap"/>
-	<p:commandButton value="TAHSİLAT YAP" style="width:120px;height:55px;" disabled="#{kasaBean.tahsilat}"  action="#{kasaBean.tahsilatYap}"  update=":tahsilatyap,:tahsilatyap:hesapbilgisi,:kasaForm:reddiyatlistesi,:kasaForm:panelRapor,:kasaForm:tabviewlist:tblaktifodeme, :kasaForm:tabviewlist:tblodenmisler,:formMsgs">
+	<p:commandButton value="TAHSİLAT YAP" style="width:120px;height:55px;" disabled="#{kasaBean.tahsilat}"  action="#{kasaBean.tahsilatYap}"  update=":tahsilatyap,:tahsilatyap:hesapbilgisi,:kasaForm:panelReddiyat,:kasaForm:panelRapor,:kasaForm:tabviewlist:tblaktifodeme, :kasaForm:tabviewlist:tblodenmisler,:formMsgs">
 	
 	</p:commandButton>
 <!-- 	<p:commandButton value="İNDİRİM ONAYI" style="width:120px;height:55px; "/> -->

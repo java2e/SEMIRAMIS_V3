@@ -157,29 +157,6 @@ public class ExcellParserDAO extends DBConnection {
 	   
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 
 	@SuppressWarnings("unused")
 	public ArrayList<ExcellModel> getAllList(XSSFWorkbook workbook)

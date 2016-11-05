@@ -4,10 +4,16 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+
+import net.sourceforge.barbecue.Main;
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
 import pelops.model.Tipi;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HacizBilgisi;
 
 public class HacizDAO extends DBConnection {
@@ -17,17 +23,57 @@ public class HacizDAO extends DBConnection {
 	Statement stmt;
 	ResultSet rs;
 
-	public boolean kaydet(HacizBilgisi haciz) {
+	public List<ComboItem> getHacizStatusu(int hacizTurId) {
 
-		java.sql.Date dateTalimat = convertFromJAVADateToSQLDate(haciz.getTalimatTarihi());
-		java.sql.Date dateHaciz = convertFromJAVADateToSQLDate(haciz.getHacizTarihi());
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "SELECT * from tbl_haciz_statusu where haciz_turu_id=" + hacizTurId;
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<ComboItem>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setAdi(set.getString("adi"));
+				item.setId(set.getInt("id"));
+				liste.add(item);
+			}
+
+		} catch (Exception e) {
+
+			System.out.println("HATA hacizDAO getHacizStatusu :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+	}
+
+	public boolean kaydet(HacizBilgisi haciz) {
+		SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		java.sql.Date dateTalimat = null;
+		java.sql.Date dateHaciz = null;
+		try {
+			dateTalimat = convertFromJAVADateToSQLDate(haciz.getTalimatTarihiDate());
+			dateHaciz = convertFromJAVADateToSQLDate(haciz.getHacizTarihiDate());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("HacizDao.kaydet parse date: " + e.getMessage());
+		}
 
 		boolean kaydedildi = false;
 
 		String SQL = "INSERT INTO tbl_haciz_bilgisi(icra_dosyasi_id, haciz_tipi_id, talimat_icra_mudurlugu, talimat_dosya_no,"
 				+ "talimat_tarihi, haciz_tarihi, haciz_bedeli, teslim_yeri_id, sehir,"
-				+ "aciklama, haczedilen_tipi_id, personel_adi_id, borclu_id,haciz_statusu_id)"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);";
+				+ "aciklama, haczedilen_tipi_id, personel_adi_id, borclu_id, haciz_statusu_id,haciz_tur_id,haciz_sonucu_id, talimat_icra_md_id)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?, ?);";
 
 		try {
 
@@ -48,6 +94,9 @@ public class HacizDAO extends DBConnection {
 			pstmt.setInt(12, haciz.getPersonelId());
 			pstmt.setInt(13, AktifBean.getBorcluId());
 			pstmt.setInt(14, haciz.getHacizStatusuId());
+			pstmt.setInt(15, haciz.getHacizTuruId());
+			pstmt.setInt(16, haciz.getHacizSonucuId());
+			pstmt.setInt(17, haciz.getTalimatIcraMdID());
 
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
@@ -59,116 +108,151 @@ public class HacizDAO extends DBConnection {
 
 		} catch (Exception ex) {
 
-			ex.printStackTrace();
+			System.out.println("HacizDao.kaydet " + ex.getMessage());
 		}
 
 		return kaydedildi;
 
 	}
 
-	public ArrayList<HacizBilgisi> getAllListFromIcraDosyaID(int id) throws Exception {
+	public ArrayList<HacizBilgisi> getAllListFromIcraDosyaID(int id) {
 
 		ArrayList<HacizBilgisi> list = new ArrayList<HacizBilgisi>();
 
 		SQL = "SELECT h.id, h.borclu_id, h.haciz_tipi_id, "
 				+ " h.talimat_icra_mudurlugu, h.talimat_dosya_no, h.talimat_tarihi, "
-				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, "
-				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id,"
-				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi,hs.id as haciz_statusu_id "
-				+ "FROM tbl_haciz_bilgisi h "
+				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, ht.adi as haciz_turu_adi, "
+				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id, h.haciz_tur_id,"
+				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi, "
+				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad " + "FROM tbl_haciz_bilgisi h "
 				+ "inner join tbl_kullanici u on h.personel_adi_id=u.id "
-				+" inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
-				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id where h.icra_dosyasi_id=" + id + ";";
+				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
+				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
+				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
+				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
+				+ " inner join tbl_borclu b on b.id=h.borclu_id where h.icra_dosyasi_id=" + id
+				+ ";";
 
 		newConnectDB();
+		try {
 
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
 
-			HacizBilgisi hacizBilgisi = new HacizBilgisi();
+				HacizBilgisi hacizBilgisi = new HacizBilgisi();
 
-			hacizBilgisi.setId(rs.getInt("id"));
-			hacizBilgisi.setBorcluId(rs.getInt("borclu_id"));
-			hacizBilgisi.setHacizTipiId(rs.getInt("haciz_tipi_id"));
-			hacizBilgisi.setTalimatIcraMd(rs.getString("talimat_icra_mudurlugu"));
-			hacizBilgisi.setDosyaNo(rs.getString("talimat_dosya_no"));
-			hacizBilgisi.setTalimatTarihi(rs.getDate("talimat_tarihi"));
-			hacizBilgisi.setHacizTarihi(rs.getDate("haciz_tarihi"));
-			hacizBilgisi.setHacizBedeli(rs.getDouble("haciz_bedeli"));
-			hacizBilgisi.setSehir(rs.getString("sehir"));
-			hacizBilgisi.setAciklama(rs.getString("aciklama"));
-			hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
-			hacizBilgisi.setHaczedilenTipiId(rs.getInt("haczedilen_tipi_id"));
-			hacizBilgisi.setPersonelId(rs.getInt("personel_adi_id"));
-			hacizBilgisi.setPersoneName(rs.getString("uadi"));
-			hacizBilgisi.setTeslimYeriId(rs.getInt("teslim_yeri_id"));
-			hacizBilgisi.setTeslimYeri(rs.getString("tyadi"));
-			hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
-			hacizBilgisi.setHacizStatusuId(rs.getInt("haciz_statusu_id"));
-			hacizBilgisi.setHacizStatusuAdi(rs.getString("haciz_statusu_adi"));
+				hacizBilgisi.setId(rs.getInt("id"));
+				hacizBilgisi.setBorcluId(rs.getInt("borclu_id"));
+				hacizBilgisi.setHacizTipiId(rs.getInt("haciz_tipi_id"));
+				hacizBilgisi.setTalimatIcraMd(rs.getString("talimat_icra_mudurlugu"));
+				hacizBilgisi.setDosyaNo(rs.getString("talimat_dosya_no"));
+				hacizBilgisi.setTalimatTarihi(rs.getString("talimat_tarihi"));
+				hacizBilgisi.setHacizTarihi(rs.getString("haciz_tarihi"));
+				hacizBilgisi.setTalimatTarihiDate(rs.getDate("talimat_tarihi"));
+				hacizBilgisi.setHacizTarihiDate(rs.getDate("haciz_tarihi"));
+				hacizBilgisi.setHacizBedeli(rs.getDouble("haciz_bedeli"));
+				hacizBilgisi.setSehir(rs.getString("sehir"));
+				hacizBilgisi.setAciklama(rs.getString("aciklama"));
+				hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
+				hacizBilgisi.setHaczedilenTipiId(rs.getInt("haczedilen_tipi_id"));
+				hacizBilgisi.setPersonelId(rs.getInt("personel_adi_id"));
+				hacizBilgisi.setPersoneName(rs.getString("uadi"));
+				hacizBilgisi.setTeslimYeriId(rs.getInt("teslim_yeri_id"));
+				hacizBilgisi.setTeslimYeri(rs.getString("tyadi"));
+				hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
+				hacizBilgisi.setHacizStatusuId(rs.getInt("haciz_statusu_id"));
+				hacizBilgisi.setHacizStatusuAdi(rs.getString("haciz_statusu_adi"));
+				hacizBilgisi.setHacizTuruId(rs.getInt("haciz_tur_id"));
+				hacizBilgisi.setHacizTuru(rs.getString("haciz_turu_adi"));
+				hacizBilgisi.setTalimatIcraMd(rs.getString("icra_md"));
+				hacizBilgisi.setYazdirmaTarih(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+				hacizBilgisi.setIcraDosyaNo(AktifBean.getIcraDosyaNo());
+				hacizBilgisi.setHacizBedeliTL(String.valueOf(rs.getDouble("haciz_bedeli") + " TL"));
+				hacizBilgisi.setBorcluAdi(rs.getString("ad_soyad"));
 
-			list.add(hacizBilgisi);
-		}
+				list.add(hacizBilgisi);
+			}
 
-		disconnectDB();
+			disconnectDB();
 
-		for (int i = 0; i < list.size(); i++) {
-			String name = null;
-			name = getHaczedilenTipi(list.get(i).getHaczedilenTipiId());
-			list.get(i).setHaczedilenTipiAdi(name);
+			for (int i = 0; i < list.size(); i++) {
+				String name = null;
+				name = getHaczedilenTipi(list.get(i).getHaczedilenTipiId());
+				list.get(i).setHaczedilenTipiAdi(name);
+			}
+		} catch (Exception e) {
+			System.out.println("HacizDao.getAllListFromIcraDosyaID " + e.getMessage());
 		}
 
 		return list;
 
 	}
 
-	public boolean guncelle(HacizBilgisi haciz) throws Exception {
+	public boolean guncelle(HacizBilgisi haciz) {
 		boolean duzenlendi = false;
 		SQL = "UPDATE tbl_haciz_bilgisi SET " + " borclu_id=?, haciz_tipi_id=?, talimat_icra_mudurlugu=?, "
 				+ "talimat_dosya_no=?, talimat_tarihi=?, haciz_tarihi=?, haciz_bedeli=?, "
 				+ " sehir=?, aciklama=?, icra_dosyasi_id=?, haczedilen_tipi_id=?, "
-				+ " personel_adi_id=?, teslim_yeri_id=?" + " WHERE id=" + haciz.getId() + ";";
+				+ " personel_adi_id=?, teslim_yeri_id=? , haciz_tur_id=?, haciz_sonucu_id=?, "
+				+ "talimat_icra_md_id=? , haciz_statusu_id=?" + " WHERE id=" + haciz.getId() + ";";
 
 		newConnectDB();
 
-		pstmt = conn.prepareStatement(SQL);
+		try {
 
-		pstmt.setInt(1, AktifBean.getBorcluId());
-		pstmt.setInt(2, haciz.getHacizTipiId());
-		pstmt.setString(3, haciz.getTalimatIcraMd());
-		pstmt.setString(4, haciz.getDosyaNo());
-		java.sql.Date date = convertFromJAVADateToSQLDate(haciz.getTalimatTarihi());
-		pstmt.setDate(5, date);
-		date = convertFromJAVADateToSQLDate(haciz.getHacizTarihi());
-		pstmt.setDate(6, date);
-		pstmt.setDouble(7, haciz.getHacizBedeli());
-		pstmt.setString(8, haciz.getSehir());
-		pstmt.setString(9, haciz.getAciklama());
-		pstmt.setInt(10, AktifBean.getIcraDosyaID());
-		pstmt.setInt(11, haciz.getHaczedilenTipiId());
-		pstmt.setInt(12, haciz.getPersonelId());
-		pstmt.setInt(13, haciz.getTeslimYeriId());
+			pstmt = conn.prepareStatement(SQL);
 
-		int sonuc = pstmt.executeUpdate();
-		disconnectDB();
-		if (sonuc == 1) {
-			duzenlendi = true;
+			pstmt.setInt(1, AktifBean.getBorcluId());
+			pstmt.setInt(2, haciz.getHacizTipiId());
+			pstmt.setString(3, haciz.getTalimatIcraMd());
+			pstmt.setString(4, haciz.getDosyaNo());
+			java.sql.Date date = convertFromJAVADateToSQLDate(new java.util.Date(haciz.getTalimatTarihi()));
+			pstmt.setDate(5, date);
+			date = convertFromJAVADateToSQLDate(new java.util.Date(haciz.getHacizTarihi()));
+			pstmt.setDate(6, date);
+			pstmt.setDouble(7, haciz.getHacizBedeli());
+			pstmt.setString(8, haciz.getSehir());
+			pstmt.setString(9, haciz.getAciklama());
+			pstmt.setInt(10, AktifBean.getIcraDosyaID());
+			pstmt.setInt(11, haciz.getHaczedilenTipiId());
+			pstmt.setInt(12, haciz.getPersonelId());
+			pstmt.setInt(13, haciz.getTeslimYeriId());
+			pstmt.setInt(14, haciz.getHacizTuruId());
+			pstmt.setInt(15, haciz.getHacizSonucuId());
+			pstmt.setInt(16, haciz.getTalimatIcraMdID());
+			pstmt.setInt(17, haciz.getHacizStatusuId());
+			int sonuc = pstmt.executeUpdate();
+			disconnectDB();
+			if (sonuc == 1) {
+				duzenlendi = true;
+			}
+		} catch (Exception e) {
+			System.out.println("HacizDao.guncelle " + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
 		}
-
 		return duzenlendi;
 	}
 
-	public String getHaczedilenTipi(int id) throws Exception {
+	public String getHaczedilenTipi(int id) {
 		String sql = "select * from tbl_haczedilen_tipi where id = " + id + ";";
 		newConnectDB();
-		Statement stm = conn.createStatement();
-		ResultSet rs = stm.executeQuery(sql);
 		String hacz = null;
-		while (rs.next()) {
-			hacz = rs.getString("adi");
+		try {
+
+			Statement stm = conn.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+
+			while (rs.next()) {
+				hacz = rs.getString("adi");
+			}
+			disconnectDB();
+		} catch (Exception e) {
+			System.out.println("HacizDao.getHaczedilenTipi " + e.getMessage());
 		}
-		disconnectDB();
 		return hacz;
 	}
 
@@ -193,117 +277,149 @@ public class HacizDAO extends DBConnection {
 				silindi = true;
 			}
 
-		} catch (Exception ex) {
-
-			ex.printStackTrace();
-
+		} catch (Exception e) {
+			System.out.println("HacizDao.Sil" + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
 		}
 
 		return silindi;
 	}
 
-	public int getHesapID(int id) throws Exception {
+	public int getHesapID(int id) {
 		SQL = "SELECT id, icra_dosyasi_id, alacakli_id, borclu_id, hesap_id, ekleme_tarihi, "
 				+ " guncelleme_tarihi FROM tbl_baglanti where icra_dosyasi_id  = " + id + ";";
 		newConnectDB();
 		int hesapid = 0;
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-			hesapid = rs.getInt("hesap_id");
+		try {
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				hesapid = rs.getInt("hesap_id");
+			}
+			disconnectDB();
+		} catch (Exception e) {
+			System.out.println("HacizDao.getHesapID " + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
 		}
-		disconnectDB();
 		return hesapid;
 
 	}
 
-	public void hesapDuzenle(int hesapID, int ekleCikar, double tutar) throws Exception {
+	public void hesapDuzenle(int hesapID, int ekleCikar, double tutar) {
 		SQL = "select * from tbl_hesap where id= " + hesapID + ";";
 		newConnectDB();
-		stmt = conn.createStatement();
-		double tahsilatTutari = 0;
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-			tahsilatTutari = rs.getDouble("tahsilat_tutari");
-		}
-		disconnectDB();
-		switch (ekleCikar) {
-		case 1:
-			tahsilatTutari = tahsilatTutari + tutar;
-			break;
-		case 2:
-			tahsilatTutari = tutar;
-			break;
-		case 3:
-			tahsilatTutari = tahsilatTutari - tutar;
-			break;
 
-		default:
-			break;
-		}
+		try {
 
-		String update = "UPDATE tbl_hesap SET  tahsilat_tutari=?  WHERE id = " + hesapID + ";";
-		newConnectDB();
-		pstmt = conn.prepareStatement(update);
-		pstmt.setDouble(1, tahsilatTutari);
-		pstmt.executeUpdate();
-		disconnectDB();
+			stmt = conn.createStatement();
+			double tahsilatTutari = 0;
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				tahsilatTutari = rs.getDouble("tahsilat_tutari");
+			}
+			disconnectDB();
+			switch (ekleCikar) {
+			case 1:
+				tahsilatTutari = tahsilatTutari + tutar;
+				break;
+			case 2:
+				tahsilatTutari = tutar;
+				break;
+			case 3:
+				tahsilatTutari = tahsilatTutari - tutar;
+				break;
+
+			default:
+				break;
+			}
+
+			String update = "UPDATE tbl_hesap SET  tahsilat_tutari=?  WHERE id = " + hesapID + ";";
+			newConnectDB();
+			pstmt = conn.prepareStatement(update);
+			pstmt.setDouble(1, tahsilatTutari);
+			pstmt.executeUpdate();
+			disconnectDB();
+
+		} catch (Exception e) {
+			System.out.println("HacizDao.hesapDuzenle " + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
+		}
 
 	}
 
-	public java.sql.Date convertFromJAVADateToSQLDate(java.util.Date javaDate) {
-		java.sql.Date sqlDate = null;
-		if (javaDate != null) {
-			sqlDate = new Date(javaDate.getTime());
-		}
-		return sqlDate;
-	}
-
-	public ArrayList<String> getHaczeEsasMalBilgisiFromBorcluID(int id) throws Exception {
+	public ArrayList<String> getHaczeEsasMalBilgisiFromBorcluID(int id) {
 		ArrayList<String> malList = new ArrayList<String>();
 		SQL = "SELECT mal.adi as mal_tipi FROM tbl_hacze_esas_mal_bilgisi hcz "
 				+ " INNER JOIN tbl_mal_tipi mal on hcz.mal_tipi_id=mal.id" + " where hcz.borclu_id =" + id + ";";
 
 		newConnectDB();
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-			String mal = null;
-			mal = rs.getString("mal_tipi");
-			malList.add(mal);
+		try {
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				String mal = null;
+				mal = rs.getString("mal_tipi");
+				malList.add(mal);
+			}
+			disconnectDB();
+		} catch (Exception e) {
+			System.out.println("HacizDao.getHaczeEsasMalBilgisiFromBorcluID " + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
 		}
-		disconnectDB();
 		return malList;
 	}
 
-	public ArrayList<Tipi> getHacizTipiList(ArrayList<String> malTipiList) throws Exception {
+	public ArrayList<Tipi> getHacizTipiList(ArrayList<String> malTipiList) {
 
 		ArrayList<Tipi> hacizTipiList = new ArrayList<Tipi>();
 		SQL = "SELECT id, adi FROM tbl_haciz_tipi;";
 		newConnectDB();
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-			Tipi tipi = new Tipi();
-			tipi.setId(rs.getInt("id"));
-			tipi.setAdi(rs.getString("adi"));
-			hacizTipiList.add(tipi);
-		}
-		disconnectDB();
 		ArrayList<Tipi> borcluMalTipiList = new ArrayList<Tipi>();
+		try {
 
-		if (malTipiList.size() > 0) {
-			for (int j = 0; j < malTipiList.size(); j++) {
-				for (int i = 0; i < hacizTipiList.size(); i++) {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				Tipi tipi = new Tipi();
+				tipi.setId(rs.getInt("id"));
+				tipi.setAdi(rs.getString("adi"));
+				hacizTipiList.add(tipi);
+			}
+			disconnectDB();
 
-					if (malTipiList.get(j).equals(hacizTipiList.get(i).getAdi())) {
+			if (malTipiList.size() > 0) {
+				for (int j = 0; j < malTipiList.size(); j++) {
+					for (int i = 0; i < hacizTipiList.size(); i++) {
 
-						borcluMalTipiList.add(hacizTipiList.get(i));
+						if (malTipiList.get(j).equals(hacizTipiList.get(i).getAdi())) {
 
+							borcluMalTipiList.add(hacizTipiList.get(i));
+
+						}
 					}
 				}
-			}
 
+			}
+		} catch (Exception e) {
+			System.out.println("HacizDao.getHacizTipiList " + e.getMessage());
+		} finally {
+			if (this.conn != null) {
+				disconnectDB();
+			}
 		}
 		return borcluMalTipiList;
 	}

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-10-31T01:34:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aracserhitalebi" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15bbab6b-08e6-47a3-b8e5-3d13429efc83">
 	<property name="ireport.zoom" value="1.464100000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<field name="icraMudurluguAdi" class="java.lang.String"/>
+	<field name="icraMudurlugu" class="java.lang.String"/>
 	<field name="icraDosyaNo" class="java.lang.String"/>
 	<field name="plaka" class="java.lang.String"/>
-	<field name="muameleTarihiText" class="java.lang.String"/>
+	<field name="muameleTarihiTxt" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -25,7 +27,7 @@ ANKARA]]></text>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{icraMudurluguAdi}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{icraMudurlugu}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="49" width="66" height="19" uuid="2b6c1f73-ee97-4138-b346-7d38c33c0de0"/>
@@ -46,7 +48,7 @@ ANKARA]]></text>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{muameleTarihiText}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{muameleTarihiTxt}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -59,27 +61,13 @@ ANKARA]]></text>
 				</textElement>
 				<text><![CDATA[Alacaklı vekili geldi,]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="25" y="42" width="266" height="18" uuid="7cc4b94c-496a-4e48-82d3-85090a677b98"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="10" pdfEncoding="Cp1254"/>
-				</textElement>
-				<text><![CDATA[ 1) Borçlu adına kayıtlı olduğu UYAP üzerinden tespit edilen]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="291" y="42" width="84" height="18" uuid="6d0f3d69-3e66-4202-864a-22fb866c2410"/>
+				<reportElement x="25" y="42" width="500" height="18" uuid="6d0f3d69-3e66-4202-864a-22fb866c2410"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{plaka}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" 1) Borçlu adına kayıtlı olduğu UYAP üzerinden tespit edilen "+$F{plaka}+" plakalı aracın üzerine haciz şerhi "]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="375" y="42" width="161" height="18" uuid="2bb52fbb-1d48-4c4a-834e-96ea5667affe"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="10" pdfEncoding="Cp1254"/>
-				</textElement>
-				<text><![CDATA[plakalı aracın üzerine haciz şerhi ]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="25" y="60" width="234" height="24" uuid="c9900392-389e-47a0-a061-7fe4115abba4"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
@@ -87,26 +75,12 @@ ANKARA]]></text>
 				</textElement>
 				<text><![CDATA[ işlenmesine talep ederim dedi.]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="25" y="85" width="160" height="25" uuid="d1300ba1-9205-47ef-b8ed-90931b199548"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="10" pdfEncoding="Cp1254"/>
-				</textElement>
-				<text><![CDATA[İş bu talep E-İMZA uyap üzerinden ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="291" y="85" width="115" height="25" uuid="808cee3e-f1d7-4354-9418-210f597055d9"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="10" pdfEncoding="Cp1254"/>
-				</textElement>
-				<text><![CDATA[tarihinde gönderilmiştir.]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="185" y="85" width="126" height="25" uuid="d20b6c0b-a6c6-4d8d-a205-8aa815719bdb"/>
+				<reportElement x="26" y="92" width="500" height="25" uuid="d20b6c0b-a6c6-4d8d-a205-8aa815719bdb"/>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{muameleTarihiText}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["İş bu talep E-İMZA uyap üzerinden  "+$F{muameleTarihiTxt}+" tarihinde gönderilmiştir."]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

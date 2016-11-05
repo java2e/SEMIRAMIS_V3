@@ -27,9 +27,20 @@ public class DBConnection extends ConvertDate {
 
 	}
 
-	public void disconnectDB() throws Exception {
+	public void disconnectDB()  
+	{
+		try {
+		
 		conn.close();
-	}
+	
+		
+		} catch (Exception e) {
+			
+			System.out.println("Hata dbconnection disConnectDB :"+e.getMessage());
+			// TODO: handle exception
+		}
+		
+		}
 
 	public java.sql.Date convertFromJAVADateToSQLDate(java.util.Date javaDate) {
 		java.sql.Date sqlDate = null;

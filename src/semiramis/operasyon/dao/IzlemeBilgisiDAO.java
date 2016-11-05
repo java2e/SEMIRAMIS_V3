@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.IzlemeBilgisi;
 
 public class IzlemeBilgisiDAO extends DBConnection {
@@ -18,6 +20,50 @@ public class IzlemeBilgisiDAO extends DBConnection {
 	ResultSet rs;
 	java.sql.Date izlemeTarihi;
 	java.sql.Date sonOdemeSozuTarihi;
+	
+	
+	public List<ComboItem> getIzlemeStatusuList(int id)
+	{
+		
+		List<ComboItem> liste=null;
+		
+		try {
+			
+			String sql="SELECT id, adi, izleme_sonucu_id FROM tbl_izleme_statusu where izleme_sonucu_id = "+id ;
+			
+			newConnectDB();
+			
+			Statement stmt=conn.createStatement();
+			
+			ResultSet set=stmt.executeQuery(sql);
+			
+			liste=new ArrayList<ComboItem>();
+			
+			while(set.next())
+			{
+				
+				ComboItem item=new ComboItem();
+				
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				
+				liste.add(item);
+			}
+			
+			
+			
+		} catch (Exception e) {
+			
+			
+			System.out.println("Hata izlemeBilgisiDAO izlemeStatüsüListe :"+e.getMessage());
+			
+			// TODO: handle exception
+		}
+		
+		return liste;
+		
+		
+	}
 
 	public boolean kaydet(IzlemeBilgisi izlemeKayit) {
 
@@ -30,8 +76,8 @@ public class IzlemeBilgisiDAO extends DBConnection {
 
 			SQL = "INSERT INTO tbl_izleme_bilgisi("
 					+ " izleme_tarihi, izleme_sonucu_id, odeme_sozu_tarihi, odeme_sozu_miktari, "
-					+ "  aciklama, personel_id, icra_dosyasi_id,vizit_durumu,guncelleme_tarihi)"
-					+ "  VALUES (?, ?, ?, ?, ?, ?, ?,?,now());";
+					+ "  aciklama, personel_id, icra_dosyasi_id,vizit_durumu,guncelleme_tarihi,izleme_statusu_id)"
+					+ "  VALUES (?, ?, ?, ?, ?, ?, ?,?,now(),?);";
 
 			try {
 				newConnectDB();
@@ -43,8 +89,9 @@ public class IzlemeBilgisiDAO extends DBConnection {
 				pstmt.setDouble(4, izlemeKayit.getOdemeSozuMiktari()==null ? 0 : izlemeKayit.getOdemeSozuMiktari());
 				pstmt.setString(5, izlemeKayit.getAciklama());
 				pstmt.setInt(6, izlemeKayit.getPersonelId());
-				pstmt.setInt(7, AktifBean.getIcraDosyaID());
+				pstmt.setInt(7, izlemeKayit.getIcraDosyaId());
 				pstmt.setInt(8, izlemeKayit.isVizitDurumu() == true ? 1 : 0);
+				pstmt.setInt(9, izlemeKayit.getIzlemeStatusuId());
 
 				int result = pstmt.executeUpdate();
 
@@ -103,7 +150,7 @@ public class IzlemeBilgisiDAO extends DBConnection {
 		sonOdemeSozuTarihi = convertFromJAVADateToSQLDate(izlemeKayit.getOdemeSozuTarihi());
 
 		SQL = "UPDATE tbl_izleme_bilgisi SET izleme_tarihi=?, odeme_sozu_tarihi=?, odeme_sozu_miktari=?, "
-				+ "aciklama=?, personel_id=?, icra_dosyasi_id=?, izleme_sonucu_id=?,vizit_durumu=? , guncelleme_tarihi=now() "
+				+ "aciklama=?, personel_id=?, icra_dosyasi_id=?, izleme_sonucu_id=?,vizit_durumu=? , guncelleme_tarihi=now(),izleme_statusu_id=? "
 				+ "WHERE id=" + izlemeKayit.getId() + ";";
 
 		newConnectDB();
@@ -117,6 +164,8 @@ public class IzlemeBilgisiDAO extends DBConnection {
 		pstmt.setInt(6, izlemeKayit.getIcraDosyasiId());
 		pstmt.setInt(7, izlemeKayit.getIzlemeSonucuId());
 		pstmt.setInt(8, izlemeKayit.isVizitDurumu() == true ? 1 : 0);
+		pstmt.setInt(9, izlemeKayit.getIzlemeStatusuId());
+
 
 		duzenlendi = pstmt.execute();
 

@@ -1,5 +1,8 @@
 package semiramis.operasyon.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
@@ -7,13 +10,22 @@ import javax.faces.bean.ViewScoped;
 import pelops.controller.AktifBean;
 import pelops.dao.IcraDosyasiDAO;
 import semiramis.operasyon.dao.IzlemeBilgisiDAO;
+import semiramis.operasyon.dao.LevhaDAO;
+import semiramis.operasyon.dao.TebligatDAO;
+import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.model.Levha;
 import semiramis.operasyon.model.PairLevha;
+import semiramis.operasyon.model.Tebligat;
 
 @ManagedBean(name = "levhaBean", eager = true)
 @RequestScoped
 public class LevhaBean {
-
+	
+	
+	private List<HaczeEsasMalBilgisi> aracListesi;
+	private List<HaczeEsasMalBilgisi> tapuListesi;
+	
+	
 	private Levha levhaBilgi;
 
 	private int cagriSayisi=0;
@@ -23,6 +35,8 @@ public class LevhaBean {
 	
 	private int AracSayisi = 0;
 	private int EvSayisi = 0;
+	
+	private String tebligatDurum;
 
 	private String Ev = "img/acikcagri.png", Arac = "img/acikcagri.png", Para = "img/acikcagri.png",
 			Haciz = "img/acikcagri.png", Itiraz = "img/acikcagri.png", Istahbarat = "img/acikcagri.png",
@@ -39,15 +53,34 @@ public class LevhaBean {
 	public LevhaBean() throws Exception {
 		// TODO Auto-generated constructor stub
 
+		try {
+		
+		aracListesi=new ArrayList<HaczeEsasMalBilgisi>();
+		tapuListesi=new ArrayList<HaczeEsasMalBilgisi>();
+		
+		
 		levhaBilgi = new Levha();
-		plakaGetir();
 		
 		cagriSayisi=new IzlemeBilgisiDAO().izlemeSayisi(AktifBean.icraDosyaID);
+		
+		plakaGetir();
 
+		
+		} catch (Exception e) {
+		
+			System.out.println("Hata LevhaBean :"+e.getMessage());
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void plakaGetir() throws Exception {
 		IcraDosyasiDAO icd = new IcraDosyasiDAO();
+		LevhaDAO levhaDAO=new LevhaDAO();
+		
+		
+		aracListesi=levhaDAO.getAracList(AktifBean.getBorcluId());
+		tapuListesi=levhaDAO.getTapuListe(AktifBean.getBorcluId());
 		
 		PairLevha pairArac=icd.MalSayisi(3, AktifBean.getBorcluId());
 		
@@ -120,7 +153,7 @@ public class LevhaBean {
 			Para="img/Maas.png";
 
 		itirazDurum();
-		bilaDurum();
+		//bilaDurum();
 		hitamDurum();
 		//maasDurum();
 		hacizDurum();
@@ -128,9 +161,29 @@ public class LevhaBean {
 		hacizDurumEv();
 		//hacizDurumMaas();
 		vizitDurum();
+		tebligatDurum();
 
 	}
 	
+	
+	public void tebligatDurum()
+	{
+		
+		TebligatDAO tebligatDAO=new TebligatDAO();
+		
+		Tebligat tebligat=tebligatDAO.getT(AktifBean.icraDosyaID);
+		
+		if(tebligat!=null)
+		{
+			
+			tebligatDurum="img/levha/tebligat.png";
+			
+		}
+		else
+			tebligatDurum="img/levha/acikcagri.png";
+		
+		
+	}
 	
 	public void vizitDurum()
 	{
@@ -268,7 +321,7 @@ public class LevhaBean {
 
 		try {
 			if (D.compareTo("E") == 0) {
-				this.Haciz = "img/hacze_gidildi.png";
+				this.Haciz = "img/haciz.png";
 
 			} else
 				this.Haciz = "img/acikcagri.png";
@@ -565,6 +618,30 @@ public class LevhaBean {
 
 	public void setVizit(String vizit) {
 		this.vizit = vizit;
+	}
+
+	public String getTebligatDurum() {
+		return tebligatDurum;
+	}
+
+	public void setTebligatDurum(String tebligatDurum) {
+		this.tebligatDurum = tebligatDurum;
+	}
+
+	public List<HaczeEsasMalBilgisi> getAracListesi() {
+		return aracListesi;
+	}
+
+	public void setAracListesi(List<HaczeEsasMalBilgisi> aracListesi) {
+		this.aracListesi = aracListesi;
+	}
+
+	public List<HaczeEsasMalBilgisi> getTapuListesi() {
+		return tapuListesi;
+	}
+
+	public void setTapuListesi(List<HaczeEsasMalBilgisi> tapuListesi) {
+		this.tapuListesi = tapuListesi;
 	}
 
 	

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:panel header="GENEL HACİZ BİLGİSİ" id="genelhacizbilgisi"
+								style="width:100%" toggleable="true" collapsed="true">
+								<p:panelGrid columns="2"
+									style=" border-style: hidden !important; width:100%">
+
+									<p:outputLabel value="İcra Dosya No" />
+									<p:inputText
+										value="#{icradosyaislemleribean.icradosyasilistesi.icraDosyaNo}"
+										style="width:100%" />
+
+									<p:outputLabel value="İcra Müdürlüğü" />
+
+
+
+									<p:selectOneMenu id="icraMudurlugu" effect="fold" filter="true"
+										filterMatchMode="startsWith" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.icraMudurluguId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Dosya Statüsü" />
+									<p:selectOneMenu id="dosyaStatusu" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.dosyaStatusuId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_dosya_statu')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Dosya Tipi" />
+									<p:selectOneMenu id="dosyaTipi" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.dosyaTipiId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_dosya_tipi')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Takip Tipi" />
+									<p:selectOneMenu id="takipTipi" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.takipTipiId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_takip_tipi')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Takip Yolu" />
+									<p:selectOneMenu id="takipYolu" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.takipYoluId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_takip_yolu')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Takip Şekli" />
+									<p:selectOneMenu id="takipSekli" styleClass="selectMenu"
+										value="#{icradosyaislemleribean.icradosyasilistesi.takipSekliId}"
+										style="width: 100%">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_takip_sekli')}"
+											var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Borç Tipi" />
+									<p:selectOneMenu style="width: 100%" id="borcTipi"
+										value="#{icradosyaislemleribean.icradosyasilistesi.borcTipiId}">
+										<f:selectItem itemLabel="" itemValue="" />
+										<f:selectItems
+											value="#{geneltanimbean.ListeGetir('tbl_borc_tipi')}"
+											var="item" itemValue="#{item.id}" itemLabel="#{item.adi}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Borca Esas Evrak" />
+									<p:inputText
+										value="#{icradosyaislemleribean.icradosyasilistesi.diger_alacak_aciklama}"
+										style="width:100%" />
+
+									<p:outputLabel value="Talep Edilen Hak" />
+									<p:inputTextarea rows="5" style="width:100%" queryDelay="750"
+										minQueryLength="4"
+										value="#{icradosyaislemleribean.icradosyasilistesi.talepEdilenHak}" />
+
+									<p:selectOneMenu style="width: 100%"
+										value="#{icradosyaislemleribean.icradosyasilistesi.BK84}">
+										<f:selectItem itemLabel="Hayır" itemValue="H" />
+										<f:selectItem itemLabel="Evet" itemValue="E" />
+									</p:selectOneMenu>
+									<p:outputLabel value="BK 84 Madde Uygulansın" />
+
+
+									<p:selectOneMenu style="width: 100%"
+										value="#{icradosyaislemleribean.icradosyasilistesi.BSMV}">
+										<f:selectItem itemLabel="Hayır" itemValue="H" />
+										<f:selectItem itemLabel="Evet" itemValue="E" />
+									</p:selectOneMenu>
+									<p:outputLabel value="BSMV Uygulansın" />
+
+									<p:selectOneMenu style="width: 100%"
+										value="#{icradosyaislemleribean.icradosyasilistesi.KKDF}">
+										<f:selectItem itemLabel="Hayır" itemValue="H" />
+										<f:selectItem itemLabel="Evet" itemValue="E" />
+									</p:selectOneMenu>
+									<p:outputLabel value="KKDF Uygulansın" />
+
+
+									<p:outputLabel />
+									<p:commandButton value="Genel Haciz Bilgisini Güncelle"
+										ajax="false" style="width:100%"
+										action="#{icradosyaislemleribean.guncelleHaciz()}" />
+
+								</p:panelGrid>
+							</p:panel>
+
+
+</ui:composition>
+</html>

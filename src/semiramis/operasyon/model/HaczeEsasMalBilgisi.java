@@ -11,6 +11,8 @@ public class HaczeEsasMalBilgisi {
 	private String ilceAdi;
 	
 	private int tapuIlId;
+	private String tapuIl;
+	private String tapuIlce;
 	private int tapuIlceId;
 	private String tapuMahalleAdi;
 	
@@ -301,6 +303,22 @@ public class HaczeEsasMalBilgisi {
 
 	public void setTapuAda(String tapuAda) {
 		this.tapuAda = tapuAda;
+	}
+
+	public String getTapuIl() {
+		return tapuIl;
+	}
+
+	public void setTapuIl(String tapuIl) {
+		this.tapuIl = tapuIl;
+	}
+
+	public String getTapuIlce() {
+		return tapuIlce;
+	}
+
+	public void setTapuIlce(String tapuIlce) {
+		this.tapuIlce = tapuIlce;
 	}
 
 	

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tahsilat-Listesi" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="869d214f-b48f-4376-b38b-000aa7e78f69">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="17"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="sira_no" class="java.lang.Integer"/>
+	<field name="dosya_statusu" class="java.lang.String"/>
+	<field name="icra_dosya_no" class="java.lang.String"/>
+	<field name="icra_mudurlugu" class="java.lang.String"/>
+	<field name="urun_adi" class="java.lang.String"/>
+	<field name="borclu_adi" class="java.lang.String"/>
+	<field name="urun_no" class="java.lang.String"/>
+	<field name="tahsilat_tipi" class="java.lang.String"/>
+	<field name="tahsilat_miktari" class="java.lang.Double"/>
+	<field name="kullanici_adi" class="java.lang.String"/>
+	<field name="vekalet_ucreti" class="java.lang.Double"/>
+	<field name="tahsilat_harci" class="java.lang.Double"/>
+	<field name="reddiyat_miktari" class="java.lang.Double"/>
+	<variable name="SayfaToplamı" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tahsilat_miktari}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="799" height="18" uuid="68689d5e-a8dd-4979-8d6e-b00182717056"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="false" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[TAHSİLAT LİSTESİ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="18" width="92" height="14" uuid="8041d3ce-765e-4ebb-9eeb-6fcc2d70104f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[HSBC BANK A.S.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="126" y="0" width="70" height="14" uuid="3f71951a-5dda-4244-b937-5c23eebeee70">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İcra Müdürlüğü]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="196" y="0" width="54" height="14" uuid="1157ccc8-2ba9-44dc-8dc9-1db467045039">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Borç Tipi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="0" width="46" height="14" uuid="19b46395-4d63-4193-95dd-9ba2bc2fa4bc">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Tahsilat Tipi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="509" y="0" width="70" height="14" uuid="0dcd8337-7f20-4243-b82e-38b17df5f7b7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Tahsilat Miktarı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="579" y="0" width="54" height="14" uuid="7423bb2b-250c-463f-814c-23d7246402d3">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Vekalet Ücreti]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="634" y="0" width="44" height="14" uuid="c1733588-f9f7-4b41-a379-0a5d331e64d4">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Tahsil Harcı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="678" y="0" width="67" height="14" uuid="3dbde5b7-6100-4a76-99ab-1ac4bb332ab7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Reddiyat Miktarı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="745" y="0" width="58" height="14" uuid="3cd02a93-09c5-427a-b29b-c979ebab2a4a">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Personel Adı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="0" width="84" height="14" uuid="88bd45d9-a1d1-4339-85a3-385c993eb8bb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Ürün No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="129" height="14" uuid="f7fd6512-e956-48b8-a409-462c3082a3f7">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Borçlu Adı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="0" width="58" height="14" uuid="9aebfa71-4077-4b96-a1a8-d675253a2144">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Dosya No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="0" width="46" height="14" uuid="109dca72-8e42-4618-b254-deae4f6eb5f9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Dosya Statüsü]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="800" height="1" uuid="563a260c-6d44-41d7-a500-d3c3975df624"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="1" y="0" width="21" height="12" isRemoveLineWhenBlank="true" uuid="99f7b644-2952-4e0c-95cd-014a93000ee8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sira_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="68" y="0" width="58" height="12" isRemoveLineWhenBlank="true" uuid="4fec5b07-21d3-486d-9d03-c59e22bc30c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{icra_dosya_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="126" y="0" width="70" height="12" isRemoveLineWhenBlank="true" uuid="6ed372b3-b7a6-47bf-8d9d-26688eed1d55"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{icra_mudurlugu}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="196" y="0" width="54" height="12" isRemoveLineWhenBlank="true" uuid="41ffcf6a-d5ef-4b32-9b8a-8472fea23c02"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{urun_adi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="250" y="0" width="129" height="12" isRemoveLineWhenBlank="true" uuid="868d3a2a-1a7c-4905-84d5-9ee5c3036cb2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{borclu_adi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="379" y="0" width="84" height="12" isRemoveLineWhenBlank="true" uuid="af6a0ef8-4c21-46bf-ad58-8ae14ce81f08"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{urun_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="463" y="0" width="46" height="12" isRemoveLineWhenBlank="true" uuid="41c870df-55b1-4eac-8192-d8141b20041b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tahsilat_tipi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="509" y="0" width="70" height="12" isRemoveLineWhenBlank="true" uuid="c57cc3ad-e548-45ea-a94e-b620fc9c71c6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tahsilat_miktari}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" x="745" y="0" width="55" height="12" isRemoveLineWhenBlank="true" uuid="868dcb33-7470-42d5-8e6c-cd51ad610fc1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kullanici_adi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="22" y="0" width="46" height="12" uuid="a4393c54-bdfb-463f-9af4-0244de12946e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dosya_statusu}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="579" y="0" width="55" height="12" uuid="37130b8a-709b-4508-aa6f-f82ed89f1362"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vekalet_ucreti}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="634" y="0" width="44" height="12" uuid="9ae96e51-c517-410c-a17f-7c1ff5834a08"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tahsilat_harci}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="678" y="0" width="67" height="12" uuid="81434624-d7b5-45b6-9a45-ee216c315419"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reddiyat_miktari}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="17" splitType="Stretch">
+			<textField pattern="#,##0.00¤;#,##0.00- ¤">
+				<reportElement x="509" y="0" width="70" height="17" uuid="92b1f954-fb5e-485b-968c-965380793977"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SayfaToplamı}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="1" width="100" height="15" uuid="55c28e0b-8041-48bb-b6fa-423dd22f1491"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.UUID;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import pelops.dao.DuyuruDAO;
 import pelops.model.Duyuru;
 
  
 @ManagedBean(name = "duyuruService")
-@ApplicationScoped
+@SessionScoped
 public class DuyuruService {
 
 	

@@ -9,7 +9,8 @@
 
 
 <ui:composition>
-	<p:panel id="panelPG" header="TEBLİGAT BİLGİSİ KAYIT PANELİ" style="text-align:left;">
+	<p:panel id="panelPG" header="TEBLİGAT BİLGİSİ KAYIT PANELİ"
+		style="text-align:left;">
 
 		<p:ajaxStatus onstart="PF('statusDialog').show()"
 			onsuccess="PF('statusDialog').hide()" />
@@ -22,7 +23,7 @@
 
 		<h:form id="tebligatForm">
 
-			<p:panel id="panelForm">
+			<p:panel>
 				<p:panelGrid columns="2" style="margin-top:10px">
 
 					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
@@ -34,52 +35,92 @@
 
 
 					<p:outputLabel for="vizitDate">Tebligat Türü :</p:outputLabel>
-					<p:selectOneMenu id="vizitDate" value="#{tebligatBean.tebligat.tebligatTuruId}"  style="width: 250px">
-					
-					<f:selectItem itemLabel="Tür Seçiniz " itemValue="0"/>
-					<f:selectItems
+					<p:selectOneMenu id="vizitDate"
+						value="#{tebligatBean.tebligat.tebligatTuruId}"
+						style="width: 250px">
+
+						<f:selectItem itemLabel="Tür Seçiniz " itemValue="0" />
+						<f:selectItems
 							value="#{geneltanimbean.ListeGetir('tbl_tebligat_tipi')}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"/>
-					
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+
 					</p:selectOneMenu>
-					
+
 					<p:outputLabel for="tebligatStatusu">Tebligat Statüsü :</p:outputLabel>
-					<p:selectOneMenu id="tebligatStatusu" value="#{tebligatBean.tebligat.tebligatStatusuId}"  style="width: 250px">
-					
-					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
-					<f:selectItems
+					<p:selectOneMenu id="tebligatStatusu"
+						value="#{tebligatBean.tebligat.tebligatStatusuId}"
+						style="width: 250px">
+
+						<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0" />
+						<f:selectItems
 							value="#{geneltanimbean.ListeGetir('tbl_tebligat_statusu')}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
-					
+
 					</p:selectOneMenu>
 
 					<p:outputLabel for="tebligatSonucu">Tebligat Sonucu :</p:outputLabel>
-					<p:selectOneMenu id="tebligatSonucu" value="#{tebligatBean.tebligat.tebligatSonucuId}"  style="width: 250px">
-					
-					<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0"/>
-					<f:selectItems
+					<p:selectOneMenu id="tebligatSonucu"
+						value="#{tebligatBean.tebligat.tebligatSonucuId}"
+						style="width: 250px">
+
+						<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0" />
+						<f:selectItems
 							value="#{geneltanimbean.ListeGetir('tbl_tebligat_sonucu')}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
-					
+
 					</p:selectOneMenu>
 
-					
-
-				<p:growl id="growl" showDetail="true" sticky="true" />
-
-			
-
-				<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
-					actionListener="#{tebligatBean.kaydet}"  style="width: 250px"/>
 
 
-</p:panelGrid>
+
+					<p:commandButton id="cmdButtonSearch" value="Son Durumu Sorgula"
+						actionListener="#{tebligatBean.search}" style="width: 250px"
+						oncomplete="PF('myDialogVar').show();"
+						update="tebligatForm" />
+
+
+					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
+						actionListener="#{tebligatBean.kaydet}" style="width: 250px" />
+
+
+				</p:panelGrid>
 			</p:panel>
 
+			<p:dataTable value="#{tebligatBean.islems}" var="list"
+				id="tblTebligatList" update=":tblTebligatList" paginator="true"
+				rows="6">
 
-</h:form>
+				<p:column headerText="İşlem">
+					<p:outputLabel value="#{list.islemAdi}" />
+				</p:column>
 
-</p:panel>
+				<p:column headerText="Barkodu">
+					<p:outputLabel value="#{list.barcodEncoded}" />
+				</p:column>
+
+				<p:column headerText="Tebligat Statüsü">
+					<p:outputLabel value="#{list.statusu}" />
+				</p:column>
+
+				<p:column headerText="Tebligat Sonucu">
+					<p:outputLabel value="#{list.sonuc}" />
+				</p:column>
+
+
+
+
+			</p:dataTable>
+
+			<p:dialog id="tarcking" header="Son Durumu" widgetVar="myDialogVar"
+				width="40%;" minimizable="true">
+				<ui:include src="/XHTML/dialog/dlg_tracking.xhtml" />
+			</p:dialog>
+
+		</h:form>
+
+
+
+	</p:panel>
 
 </ui:composition>
 

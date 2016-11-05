@@ -35,6 +35,7 @@ import pelops.report.model.DataToPrint;
 import pelops.report.model.ReportGenel;
 import pelops.report.model.ReportUtils;
 import semiramis.operasyon.controller.Utils;
+import semiramis.operasyon.dao.IslemDAO;
 import semiramis.operasyon.model.ChronologyIdentifier;
 
 public class ConstructDataCtrl {
@@ -351,6 +352,7 @@ public class ConstructDataCtrl {
 		PostaDAO postaDAO = new PostaDAO();
 		barkod = postaDAO.checkBarkod(genel.getId());
 		posta = postaDAO.BarkodVer();
+		barkod = IslemDAO.getInstance().checkBarkodforIslem(genel.getId(), ReportUtils.ODEME_EMRI_ISLEM_ID);
 		if (barkod == null || genel.getBarkot() == "") {
 			genel.setBarkot(posta.getBarkod());
 			posta.setDurum(1);

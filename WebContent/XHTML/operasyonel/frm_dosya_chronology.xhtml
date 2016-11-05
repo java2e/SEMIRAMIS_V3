@@ -19,9 +19,14 @@
 				<p:inputText size="30"
 					value="#{basicTimelineController.icraDosyaNo}" />
 	  ||
-	  <p:commandButton icon="ui-icon-search" style="color:red"
-					value="Ara !" onclick="PF('dlgdetayliarama').show();" />
-
+	<p:commandButton id="btnDetayliArama" value="Detaylı Arama"
+					icon="ui-icon-extlink"
+					actionListener="#{basicTimelineController.chooseIcraDosyasi}"
+					style="width:15%">
+					<p:ajax event="dialogReturn"
+						listener="#{basicTimelineController.onIcraDosyasiChosen}"
+						update="formChr" />
+				</p:commandButton>
 			</p:outputLabel>
 
 		</p:panel>
@@ -73,11 +78,7 @@
 
 
 
-		<p:dialog header="DETAYLI ARAMA" widgetVar="dlgdetayliarama"
-			minHeight="340" height="690">
-
-			<ui:include src="../dialog/dlg_detail_search.xhtml" />
-		</p:dialog>
+		
 
 	</h:form>
 </h:body>

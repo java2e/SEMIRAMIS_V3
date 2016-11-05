@@ -30,13 +30,32 @@ public class MasrafDAO extends DBConnection {
 		try {
 
 			java.sql.Date dateMasraf = convertFromJAVADateToSQLDate(masraf.getMasrafTarihi());
+			
+			String sql1="SELECT id  FROM tbl_masraf_bilgisi "
+                             +"  where masraf_tipi_id="+masraf.getMasrafTipiId()+" and icra_dosyasi_id="+masraf.getIcra_dosyasi_id();
+
+			
 
 			SQL = "INSERT INTO tbl_masraf_bilgisi("
 					+ " miktar, aciklama, tarih, personel_id, masraf_tipi_id, icra_dosyasi_id, "
 					+ " borclu_id, uygulama_asamasi_id) " + "VALUES ( ?, ?, ?, ?, ?, ?,  ?, ?);";
 
 			newConnectDB();
-
+			
+			
+			Statement stmt=conn.createStatement();
+			
+			ResultSet set=stmt.executeQuery(sql1);
+			
+			boolean varYok=true;
+			
+			while(set.next())
+			{
+				varYok=false;
+			}
+			int sonuc=0;
+			if(varYok)
+			{
 			pstmt = conn.prepareStatement(SQL);
 
 			pstmt.setDouble(1, masraf.getMasrafMiktari());
@@ -44,17 +63,22 @@ public class MasrafDAO extends DBConnection {
 			pstmt.setDate(3, dateMasraf);
 			pstmt.setInt(4, Util.getUser().getUsrId());
 			pstmt.setInt(5, masraf.getMasrafTipiId());
-			pstmt.setInt(6, AktifBean.getIcraDosyaID());
+			pstmt.setInt(6, masraf.getIcra_dosyasi_id());
 			pstmt.setInt(7, masraf.getBorcluId());
 			pstmt.setInt(8, masraf.getMasrafUygulamaAsamasiId());
 
-			int sonuc = pstmt.executeUpdate();
+		    sonuc= pstmt.executeUpdate();
+			
+			
+			}
+			
 			disconnectDB();
+			
 			if (sonuc == 1) {
 
 				kaydedildi = true;
 				BaglantiDAO hsdao = new BaglantiDAO();
-				int hsID = hsdao.Listele(AktifBean.getIcraDosyaID()).getHesaplamaID();
+				int hsID = hsdao.Listele(masraf.getIcra_dosyasi_id()).getHesaplamaID();
 				dao.guncelleMasraf(hsID, masraf.getMasrafMiktari());
 
 			}

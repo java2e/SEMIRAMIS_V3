@@ -12,9 +12,28 @@ public class HaczeEsasMalBilgisiView
 	private float borcMiktari;
 	private int durum;
 	
+	private String borcluAdSoyad;
+	private String icraDosyaNo;
 	
 	
 	
+	
+	
+	
+	
+	
+	public String getBorcluAdSoyad() {
+		return borcluAdSoyad;
+	}
+	public void setBorcluAdSoyad(String borcluAdSoyad) {
+		this.borcluAdSoyad = borcluAdSoyad;
+	}
+	public String getIcraDosyaNo() {
+		return icraDosyaNo;
+	}
+	public void setIcraDosyaNo(String icraDosyaNo) {
+		this.icraDosyaNo = icraDosyaNo;
+	}
 	public int getId() {
 		return id;
 	}

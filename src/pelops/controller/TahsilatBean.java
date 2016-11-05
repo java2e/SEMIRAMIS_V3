@@ -10,7 +10,7 @@ import pelops.dao.IcraDosyasiDAO;
 import pelops.dao.TahsilatDAO;
 import pelops.model.Tahsilat;
 
-@ManagedBean(name="tahsilatBean")
+@ManagedBean(name="tahsilatBean2")
 @SessionScoped
 public class TahsilatBean {
 

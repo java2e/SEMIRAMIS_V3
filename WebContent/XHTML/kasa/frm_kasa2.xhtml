@@ -8,7 +8,27 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:fcore="http://java.sun.com/jsf/core">
 	
+	
+	
 <h:body>
+
+				<style>
+.ui-panelgrid-cell {
+	border-width: 0px !important;
+}
+
+.titleColor2>.ui-panel-titlebar {
+	background:#F82A19;
+	background-repeat: repeat;
+	height: 20px;
+	text-align: center !important;
+	font-size: 14px;
+	color: white;
+	border-style: hidden !important;
+}
+</style>
+	
+    
 	<div id="main">
 
 <p:ajaxStatus onstart="PF('statusDialog1').show()" onsuccess="PF('statusDialog1').hide()" />
@@ -40,17 +60,12 @@ style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; 
 <p:column style="width:40%" headerText="ONAYLAR" >
 <p:panel header="BEKLEYEN - ONAYDAN GELENLER" style="height:100%; border-style: hidden !important;">
 <p:panelGrid style=" border-style: hidden !important; text-align:left; height:100%; width:100%" columns="2">						
-						<p:commandButton style="width:100%;height:35px;" value="BEKLEYEN - HİTAM" onclick="PF('hitambekleme').show();" disabled="true"/>
-						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - HİTAM" onclick="PF('hitamonaylanan').show();" disabled="true"/>
+						<p:commandButton style="width:100%;height:35px;" value="BEKLEYEN - HİTAM" onclick="PF('hitambekleme').show();"/>
+						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - HİTAM" onclick="PF('hitamonaylanan').show();"/>
 						
-						<p:commandButton style="width:100%; height:35px;"  value="BEKLEYEN - REDDİYAT" onclick="PF('reddiyatbekleme').show();" disabled="true"/>
-						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - REDDİYAT" onclick="PF('reddiyatonaylanan').show();" disabled="true"/>
 						
-						<p:commandButton style="width:100%;height:35px;"  value="BEKLEYEN - TAHSİLAT MAKBUZU" onclick="PF('tahsilatmakbuzbekleme').show();" disabled="true"/>
-						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - TAHSİLAT MAKBUZU" onclick="PF('tahsilatmakbuzonaylanan').show();" disabled="true"/>
-						
-						<p:commandButton style="width:100%;height:35px;" value="BEKLEYEN - İNDİRİM" onclick="PF('indirimbekleme').show();" disabled="true"/>
-						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - İNDİRİM" onclick="PF('indirimonaylanan').show();" disabled="true"/>
+						<p:commandButton style="width:100%;height:35px;" value="BEKLEYEN - İNDİRİM" onclick="PF('indirimbekleme').show();" />
+						<p:commandButton style="width:100%;height:35px;"  value="ONAYLANMIŞ - İNDİRİM" onclick="PF('indirimonaylanan').show();" />
 						
 </p:panelGrid>
 </p:panel>
@@ -68,13 +83,13 @@ style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; 
 		 	<p:outputLabel><p:spacer height="10"/></p:outputLabel><p:outputLabel><p:spacer height="10"/></p:outputLabel>
 		 	<p:outputLabel>MÜVEKKİL ADI</p:outputLabel><p:outputLabel>TAHSİLAT TUTARI</p:outputLabel>
 		 	<p:outputLabel>MÜVEKKİL ADI</p:outputLabel><p:outputLabel>TAHSİLAT TUTARI</p:outputLabel>
-		 	<p:outputLabel>HSBC A.Ş.      </p:outputLabel><p:outputLabel>: #{kasaBean.hsbc_gunluk1}</p:outputLabel>
+		 	<p:outputLabel>HSBC A.Ş.      </p:outputLabel><p:outputLabel>: #{kasaBean.hsbc_aylik1}</p:outputLabel>
 			<p:outputLabel>HSBC A.Ş.      </p:outputLabel><p:outputLabel>: #{kasaBean.hsbc_gunluk1}</p:outputLabel>
+			<p:outputLabel>AKBANK  A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.akbank_aylik1}</p:outputLabel>
 			<p:outputLabel>AKBANK  A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.akbank_gunluk1}</p:outputLabel>
-			<p:outputLabel>AKBANK  A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.akbank_gunluk1}</p:outputLabel>
+			<p:outputLabel>GARANTİ A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.garanti_aylik1}</p:outputLabel>
 			<p:outputLabel>GARANTİ A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.garanti_gunluk1}</p:outputLabel>
-			<p:outputLabel>GARANTİ A.Ş.   </p:outputLabel><p:outputLabel>: #{kasaBean.garanti_gunluk1}</p:outputLabel>
-			<p:outputLabel>DİĞER A.Ş.     </p:outputLabel><p:outputLabel>: #{kasaBean.ing_gunluk1}</p:outputLabel>
+			<p:outputLabel>DİĞER A.Ş.     </p:outputLabel><p:outputLabel>: #{kasaBean.ing_aylik1}</p:outputLabel>
 			<p:outputLabel>DİĞER A.Ş.     </p:outputLabel><p:outputLabel>: #{kasaBean.ing_gunluk1}</p:outputLabel>
 								
 </p:panelGrid>
@@ -91,14 +106,17 @@ style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; 
 <p:panelGrid style=" border-style: hidden !important; width:100%; height:100%;" >
 	
 <p:row style="width:100%;">
-<p:column style="width:70%; heigth:100%" headerText="KASA" >
-<p:panel header="KASA İŞLEMLERİ LİSTESİ" style="height:100%; border-style: hidden !important;">
+<p:column style="width:60%; heigth:100%" headerText="KASA" >
+<p:panel styleClass="titleColor2" header="KASA İŞLEMLERİ LİSTESİ" style="height:100%; ">
 
 <p:panelGrid columns="7" style="height:100%; border-style: hidden !important;">
-<p:outputLabel value="BAŞLANGIÇ TARİHİ :"/> <p:calendar id="multi"  pages="3" value="#{kasaBean.baslangicTarihi}" />
+<p:outputLabel value="BAŞLANGIÇ TARİHİ :"/> 
+<p:calendar  locale="tr" id="mask1" size="32" value="#{kasaBean.baslangicTarihi}"
+					pattern="dd-MM-yyyy" mask="true" />	
 																  
-<p:outputLabel value="    BİTİŞ TARİHİ : #{kasaBean.tali}"/> <p:calendar id="multi1"  pages="3" value="#{kasaBean.bitisTarihi}" />
-																	
+<p:outputLabel value="    BİTİŞ TARİHİ : #{kasaBean.tali}"/>
+	<p:calendar  locale="tr" id="mask" size="32" value="#{kasaBean.bitisTarihi}" 
+					pattern="dd-MM-yyyy" mask="true" />																
 <p:commandButton value="Listele"  update=":kasaForm:tabviewlist" action="#{kasaBean.sayfaGuncelle()}"/>
 
 <p:commandButton value="Tahsilat Listesi Yazdır"   action="#{kasaBean.yazdir()}" ajax="false"/>
@@ -290,44 +308,49 @@ style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; 
 </p:panel>
 </p:column>
 
-<p:column style="width:30%; heigth:100%" headerText="REDDİYAT" >
-<p:panel header="REDDİYAT LİSTESİ" style="height:100%; width:100%; border-style: hidden !important;">
+<p:column style="width:40%; heigth:100%" headerText="REDDİYAT" >
+<p:panel styleClass="titleColor2" header="REDDİYAT LİSTESİ" id="panelReddiyat" style="height:100%; width:100%;">
 									
-<p:carousel value="#{kasaBean.reddiyatListesi}" headerText="REDDİYAT LİSTESİ" var="kasa" id="reddiyatlistesi"
-						itemStyle="text-align:left" responsive="true"  numVisible="2" style="height:100%">
-        <p:panelGrid columns="2" style=" width:100%; margin:5px 0px; font-size:12px; height:100%" columnClasses="ui-grid-col-3, ui-grid-col-9" 
-        layout="grid" styleClass="ui-panelgrid-blank">
-            <f:facet name="header">
-                 
+<p:dataTable  value="#{kasaBean.reddiyatListesi}" headerText="REDDİYAT LİSTESİ" var="kasa" id="reddiyatlistesi"	
+				emptyMessage="Aradığınız Kritere Uygun Sonuç Bulunamamıştır."
+				 style="width:100% "
+					rowStyleClass="green"
+					rows="8"
+					paginator="true"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="8,10,25,50,100,1000"
+				>
+      
+      		<p:column headerText="Seç" >
 					  <p:commandButton value="Seç" type="Button" action="#{kasaBean.ReddiyatAktar(kasa.id)}" update=":reddiyatyap" style="width:55px"/>
-					<p:graphicImage value="img/paracikisi.png" style="height:100%; width:100%"/>
-            </f:facet>
- 		      
-            <h:outputLabel value=""/>
-            <h:outputLabel value=""/>
+				</p:column>
+ 		  
  				
-            <h:outputText value="İcra Dosya No" />
+           <p:column headerText="İcra Dosya No" >
             <h:outputText value="#{kasa.icraDosyaNo}" />
+            </p:column>
  
-            <h:outputText value="Ad Soyad" />
+            <p:column headerText="Ad Soyad" >
             <h:outputText value="#{kasa.borcluAdi}" />
- 
-            <h:outputText value="Reddiyat Türü" />
+ 			</p:column>
+            
+            <p:column headerText="Reddiyat Türü" >
             <h:outputText value="#{kasa.reddiyatTuru}" style="color:red"/>
- 
-            <h:outputText value="Tutar" />
+ 			</p:column>
+            
+            <p:column headerText="Tutar" >
             <h:outputText value="#{kasa.aktifTutarTL}" style="color:green"/>
+            </p:column>
             
-            <h:outputText value="Tarih" />
+            <p:column headerText="Tarih" >
             <h:outputText value="#{kasa.tarih}" style="color:green"/>
+            </p:column>
             
-            
-        </p:panelGrid>
  
         <f:facet name="footer">
-                Reddiyat işlemi için bekleyen kayıtların listesidir.
+                Reddiyat için toplam #{kasaBean.reddiyatListesi.size()} adet işlem vardır.
         </f:facet>
-    </p:carousel>
+    </p:dataTable>
 	
 
 </p:panel>

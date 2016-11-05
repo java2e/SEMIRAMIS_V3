@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition>
+
+<script type="text/javascript">
+        PrimeFaces.locales['tr'] = {
+            closeText: 'kapat',
+            prevText: 'geri',
+            nextText: 'ileri',
+            currentText: 'bugün',
+            monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+            monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz', 'Tem','Ağu','Eyl','Eki','Kas','Ara'],
+            dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+            dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+            dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+            weekHeader: 'Hf',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Zaman Seçiniz',
+            timeText: 'Zaman',
+            hourText: 'Saat',
+            minuteText: 'Dakika',
+            secondText: 'Saniye',
+            ampm: false,
+            month: 'Ay',
+            week: 'Hafta',
+            day: 'Gün',
+            allDayText : 'Tüm Gün'
+        };
+    </script>
+    
+
+	<style>
+#chartdiv {
+	width: 100%;
+	height: 500px;
+}
+</style>
+
+	<!-- Resources -->
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+	<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+	<script
+		src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<link rel="stylesheet"
+		href="https://www.amcharts.com/lib/3/plugins/export/export.css"
+		type="text/css" media="all" />
+	<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+
+	
+
+	<h:form id="form">
+		<p:panel id="searchAnaliz">
+			<p:panelGrid columns="10" style="margin-top:10px">
+				<p:outputLabel>İcra Md.</p:outputLabel>
+				<p:selectOneMenu id="icraMudurlugu" effect="fold" filter="true"
+					filterMatchMode="startsWith" styleClass="selectMenu"
+					value="#{tebligatAnalizBean.icraMdId}" style="width: 180px">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems
+						value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
+						var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Müvekkil Adı" />
+				<p:selectOneMenu id="detay_muvekkil" effect="fold" filter="true"
+					filterMatchMode="startsWith"
+					value="#{tebligatAnalizBean.muvekkilId}" style="width: 180px">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems value="#{alacakliBean.Liste()}" var="listeler"
+						itemLabel="#{listeler.muvekkilAdi}" itemValue="#{listeler.id}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel>Başlangıç Tarihi</p:outputLabel>
+				<p:calendar pattern="dd/MM/yyyy" mask="true"
+					value="#{tebligatAnalizBean.date1}" size="19" locale="tr">
+				</p:calendar>
+
+				<p:outputLabel>Bitiş Tarihi</p:outputLabel>
+				<p:calendar pattern="dd/MM/yyyy" mask="true"
+					value="#{tebligatAnalizBean.date2}" size="19" locale="tr">
+				</p:calendar>
+
+				<p:commandButton value="Listele" icon="ui-icon-search "
+					action="#{tebligatAnalizBean.search}" update=":form:panelGrafik, :form" />
+
+				<p:commandButton icon="ui-icon-cancel "
+					action="#{tebligatAnalizBean.cancel}" update=":form:searchAnaliz" />
+
+			</p:panelGrid>
+		</p:panel>
+		<h:inputHidden id="durumId" value="#{hacizAnalizBean.id}" />
+		<p:commandButton style="display:none" id="hh" value="kaydet"
+			update=":form:panelTable" actionListener="#{hacizAnalizBean.getList}" />
+
+		<p:panel id="panelGrafik" style="margin: auto; width: 100%">
+			<p:tabView>
+				<p:tab title="TEBLİGAT STATÜSÜ ANALİZİ">
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+					<div style="margin: auto; height: 300px; width: 100%;">
+
+
+
+
+						<div
+							style="height: 300px; margin-left: 50px; width: 80%; float: left;">
+							<div style="margin-top: 10px;">
+								<center>TEBLİGAT STATÜSÜ</center>
+							</div>
+							<div id="chartdiv3"
+								style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+							</div>
+						</div>
+
+
+					</div>
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+				</p:tab>
+				<p:tab title="TEBLİGAT TÜRÜ ANALİZİ">
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+					<div style="margin: auto; height: 300px; width: 100%;">
+
+
+
+
+						<div
+							style="height: 300px; margin-left: 50px; width: 80%; float: left;">
+							<div style="margin-top: 10px;">
+								<center>TEBLİGAT TÜRÜ</center>
+							</div>
+							<div id="chartGayrimenkul2"
+								style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+							</div>
+						</div>
+
+
+					</div>
+
+
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+				</p:tab>
+
+				<p:tab title="TEBLİGAT SONUÇ ANALİZİ">
+
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+					<div style="margin: auto; height: 300px; width: 100%;">
+
+
+
+
+						<div
+							style="height: 300px; margin-left: 50px; width: 80%; float: left;">
+							<div style="margin-top: 10px;">
+								<center>TEBLİGAT SONUCU</center>
+							</div>
+							<div id="chartMaas2"
+								style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+							</div>
+						</div>
+
+
+					</div>
+
+
+					<div
+						style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;"></div>
+
+				</p:tab>
+
+
+			</p:tabView>
+
+			<p:panel id="panelTable" header="TEBLİGAT BİLGİSİ LİSTESİ"
+				style="text-align: center !important;
+	font-size: 14px;margin-top:10px;">
+				<p:dataTable value="#{tebligatAnalizBean.wholeList}" var="vb"
+					id="tblVizitBilgisi">
+
+
+
+					<p:column headerText="BORÇLU ADI">
+						<h:outputText value="#{vb.borcluAdSoyad}" />
+					</p:column>
+
+					<p:column headerText="İCRA DOSYA NO">
+						<h:outputText value="#{vb.icraDosyaNo}" />
+					</p:column>
+
+
+					<p:column headerText="TEBLİGAT STATÜSÜ">
+						<h:outputText value="#{vb.tebligatStatusu}" />
+					</p:column>
+
+					<p:column headerText="TEBLİGAT TÜRÜ">
+						<h:outputText value="#{vb.tebligatTur}" />
+					</p:column>
+
+					<p:column headerText="TEBLİGAT SONUCU">
+						<h:outputText value="#{vb.tebligatSonuc}" />
+					</p:column>
+
+
+					<p:column headerText="GUNCELLEME ZAMANI">
+						<h:outputText value="#{vb.guncellemeZamani}" />
+					</p:column>
+
+
+					<f:facet name="footer">
+						<p:commandButton value="LİSTE TOPLU PDF"
+							action="#{tebligatAnalizBean.printPDF}" ajax="false" />
+						<p:commandButton value="LİSTE TOPLU EXCEL"
+							action="#{tebligatAnalizBean.printExcell}" ajax="false" />
+					</f:facet>
+
+				</p:dataTable>
+
+			</p:panel>
+
+
+		</p:panel>
+		
+		<!-- Chart code -->
+	<script type="text/javascript">
+			//<![CDATA[
+
+		
+
+
+
+	           
+
+var chart3 = AmCharts.makeChart("chartdiv3", {
+  "type": "serial",
+  "theme": "light",
+  "marginRight": 70,
+  "dataProvider": #{tebligatAnalizBean.tebligatStatusu},
+  "valueAxes": [{
+    "axisAlpha": 0,
+    "position": "left",
+    "title": "TEBLİGAT STATÜSÜ"
+  }],
+  "listeners": [{
+	    "event": "clickGraphItem",
+	    "method": function(event) {
+	      var chart = event.chart;
+	      
+	      console.log(event.item.dataContext.id)
+	       document.getElementById("form:durumId").value = event.item.dataContext.id;
+	      
+	      $("#form\\:hh").click();
+	      
+	     
+	    }
+	  }],
+  "startDuration": 1,
+  "graphs": [{
+    "balloonText": "<b>[[adet]]: [[durum]]</b>",
+    "fillColorsField": "color",
+    "fillAlphas": 0.9,
+    "lineAlpha": 0.2,
+    "type": "column",
+    "valueField": "adet"
+  }],
+  "chartCursor": {
+    "categoryBalloonEnabled": false,
+    "cursorAlpha": 0,
+    "zoomable": false
+  },
+  "categoryField": "durum",
+  "categoryAxis": {
+    "gridPosition": "start",
+    "labelRotation": 45
+  },
+  "export": {
+    "enabled": true
+  }
+
+});
+
+
+
+
+var chart4 = AmCharts.makeChart("chartGayrimenkul2", {
+	  "type": "serial",
+	  "theme": "light",
+	  "marginRight": 70,
+	  "dataProvider": #{tebligatAnalizBean.tebligatTuru},
+	  "valueAxes": [{
+	    "axisAlpha": 0,
+	    "position": "left",
+	    "title": " TEBLİGAT TÜRÜ"
+	  }],
+	  "listeners": [{
+		    "event": "clickGraphItem",
+		    "method": function(event) {
+		      var chart = event.chart;
+		      
+		      console.log(event.item.dataContext.id)
+		       document.getElementById("form:durumId").value = event.item.dataContext.id;
+		      
+		      $("#form\\:hh").click();
+		      
+		     
+		    }
+		  }],
+	  "startDuration": 1,
+	  "graphs": [{
+	    "balloonText": "<b>[[adet]]: [[durum]]</b>",
+	    "fillColorsField": "color",
+	    "fillAlphas": 0.9,
+	    "lineAlpha": 0.2,
+	    "type": "column",
+	    "valueField": "adet"
+	  }],
+	  "chartCursor": {
+	    "categoryBalloonEnabled": false,
+	    "cursorAlpha": 0,
+	    "zoomable": false
+	  },
+	  "categoryField": "durum",
+	  "categoryAxis": {
+	    "gridPosition": "start",
+	    "labelRotation": 45
+	  },
+	  "export": {
+	    "enabled": true
+	  }
+
+	});
+	
+	
+
+
+var chart7 = AmCharts.makeChart("chartMaas2", {
+	  "type": "serial",
+	  "theme": "light",
+	  "marginRight": 70,
+	  "dataProvider":  #{tebligatAnalizBean.tebligatSonucu},
+	  "valueAxes": [{
+	    "axisAlpha": 0,
+	    "position": "left",
+	    "title": "TEBLİGAT SONUCU"
+	  }],
+	  "listeners": [{
+		    "event": "clickGraphItem",
+		    "method": function(event) {
+		      var chart = event.chart;
+		      
+		      console.log(event.item.dataContext.id)
+		       document.getElementById("form:durumId").value = event.item.dataContext.id;
+		      
+		      $("#form\\:hh").click();
+		      
+		     
+		    }
+		  }],
+	  "startDuration": 1,
+	  "graphs": [{
+	    "balloonText": "<b>[[adet]]: [[durum]]</b>",
+	    "fillColorsField": "color",
+	    "fillAlphas": 0.9,
+	    "lineAlpha": 0.2,
+	    "type": "column",
+	    "valueField": "adet"
+	  }],
+	  "chartCursor": {
+	    "categoryBalloonEnabled": false,
+	    "cursorAlpha": 0,
+	    "zoomable": false
+	  },
+	  "categoryField": "durum",
+	  "categoryAxis": {
+	    "gridPosition": "start",
+	    "labelRotation": 45
+	  },
+	  "export": {
+	    "enabled": true
+	  }
+
+	});
+	
+	
+
+
+	
+	
+
+
+
+//]]>
+
+</script>
+		
+
+	</h:form>
+
+</ui:composition>
+</html>

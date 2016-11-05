@@ -8,14 +8,18 @@ public class Tahsilat {
 	private int icra_dosyasi_id;
 	private String icra_dosya_no;
 	private String muvekkil_adi;
+	private int borcluId;
 	private String borclu_adi;
 	private Date gelis_tarihi;
 	private String borc_tipi;
+	private int dosyaTipiId;
 	private String dosya_tipi;
+	private int icraMudurlukId;
 	private String icra_mudurlugu;
 	private Date tahsilat_tarihi;
 	private String tahsilat_tipi;
 	private double tahsilat_miktari;
+	private int tahsilatStatusuId;
 	private String tahsilat_statusu;
 	private String tahsilat_miktari_tl;
 	private int kasaPersonelID;
@@ -23,6 +27,7 @@ public class Tahsilat {
 	private int tahsilatDurum;
 	private int durum;
 	private String gelisYeri;
+	private int gelisYeriId;
 	private String tasilati_yapan;
 	private String kasa_islemini_yapan;
 	private String tahsilatMiktariTL;
@@ -39,6 +44,46 @@ public class Tahsilat {
 	
 	
 	
+
+	public int getBorcluId() {
+		return borcluId;
+	}
+
+	public void setBorcluId(int borcluId) {
+		this.borcluId = borcluId;
+	}
+
+	public int getDosyaTipiId() {
+		return dosyaTipiId;
+	}
+
+	public void setDosyaTipiId(int dosyaTipiId) {
+		this.dosyaTipiId = dosyaTipiId;
+	}
+
+	public int getIcraMudurlukId() {
+		return icraMudurlukId;
+	}
+
+	public void setIcraMudurlukId(int icraMudurlukId) {
+		this.icraMudurlukId = icraMudurlukId;
+	}
+
+	public int getTahsilatStatusuId() {
+		return tahsilatStatusuId;
+	}
+
+	public void setTahsilatStatusuId(int tahsilatStatusuId) {
+		this.tahsilatStatusuId = tahsilatStatusuId;
+	}
+
+	public int getGelisYeriId() {
+		return gelisYeriId;
+	}
+
+	public void setGelisYeriId(int gelisYeriId) {
+		this.gelisYeriId = gelisYeriId;
+	}
 
 	public int getHitam_durum() {
 		return hitam_durum;

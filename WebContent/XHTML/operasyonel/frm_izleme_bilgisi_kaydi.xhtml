@@ -39,30 +39,41 @@
 
 
 		<h:form id="formIzlemeBilgisi">
+ 
+	
+	<p:panel id="girisPaneli" style="margin-bottom:10px" rendered="#{izlemebilgisibean.panelRender}">
+				
 
-			<p:panel id="girisPaneli" style="margin-bottom:10px"
-				rendered="#{izlemebilgisibean.panelRender}">
+	<p:panelGrid style="border-style: hidden !important">
 
+	<p:row style="width:100% ;vertical-align: top;">
+
+						<p:column style="width:30%;vertical-align: top;">
 
 				<p:panel styleClass="titleColor"
 					header="#{izlemebilgisibean.izleme.cagriAdet} ÇAGRI YAPILDI"
-					style="width:600px;">
+					style="width:500px;">
+				  <p:commandButton  style="color:red" id="btnDetayliArama" value="DETAYLI ARAMA !" icon="ui-icon-extlink" actionListener="#{izlemebilgisibean.chooseIcraDosyasi}">
+        <p:ajax event="dialogReturn" listener="#{izlemebilgisibean.onIcraDosyasiChosen}" update=":formIzlemeBilgisi" />
+    </p:commandButton>	
+ 
+					
 					<p:panelGrid columns="2" style="border-style: hidden !important">
 
 						<p:outputLabel>İcra Dosyası No :</p:outputLabel>
 						<p:inputText id="icradosya"
-							value="#{izlemebilgisibean.staticDegerler.icraDosyaNo}"
+							value="#{izlemebilgisibean.izleme.icraDosyaNo}"
 							style="width: 250px" readonly="true"></p:inputText>
 
 						<p:outputLabel style="width: 150px"> Müvekkil Adı :</p:outputLabel>
 						<p:inputText id="müvekkilAdi" readonly="true"
-							value="#{izlemebilgisibean.staticDegerler.muvekkilAdi}"
+							value="#{izlemebilgisibean.izleme.alacakliAdSoyad}"
 							style="width: 250px">
 						</p:inputText>
 
 						<p:outputLabel>Borçlu Adı :</p:outputLabel>
 						<p:inputText id="borcluAdi" readonly="true"
-							value="#{izlemebilgisibean.staticDegerler.borcluAdi}"
+							value="#{izlemebilgisibean.izleme.borcluAdSoyad}"
 							style="width: 250px">
 						</p:inputText>
 
@@ -78,6 +89,21 @@
 							requiredMessage="Bu alanı doldurunuz">
 							<f:selectItems
 								value="#{geneltanimbean.ListeGetir('tbl_izleme_sonucu')}"
+								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"/>
+								
+						<p:ajax event="change"  update="izlemeStatusu" listener="#{izlemebilgisibean.changeStatusu}" />
+							
+						
+								
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="İzleme Statüsü" />
+						<p:selectOneMenu id="izlemeStatusu" required="false"
+							style="width:260px"
+							value="#{izlemebilgisibean.izleme.izlemeStatusuId}"
+							requiredMessage="Bu alanı doldurunuz">
+							<f:selectItems
+								value="#{izlemebilgisibean.listeIzlemeStatusu}"
 								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 						</p:selectOneMenu>
 
@@ -121,7 +147,18 @@
 						update=":growl,:formIzlemeBilgisi" />
 
 				</p:panel>
-
+				</p:column>
+				
+				
+				<p:column style="width:30%;vertical-align: top;">
+				<ui:include src="/XHTML/icra_dosyasi/frm_hesap_bilgisi.xhtml"/>
+				</p:column>
+				
+				<p:column style="width:40%;vertical-align: top;">
+					<ui:include src="/XHTML/icra_dosyasi/frm_levhalar.xhtml"/>
+				</p:column>
+				</p:row>			
+				</p:panelGrid>
 
 			</p:panel>
 
@@ -206,6 +243,116 @@
 		</h:form>
 
 	</p:panel>
+	
+	
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+	<script type="text/javascript">//<![CDATA[
+		
+	  var $j = jQuery.noConflict();
+		
+		
+$j(function(){
+$j(function () {
+    $j("#clickme").toggle(function () {
+        $j(this).parent().animate({right:'0px'}, {queue: false, duration: 500});
+    }, function () {
+        $j(this).parent().animate({right:'-400px'}, {queue: false, duration: 500});
+    });
+});
+});//]]> 
+
+</script>
+	
+	<style>
+	
+	body {
+    overflow-x: hidden;
+}
+	
+	#slideout {
+    background: #666;
+    position: absolute;
+    width: 400px;
+    height: 450px;
+    top: 30%;
+    right:-400px;
+    padding-left: 20px
+}
+    
+#clickme {
+    position: absolute;
+    top: 0; left: 0;
+    height: 20px;
+    width: 20px;
+    background: #ff0000;
+}
+
+#slidecontent {
+    float:left;
+}
+
+
+.ui-datatable-header {
+    background: red
+}
+	</style>
+	
+	
+	<div id="slideout">
+    <div id="slidecontent">
+    
+<center>         
+<p:panelGrid columns="2">
+    <f:facet name="header">
+        <img src="img/target.png" width="150"></img>
+        
+    </f:facet>
+ 
+    <h:outputText value="AYLIK HEDEFİNİZ" />
+    <h:outputText value="50000" />
+ 
+    <h:outputText value="GÜNLÜK (10/10/2016)" />
+    <h:outputText value="15000" />
+ 
+    <h:outputText value="AYLIK (EKİM)" />
+    <h:outputText value="250000" />
+ 
+    <h:outputText value="TOPLAM" />
+    <h:outputText value="15000000" />
+</p:panelGrid>
+</center>
+
+   <p:dataTable var="car" value="#{levhaBean.aracListesi}" style="font-size:12px;">
+  
+  		<f:facet name="header">
+            TAHSİLAT LİSTENİZ
+        </f:facet>
+  
+    <p:column headerText="DOSYA NO">
+       
+    </p:column>
+ 
+    <p:column headerText="BORÇLU ADI">
+
+    </p:column>
+ 
+    <p:column headerText="MİKTAR">
+
+    </p:column>
+    
+    <p:column headerText="TARİH">
+
+    </p:column>
+        
+ 
+   </p:dataTable>
+   
+    </div>
+    <div id="clickme">
+    </div>
+</div>
 
 </ui:composition>
 

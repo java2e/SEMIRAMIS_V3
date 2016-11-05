@@ -43,6 +43,9 @@ public class XMLToSistemAktarimDAO {
 	@SuppressWarnings("unused")
 	public void Kaydet(XMLToUyap xmlVeri, ExcellModel xlsVeri) {
 
+		
+		
+		
 		// Gelen veride Müvekkil için sadece Müvekkilin adı alınarak ilgili
 		// tablodan id si alınır. Diğer bilgier zaten sistemde mevcuttur.
 		AlacakliDAO muvekkil = new AlacakliDAO();
@@ -127,6 +130,9 @@ public class XMLToSistemAktarimDAO {
 		hesapBilgi.setUrunAdi(xlsVeri.getUrunAdi());
 		hesapBilgi.setUrunNo(xlsVeri.getUrunNo());
 
+		
+		// FAİZ HESAPLAMASI 
+		
 		double toplamBorc = xlsVeri.getToplamBorc();
 		double ihtarnameTutari = xlsVeri.getIhtarnameTutari();
 		double BSMV = doubleYap(xmlVeri.get__alacakKalemi4_alacakKalemTutar());
@@ -150,13 +156,6 @@ public class XMLToSistemAktarimDAO {
 			e.printStackTrace();
 		}
 
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		IcraDosyasiDAO icradosya = new IcraDosyasiDAO();
@@ -226,6 +225,7 @@ public class XMLToSistemAktarimDAO {
 		baglanti.setAlacakliID(MuvekkilId);
 		baglanti.setBorcluID(BorcluId);
 		baglanti.setHesaplamaID(HesapId);
+		//System.out.println("ICRA DOSYA ID :"+IcraDosyaId);
 		baglanti.setIcradosyasiID(IcraDosyaId);
 
 		BaglantiDAO daobaglanti = new BaglantiDAO();

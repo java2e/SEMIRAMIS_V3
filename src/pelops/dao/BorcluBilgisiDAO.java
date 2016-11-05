@@ -337,7 +337,7 @@ public class BorcluBilgisiDAO extends DBConnection {
 
 		if (result == 1) {
 			guncelle = true;
-			saveCoordinate(tcSorgulama(borcluBilgisi.getTcNo()));
+			//saveCoordinate(tcSorgulama(borcluBilgisi.getTcNo()));
 
 		}
 

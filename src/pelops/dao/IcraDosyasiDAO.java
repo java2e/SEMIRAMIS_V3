@@ -341,12 +341,18 @@ public class IcraDosyasiDAO extends DBConnection {
 		pstmt.setString(37, icradosyasi.getUyap_para_turu());
 
 		pstmt.executeUpdate();
+		
+		 ResultSet generatedKeys = pstmt.getGeneratedKeys();
+		 
+		 if (generatedKeys.next()) {
+             System.out.println("id is"+generatedKeys.getLong(1));
+		 }
 
 		DB.disconnectDB();
 
 		int id = 0;
 		DB.newConnectDB();
-		String SQLXML = "SELECT * FROM tbl_icra_dosyasi ";
+		String SQLXML = "SELECT * FROM tbl_icra_dosyasi";
 		Statement stmt;
 		ResultSet rs;
 		stmt = DB.conn.createStatement();

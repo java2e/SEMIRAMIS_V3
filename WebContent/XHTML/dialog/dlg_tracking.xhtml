@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<p:panel id="tebligatTracking">
+		<p:dataTable id="datatable" var="list" rows="10" paginator="true"
+			value="#{tebligatBean.checkpoints}" rowIndexVar="rowIndex">
+
+			<p:column headerText="Tarih" width="10%">
+				<h:outputText value="#{list.checkpointTime}">
+					<f:convertDateTime pattern="MM-dd-yyyy hh:mm" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Bulunduğu Yer" width="10%">
+				<p:outputLabel value="#{list.location}" />
+			</p:column>
+			<p:column headerText="Açıklama" width="15%">
+				<p:outputLabel value="#{list.message}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+
+</h:body>
+</html>

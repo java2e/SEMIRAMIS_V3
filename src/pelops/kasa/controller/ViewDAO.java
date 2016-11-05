@@ -648,6 +648,7 @@ public class ViewDAO extends DBConnection {
 			model.setTahsilat_tipi(rs.getString("tahsilat_tipi"));
 			model.setUrun_adi(rs.getString("urun_adi"));
 			model.setUrun_no(rs.getString("urun_no"));
+			
 			sira_no++;
 			list.add(model);
 		}

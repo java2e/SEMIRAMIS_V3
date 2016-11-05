@@ -3,6 +3,9 @@ package semiramis.operasyon.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +20,9 @@ import pelops.controller.AktifBean;
 import pelops.model.StaticDegerler;
 import pelops.users.User;
 import pelops.users.Util;
+import semimis.utils.GenelArama;
 import semiramis.operasyon.dao.IzlemeBilgisiDAO;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.IzlemeBilgisi;
 
 @ManagedBean(name = "izlemebilgisibean")
@@ -28,6 +33,8 @@ public class IzlemeBilgisiBean {
 	private IzlemeBilgisi izleme = new IzlemeBilgisi();
 	private IzlemeBilgisiDAO dao = new IzlemeBilgisiDAO();
 	private StaticDegerler staticDegerler = new StaticDegerler();
+	
+	private List<ComboItem> listeIzlemeStatusu;
 
 	private int status;
 	private boolean panelRender;
@@ -47,7 +54,52 @@ public class IzlemeBilgisiBean {
 		User user = Util.getUser();
 		personelAdi = user.getUsrAdSoyad();
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		listeIzlemeStatusu=new ArrayList<ComboItem>();
 
+	}
+	
+	public void chooseIcraDosyasi() {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		options.put("contentWidth", 1800);
+		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
+
+	}
+
+	public void onIcraDosyasiChosen(SelectEvent event) throws Exception {
+		GenelArama genelArama = (GenelArama) event.getObject();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Id:" + genelArama.getId());
+
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		
+		izleme = new IzlemeBilgisi();
+		izleme.setPersonelId(Util.getUser().getUsrId());
+		izleme.setCagriAdet(dao.izlemeSayisi(genelArama.getId()));
+		izleme.setIzlemeTarihi(new Date());
+		izleme.setPersonelId(Util.getUser().getUsrId());
+		izleme.setBorcluAdSoyad(genelArama.getBorcluAdi());
+		izleme.setIcraDosyaId(genelArama.getId());
+		izleme.setIcraDosyaNo(genelArama.getIcraDosyaNo());
+		izleme.setAlacakliAdSoyad(genelArama.getMuvekkilAdi());
+		User user = Util.getUser();
+		personelAdi = user.getUsrAdSoyad();
+		izlemeList = dao.getAllListFromIcraDosyaID(genelArama.getId());
+		listeIzlemeStatusu=new ArrayList<ComboItem>();
+		
+		AktifBean.borcluId=genelArama.getBorcluId();
+		AktifBean.icraDosyaID=genelArama.getId();
+		AktifBean.icraDosyaNo=genelArama.getIcraDosyaNo();
+		
+
+		
+	}
+	
+	
+	public void changeStatusu()
+	{
+		
+		listeIzlemeStatusu=dao.getIzlemeStatusuList(izleme.getIzlemeSonucuId());
+		
 	}
 
 	public StaticDegerler getStaticDegerler() {
@@ -60,51 +112,7 @@ public class IzlemeBilgisiBean {
 		return staticDegerler;
 	}
 
-	public void setStaticDegerler(StaticDegerler staticDegerler) {
-		this.staticDegerler = staticDegerler;
-	}
 
-	public ArrayList<IzlemeBilgisi> getIzlemeList() {
-
-		return this.izlemeList;
-
-	}
-
-	public void setIzlemeList(ArrayList<IzlemeBilgisi> izlemeList) {
-		this.izlemeList = izlemeList;
-	}
-
-	public IzlemeBilgisi getIzleme() {
-		return izleme;
-	}
-
-	public void setIzleme(IzlemeBilgisi izleme) {
-		this.izleme = izleme;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public boolean isPanelRender() {
-		return panelRender;
-	}
-
-	public void setPanelRender(boolean panelRender) {
-		this.panelRender = panelRender;
-	}
-
-	public boolean isButtonDisabled() {
-		return buttonDisabled;
-	}
-
-	public void setButtonDisabled(boolean buttonDisabled) {
-		this.buttonDisabled = buttonDisabled;
-	}
 
 	public void onDateSelect(SelectEvent event) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -132,22 +140,6 @@ public class IzlemeBilgisiBean {
 
 	}
 
-	public void PanelClose() {
-
-		this.setPanelRender(false);
-
-	}
-
-	public void ButtonOpen() {
-
-		this.setButtonDisabled(false);
-
-	}
-
-	public void ButtonClose() {
-		this.setButtonDisabled(true);
-
-	}
 
 	public void Kaydet() throws Exception {
 
@@ -291,5 +283,79 @@ public class IzlemeBilgisiBean {
 	public void setPersonelAdi(String personelAdi) {
 		this.personelAdi = personelAdi;
 	}
+	
+	public void setStaticDegerler(StaticDegerler staticDegerler) {
+		this.staticDegerler = staticDegerler;
+	}
+
+	public ArrayList<IzlemeBilgisi> getIzlemeList() {
+
+		return this.izlemeList;
+
+	}
+	
+
+	public void PanelClose() {
+
+		this.setPanelRender(false);
+
+	}
+
+	public void ButtonOpen() {
+
+		this.setButtonDisabled(false);
+
+	}
+
+	public void ButtonClose() {
+		this.setButtonDisabled(true);
+
+	}
+
+	public void setIzlemeList(ArrayList<IzlemeBilgisi> izlemeList) {
+		this.izlemeList = izlemeList;
+	}
+
+	public IzlemeBilgisi getIzleme() {
+		return izleme;
+	}
+
+	public void setIzleme(IzlemeBilgisi izleme) {
+		this.izleme = izleme;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public boolean isPanelRender() {
+		return panelRender;
+	}
+
+	public void setPanelRender(boolean panelRender) {
+		this.panelRender = panelRender;
+	}
+
+	public boolean isButtonDisabled() {
+		return buttonDisabled;
+	}
+
+	public void setButtonDisabled(boolean buttonDisabled) {
+		this.buttonDisabled = buttonDisabled;
+	}
+
+	public List<ComboItem> getListeIzlemeStatusu() {
+		return listeIzlemeStatusu;
+	}
+
+	public void setListeIzlemeStatusu(List<ComboItem> listeIzlemeStatusu) {
+		this.listeIzlemeStatusu = listeIzlemeStatusu;
+	}
+	
+	
 
 }

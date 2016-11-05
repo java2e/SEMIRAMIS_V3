@@ -10,239 +10,163 @@ import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 
-
 import semiramis.analiz.dao.HacizAnalizDAO;
 import semiramis.analiz.model.HacizAnaliz;
+import semiramis.analiz.model.HacizAnalizJSON;
 
-@ManagedBean(name="hacizAnalizBean",eager=true)
+@ManagedBean(name = "hacizAnalizBean", eager = true)
 @SessionScoped
-public class HacizAnalizBean
-{
-	
-	public static final int HACIZ_TAHSILAT_YAPILDI=9;
-	public static final int HACIZ_TAHSILAT_YAPILMADI=10;
-	
-	
+public class HacizAnalizBean {
+
+	public static final int HACIZ_TAHSILAT_YAPILDI = 9;
+	public static final int HACIZ_TAHSILAT_YAPILMADI = 10;
+
 	private List<HacizAnaliz> liste;
-	
+
 	public HacizAnalizDAO dao;
-	
+
 	private String hacizStatusu;
-	
+
+	private String hacizGayrimenkulStatusu;
+
+	private String hacizMaasStatusu;
+
+	private String hacizAracStatusu;
+
 	private String hacizTahsilat;
-	
+
 	private int id;
-	
+
 	public HacizAnalizBean() throws JSONException {
 		// TODO Auto-generated constructor stub
-	
-		dao=new HacizAnalizDAO();
-		
-		liste=new ArrayList<HacizAnaliz>();
-		
-		
-		liste=dao.getList();
-		
+
+		dao = new HacizAnalizDAO();
+
+		liste = new ArrayList<HacizAnaliz>();
+
+		liste = dao.getList(0);
+
 		getJSON();
-	
+
 	}
-	
-	
-	public void refresh() throws JSONException
-	{
-		HacizAnalizBean analiz=new HacizAnalizBean();
+
+	public void refresh() throws JSONException {
+		HacizAnalizBean analiz = new HacizAnalizBean();
 	}
-	
-	
-	public void getJSON() throws JSONException
-	{
-		
-		int odemeSozu=0,adresdenTasinmis=0,haczeMalKabulYok=0,maasHacizMuvakafat=0,menkulHaciz=0,muhafazaHaciz=0,kefilAlindi=0,tahsilat=0;
-		double alacak=0,tahsilatMiktari=0;
-		
+
+	public void getJSON() throws JSONException {
+
+		List<HacizAnalizJSON> liste = dao.getListJSON();
+
+		JSONArray jsonArrayMenkul = new JSONArray();
+		JSONArray jsonArrayGayrimenkul2 = new JSONArray();
+		JSONArray jsonArrayMaas2 = new JSONArray();
+		JSONArray jsonArrayArac2 = new JSONArray();
+
 		for (int i = 0; i < liste.size(); i++) {
-			
-			if(liste.get(i).getHacizStatusuId()==1)
-				odemeSozu++;
-			else if(liste.get(i).getHacizStatusuId()==2)
-				adresdenTasinmis++;
-			else if(liste.get(i).getHacizStatusuId()==3)
-				haczeMalKabulYok++;
-			else if(liste.get(i).getHacizStatusuId()==8)
-				maasHacizMuvakafat++;
-			else if(liste.get(i).getHacizStatusuId()==4)
-				menkulHaciz++;
-			else if(liste.get(i).getHacizStatusuId()==5)
-				muhafazaHaciz++;
-			else if(liste.get(i).getHacizStatusuId()==6)
-				kefilAlindi++;
-			else if(liste.get(i).getHacizStatusuId()==7)
-				tahsilat++;
-			
-			alacak=alacak+liste.get(i).getToplamAlacak();
-			
-			tahsilatMiktari=tahsilatMiktari+liste.get(i).getTahsilatMiktari();
-			
+
+			if (liste.get(i).getHacizTuruId() == 4) // Menkul
+			{
+				JSONObject obje = new JSONObject();
+
+				obje.put("id", liste.get(i).getHacizStatusuId());
+				obje.put("durum", liste.get(i).getHacizStatusuAdi());
+				obje.put("adet", liste.get(i).getToplam());
+				obje.put("color", "#FF0F00");
+				jsonArrayMenkul.put(obje);
+
+			}
+
+			else if (liste.get(i).getHacizTuruId() == 7) // Gayrimenkul
+			{
+				JSONObject obje = new JSONObject();
+
+				obje.put("id", liste.get(i).getHacizStatusuId());
+				obje.put("durum", liste.get(i).getHacizStatusuAdi());
+				obje.put("adet", liste.get(i).getToplam());
+				obje.put("color", "#FF0F00");
+				jsonArrayGayrimenkul2.put(obje);
+
+			}
+
+			else if (liste.get(i).getHacizTuruId() == 5) // Maaş
+			{
+				JSONObject obje = new JSONObject();
+
+				obje.put("id", liste.get(i).getHacizStatusuId());
+				obje.put("durum", liste.get(i).getHacizStatusuAdi());
+				obje.put("adet", liste.get(i).getToplam());
+				obje.put("color", "#FF0F00");
+				jsonArrayMaas2.put(obje);
+
+			}
+
+			else if (liste.get(i).getHacizTuruId() == 6) // Araç
+			{
+
+				JSONObject obje = new JSONObject();
+
+				obje.put("id", liste.get(i).getHacizStatusuId());
+				obje.put("durum", liste.get(i).getHacizStatusuAdi());
+				obje.put("adet", liste.get(i).getToplam());
+				obje.put("color", "#FF0F00");
+				jsonArrayArac2.put(obje);
+
+			}
+
 		}
 
+		hacizStatusu = jsonArrayMenkul.toString();
 
-			JSONArray objeMain=new JSONArray();
-			JSONObject obje=new JSONObject();
-			
-			obje.put("id", (int)1);
-			obje.put("durum", "ÖDEME SÖZÜ".toString());
-			obje.put("adet", (int)odemeSozu);
-			obje.put("color", "#FF0F00");
- 			objeMain.put(obje);
-			
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 2);
-			obje.put("durum", "ADRESDEN TAŞINMIŞ");
-			obje.put("adet", adresdenTasinmis);
-			obje.put("color", "#FF6600");
+		hacizGayrimenkulStatusu = jsonArrayGayrimenkul2.toString();
 
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 3);
-			obje.put("durum", "HACZE KABİL MAL YOK");
-			obje.put("adet", haczeMalKabulYok);
-			obje.put("color", "#FF9E01");
+		hacizMaasStatusu = jsonArrayMaas2.toString();
 
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 8);
-			obje.put("durum", "MAAŞ HACİZ MUVAKAFAT");
-			obje.put("adet", maasHacizMuvakafat);
-			obje.put("color", "#FCD202");
+		hacizAracStatusu = jsonArrayArac2.toString();
 
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 4);
-			obje.put("durum", "HACİZ YEDİ EMİNLİ");
-			obje.put("adet", menkulHaciz);
-			obje.put("color", "#F8FF01");
-
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 5);
-			obje.put("durum", "MUHAZAFALI HACİZ");
-			obje.put("adet", muhafazaHaciz);
-			obje.put("color", "#B0DE09");
-
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 6);
-			obje.put("durum", "KEFİL ALINDI");
-			obje.put("adet", kefilAlindi);
-			obje.put("color", "#04D215");
-
-			
-			objeMain.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", 7);
-			obje.put("durum", "TAHSİLAT");
-			obje.put("adet", tahsilat);
-			obje.put("color", "#0D8ECF");
-
-			
-			objeMain.put(obje);
-			
-			JSONArray objeMain2=new JSONArray();
-			
-			
-			obje=new JSONObject();
-			
-			obje.put("id", HACIZ_TAHSILAT_YAPILDI);
-			obje.put("durum", "YAPILDI");
-			obje.put("adet", tahsilatMiktari);
-			
-			objeMain2.put(obje);
-			
-			obje=new JSONObject();
-			
-			obje.put("id", HACIZ_TAHSILAT_YAPILMADI);
-			obje.put("durum", "YAPILMADI");
-			obje.put("adet", alacak-tahsilatMiktari);
-			
-			objeMain2.put(obje);
-			
-			hacizStatusu=objeMain.toString();
-			
-			hacizTahsilat=objeMain2.toString();
-			
-		
 	}
-	
-	
-	public void getList()
-	{
-		liste=dao.getList();
-		List<HacizAnaliz> liste2=new ArrayList<HacizAnaliz>();
-			for(int i=0;i<liste.size();i++)
-			{
-				if(id<9)
-				{
-					if(liste.get(i).getHacizStatusuId()==id)
-						liste2.add(liste.get(i));
-				}
-				else
-					if(liste.get(i).getTahsilatMiktari()==0 && id==10)
-						liste2.add(liste.get(i));
-					else if(id==9 && liste.get(i).getTahsilatMiktari()>0)
-						liste2.add(liste.get(i));
-						
-			}
-			
-			
-			
-			liste=liste2;
-		
-		
-		
+
+	public void getList() {
+		liste = dao.getList(0);
+		List<HacizAnaliz> liste2 = new ArrayList<HacizAnaliz>();
+		for (int i = 0; i < liste.size(); i++) {
+			if (id < 25) {
+				if (liste.get(i).getHacizStatusuId() == id)
+					liste2.add(liste.get(i));
+			} else if (liste.get(i).getTahsilatMiktari() == 0 && id == 10)
+				liste2.add(liste.get(i));
+			else if (id == 9 && liste.get(i).getTahsilatMiktari() > 0)
+				liste2.add(liste.get(i));
+
+		}
+
+		liste = liste2;
+
 	}
-	
-	
-	
-	
+
+	public String getHacizGayrimenkulStatusu() {
+		return hacizGayrimenkulStatusu;
+	}
+
+	public void setHacizGayrimenkulStatusu(String hacizGayrimenkulStatusu) {
+		this.hacizGayrimenkulStatusu = hacizGayrimenkulStatusu;
+	}
 
 	public int getId() {
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public String getHacizTahsilat() {
 		return hacizTahsilat;
 	}
 
-
 	public void setHacizTahsilat(String hacizTahsilat) {
 		this.hacizTahsilat = hacizTahsilat;
 	}
-
 
 	public List<HacizAnaliz> getListe() {
 		return liste;
@@ -259,8 +183,21 @@ public class HacizAnalizBean
 	public void setHacizStatusu(String hacizStatusu) {
 		this.hacizStatusu = hacizStatusu;
 	}
-	
-	
-	
+
+	public String getHacizMaasStatusu() {
+		return hacizMaasStatusu;
+	}
+
+	public void setHacizMaasStatusu(String hacizMaasStatusu) {
+		this.hacizMaasStatusu = hacizMaasStatusu;
+	}
+
+	public String getHacizAracStatusu() {
+		return hacizAracStatusu;
+	}
+
+	public void setHacizAracStatusu(String hacizAracStatusu) {
+		this.hacizAracStatusu = hacizAracStatusu;
+	}
 
 }

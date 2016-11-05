@@ -27,6 +27,7 @@ import pelops.report.model.Model;
 import pelops.report.model.ReportGenel;
 import pelops.report.model.ReportUtils;
 import pelops.report.model.SearchParams;
+import semiramis.operasyon.dao.IslemDAO;
 
 @ManagedBean(name = "printBean", eager = true)
 @SessionScoped
@@ -783,6 +784,12 @@ public class PrintBean {
 
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < list.get(i).getDataToPrints().size(); j++) {
+				DataToPrint toPrint = list.get(i).getDataToPrints().get(j);
+				if (toPrint.getBelgeAdi() == ReportUtils.REPORT_ODEME_EMRI) {
+					ReportGenel report = list.get(i).getGenel();
+					IslemDAO.getInstance().saveIslem(report.getId(), ReportUtils.ODEME_EMRI_ISLEM_ID,
+							report.getBarkot());
+				}
 				for (int j2 = 0; j2 < list.get(i).getDataToPrints().get(j).getJasperPrint().size(); j2++) {
 					JasperPrint jasperPrint = list.get(i).getDataToPrints().get(j).getJasperPrint().get(j2);
 					if (jasperPrint != null) {
@@ -963,7 +970,6 @@ public class PrintBean {
 
 		ArrayList<JasperPrint> liste = ctrl.getTebligatListesiJasperPrint(createTebligatListesiDP(), genels);
 
-		
 		// icra müdürlüğü ekli olmayan nesne varsa uyarı verir...
 		boolean İcraMd = false;
 		for (ReportGenel reportGenel : genels) {

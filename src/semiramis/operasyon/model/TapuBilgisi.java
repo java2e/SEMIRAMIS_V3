@@ -14,9 +14,21 @@ public class TapuBilgisi
 	private int tapuMudurluguId;
 	private String tapuMudurlugu;
 	
+	private int haczeEsasId;
+	
+	
+	
 	private String tapuKayitAciklama;
 	
 	
+	
+	
+	public int getHaczeEsasId() {
+		return haczeEsasId;
+	}
+	public void setHaczeEsasId(int haczeEsasId) {
+		this.haczeEsasId = haczeEsasId;
+	}
 	public int getIlId() {
 		return ilId;
 	}

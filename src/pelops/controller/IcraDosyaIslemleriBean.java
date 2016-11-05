@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +17,6 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-
 
 import pelops.dao.AlacakliDAO;
 import pelops.dao.BaglantiDAO;
@@ -37,21 +38,50 @@ import pelops.model.HesaplarList;
 import pelops.model.IcraDosyasi;
 import pelops.model.Ilce;
 import pelops.model.LogError;
+import semimis.utils.GenelArama;
 
 @ManagedBean(name = "icradosyaislemleribean")
 @SessionScoped
 public class IcraDosyaIslemleriBean {
 
-	
-	private String dosyaStatusu="Dosya Seçilmedi!";
-	private String dosyaStatutDurum="";
-	
-	private boolean showPic=false;
-	
-	
-	LogErrorDAO log = new LogErrorDAO();
+	private IcraDosyasi icradosyasi;
+	private BorcluBilgisi borclubilgisi;
+	private int AracSayisi = 0;
+	private int EvSayisi = 0;
+	private Date hesapTarihi = new Date();
+
+	private double basvuruHarciTL;
+
+	private double vekaletHarciTL;
+
+	private double pesinHarcTL;
+
+	private double harcoranTL = 2.27;
+
+	private String Ev = "img/acikgri.png", Arac = "img/acikgri.png", Para = "img/acikgri.png",
+			Haciz = "img/acikgri.png", Itiraz = "img/acikgri.png", Istahbarat = "img/acikgri.png",
+			Bila = "img/acikgri.png", Hitam = "img/acikgri.png", Temlik = "img/acikgri.png", Vefat = "img/acikgri.png";
+
+	private String Arac_1 = "img/acikgri.png", Arac_2 = "img/acikgri.png", Arac_3 = "img/acikgri.png",
+			Arac_4 = "img/acikgri.png";
+	private String Ev_1 = "img/acikgri.png", Ev_2 = "img/acikgri.png", Ev_3 = "img/acikgri.png",
+			Ev_4 = "img/acikgri.png";
+
+	private String kart_1 = "img/hsbc_kart.jpg", kart2 = "img/HSBC-GOLD.jpg", kart_3 = "img/HSBC-PLATİNİUM.jpg",
+			kart_4 = "HSBC-PREMİER.jpg";
+
+	private Baglanti baglanti;
+	private Hesap hesap;
+	private int alacakliID;
+	private String icraDosyaNo;
+	private int icraMudurluguID;
+
+	private String dosyaStatusu = "Dosya Seçilmedi!";
+	private String dosyaStatutDurum = "";
+
+	private boolean showPic = false;
+
 	Date nowDate = new Date();
-	LogError newlog;
 	FacesContext context = FacesContext.getCurrentInstance();
 
 	private ArrayList<HesaplarList> hesaplarlistesi;
@@ -61,41 +91,49 @@ public class IcraDosyaIslemleriBean {
 	private int HesapTumId;
 
 	private String dialogUrl = "dlg_common";
+	
 
-	public boolean getIsdialogsVisible() {
-		return isdialogsVisible;
+	private BorcluBilgisi borclubilgisilistesi = new BorcluBilgisi();
+	private Hesap hesaplistesi = new Hesap();
+	private AlacakliBilgiler alacaklilistesi = new AlacakliBilgiler();
+
+	public IcraDosyaIslemleriBean() throws Exception {
+
+		icradosyasi = new IcraDosyasi();
+		hesap = new Hesap();
+		baglanti = new Baglanti();
+		borclubilgisi = new BorcluBilgisi();
+		// plakaGetir();
+		hesaplarlistesi = new ArrayList<HesaplarList>();
+		icradosyasi.setBK84("E");
+		icradosyasi.setKKDF("H");
+		icradosyasi.setBSMV("E");
+		icradosyasi.setTakipSekliId(0);
+		icradosyasi.setTakipTipiId(1);
+		icradosyasi.setTalepEdilenHak(
+				"Alacağımızın asıl alacağa takip tarihinden tahsiline kadar sözleşme gereğince takip tarihinden itibaren işleyecek %30.24 temerrüt faizi, faizin %5 gider vergisi, icra harç ve masrafları, avukatlık vekalet ücreti ile birlikte, TBK.Madde 100 gereğince kısmi ödemelerin öncelikle faiz ve masraflara mahsup edileceği, (artan faiz oranlarının tatbiki kaydı ile talep) haklarımız saklı kalmak ve tahsilde tekerrür etmemek kaydı ile tahsili talebidir.");
+		borclubilgisi.setAdresTuruId(9);
+		icradosyasi.setTakipYoluId(0);
+
+		icradosyasi.setDosyaTipiId(0);
+		borclubilgisi.setTelefon_no3("0000000000");
 	}
 
-	public void setIsdialogsVisible(boolean isdialogsVisible) {
-		this.isdialogsVisible = isdialogsVisible;
+	public void chooseIcraDosyasi() {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		options.put("contentWidth", 1800);
+		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
+
 	}
 
-	public void setDialogPage(String arg) {
-		setDialogUrl(arg);
-	}
+	public void onIcraDosyasiChosen(SelectEvent event) {
+		GenelArama genelArama = (GenelArama) event.getObject();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Seçildi :", "Id:" + genelArama.getId());
 
-	public String getDialogUrl() {
-		return dialogUrl;
-	}
+		FacesContext.getCurrentInstance().addMessage(null, message);
 
-	public void setDialogUrl(String dialogUrl) {
-		this.dialogUrl = dialogUrl;
-	}
-
-	public int getHesapTumId() {
-		return HesapTumId;
-	}
-
-	public void setHesapTumId(int hesapTumId) {
-		HesapTumId = hesapTumId;
-	}
-
-	public ArrayList<HesaplarList> getHesaplarlistesi() {
-		return hesaplarlistesi;
-	}
-
-	public void setHesaplarlistesi(ArrayList<HesaplarList> hesaplarlistesi) {
-		this.hesaplarlistesi = hesaplarlistesi;
+		GelismisListe(genelArama.getId());
 	}
 
 	private ArrayList<Ilce> ilceList;
@@ -126,366 +164,6 @@ public class IcraDosyaIslemleriBean {
 		AramaIcraDosyasiID = aramaIcraDosyasiID;
 	}
 
-	private IcraDosyasi icradosyasi;
-	private BorcluBilgisi borclubilgisi;
-	private int AracSayisi = 0;
-	private int EvSayisi = 0;
-	private Date hesapTarihi = new Date();
-
-	private double basvuruHarciTL;
-
-	private double vekaletHarciTL;
-
-	private double pesinHarcTL;
-
-	private double harcoranTL = 2.27;
-
-	public double getHarcoranTL() {
-		return harcoranTL;
-	}
-
-	public void setHarcoranTL(double harcoranTL) {
-		this.harcoranTL = harcoranTL;
-	}
-
-	public double getBasvuruHarciTL() {
-		return basvuruHarciTL;
-	}
-
-	public void setBasvuruHarciTL(double basvuruHarciTL) {
-		this.basvuruHarciTL = basvuruHarciTL;
-	}
-
-	public double getVekaletHarciTL() {
-		return vekaletHarciTL;
-	}
-
-	public void setVekaletHarciTL(double vekaletHarciTL) {
-		this.vekaletHarciTL = vekaletHarciTL;
-	}
-
-	public double getPesinHarcTL() {
-		return pesinHarcTL;
-	}
-
-	public void setPesinHarcTL(double pesinHarcTL) {
-		this.pesinHarcTL = pesinHarcTL;
-	}
-
-	public Date getHesapTarihi() {
-		return hesapTarihi;
-	}
-
-	public void setHesapTarihi(Date hesapTarihi) {
-		this.hesapTarihi = hesapTarihi;
-	}
-
-	private String Ev = "img/acikgri.png", Arac = "img/acikgri.png", Para = "img/acikgri.png",
-			Haciz = "img/acikgri.png", Itiraz = "img/acikgri.png", Istahbarat = "img/acikgri.png",
-			Bila = "img/acikgri.png", Hitam = "img/acikgri.png", Temlik = "img/acikgri.png", Vefat = "img/acikgri.png";
-
-	private String Arac_1 = "img/acikgri.png", Arac_2 = "img/acikgri.png", Arac_3 = "img/acikgri.png",
-			Arac_4 = "img/acikgri.png";
-	private String Ev_1 = "img/acikgri.png", Ev_2 = "img/acikgri.png", Ev_3 = "img/acikgri.png",
-			Ev_4 = "img/acikgri.png";
-
-	private String kart_1 = "img/hsbc_kart.jpg", kart2 = "img/HSBC-GOLD.jpg", kart_3 = "img/HSBC-PLATİNİUM.jpg",
-			kart_4 = "HSBC-PREMİER.jpg";
-
-	public String getKart_1() {
-		return kart_1;
-	}
-
-	public void setKart_1(String kart_1) {
-		this.kart_1 = kart_1;
-	}
-
-	public String getKart2() {
-		return kart2;
-	}
-
-	public void setKart2(String kart2) {
-		this.kart2 = kart2;
-	}
-
-	public String getKart_3() {
-		return kart_3;
-	}
-
-	public void setKart_3(String kart_3) {
-		this.kart_3 = kart_3;
-	}
-
-	public String getKart_4() {
-		return kart_4;
-	}
-
-	public void setKart_4(String kart_4) {
-		this.kart_4 = kart_4;
-	}
-
-	public String getArac_1() {
-		return Arac_1;
-	}
-
-	public void setArac_1(String arac_1) {
-		Arac_1 = arac_1;
-	}
-
-	public String getArac_2() {
-		return Arac_2;
-	}
-
-	public void setArac_2(String arac_2) {
-		Arac_2 = arac_2;
-	}
-
-	public String getArac_3() {
-		return Arac_3;
-	}
-
-	public void setArac_3(String arac_3) {
-		Arac_3 = arac_3;
-	}
-
-	public String getArac_4() {
-		return Arac_4;
-	}
-
-	public void setArac_4(String arac_4) {
-		Arac_4 = arac_4;
-	}
-
-	public String getEv_1() {
-		return Ev_1;
-	}
-
-	public void setEv_1(String ev_1) {
-		Ev_1 = ev_1;
-	}
-
-	public String getEv_2() {
-		return Ev_2;
-	}
-
-	public void setEv_2(String ev_2) {
-		Ev_2 = ev_2;
-	}
-
-	public String getEv_3() {
-		return Ev_3;
-	}
-
-	public void setEv_3(String ev_3) {
-		Ev_3 = ev_3;
-	}
-
-	public String getEv_4() {
-		return Ev_4;
-	}
-
-	public void setEv_4(String ev_4) {
-		Ev_4 = ev_4;
-	}
-
-	public String getEv() {
-		return Ev;
-	}
-
-	public void setEv(String ev) {
-		Ev = ev;
-	}
-
-	public String getArac() {
-		return Arac;
-	}
-
-	public String getPara() {
-		return Para;
-	}
-
-	public void setPara(String para) {
-		Para = para;
-	}
-
-	public String getHaciz() {
-		return Haciz;
-	}
-
-	public void setHaciz(String haciz) {
-		Haciz = haciz;
-	}
-
-	public String getItiraz() {
-		return Itiraz;
-	}
-
-	public void setItiraz(String itiraz) {
-		Itiraz = itiraz;
-	}
-
-	public String getIstahbarat() {
-		return Istahbarat;
-	}
-
-	public void setIstahbarat(String istahbarat) {
-		Istahbarat = istahbarat;
-	}
-
-	public String getBila() {
-		return Bila;
-	}
-
-	public void setBila(String bila) {
-		Bila = bila;
-	}
-
-	public String getHitam() {
-		return Hitam;
-	}
-
-	public void setHitam(String hitam) {
-		Hitam = hitam;
-	}
-
-	public String getTemlik() {
-		return Temlik;
-	}
-
-	public void setTemlik(String temlik) {
-		Temlik = temlik;
-	}
-
-	public String getVefat() {
-		return Vefat;
-	}
-
-	public void setVefat(String vefat) {
-		Vefat = vefat;
-	}
-
-	public void setArac(String arac) {
-		Arac = arac;
-	}
-
-	public int getAracSayisi() {
-		return AracSayisi;
-	}
-
-	public void setAracSayisi(int aracSayisi) {
-		AracSayisi = aracSayisi;
-	}
-
-	public int getEvSayisi() {
-		return EvSayisi;
-	}
-
-	public void setEvSayisi(int evSayisi) {
-		EvSayisi = evSayisi;
-	}
-
-	private Baglanti baglanti;
-	private Hesap hesap;
-	private int alacakliID;
-	private String icraDosyaNo;
-	private int icraMudurluguID;
-
-	public int getIcraMudurluguID() {
-		return icraMudurluguID;
-	}
-
-	public void setIcraMudurluguID(int icraMudurluguID) {
-		this.icraMudurluguID = icraMudurluguID;
-	}
-
-	public String getIcraDosyaNo() {
-		return icraDosyaNo;
-	}
-
-	public void setIcraDosyaNo(String icraDosyaNo) {
-		this.icraDosyaNo = icraDosyaNo;
-	}
-
-	public int getAlacakliID() {
-		return alacakliID;
-	}
-
-	public void setAlacakliID(int alacakliID) {
-		this.alacakliID = alacakliID;
-	}
-
-	public BorcluBilgisi getBorclubilgisi() {
-		return borclubilgisi;
-	}
-
-	public void setBorclubilgisi(BorcluBilgisi borclubilgisi) {
-		this.borclubilgisi = borclubilgisi;
-	}
-
-	public Baglanti getBaglanti() {
-		return baglanti;
-	}
-
-	public void setBaglanti(Baglanti baglanti) {
-		this.baglanti = baglanti;
-	}
-
-	public Hesap getHesap() {
-		return hesap;
-	}
-
-	public void setHesap(Hesap hesap) {
-		this.hesap = hesap;
-	}
-
-	public IcraDosyasi getIcradosyasi() {
-		return icradosyasi;
-	}
-
-	public void setIcradosyasi(IcraDosyasi icradosyasi) {
-		this.icradosyasi = icradosyasi;
-	}
-
-	private Date Tarih, Tarih1, Tarih2;
-
-	public Date getTarih1() {
-		return Tarih1;
-	}
-
-	public void setTarih1(Date tarih1) {
-		Tarih1 = tarih1;
-	}
-
-	public Date getTarih2() {
-		return Tarih2;
-	}
-
-	public void setTarih2(Date tarih2) {
-		Tarih2 = tarih2;
-	}
-
-	public IcraDosyaIslemleriBean() throws Exception {
-
-		icradosyasi = new IcraDosyasi();
-		hesap = new Hesap();
-		baglanti = new Baglanti();
-		borclubilgisi = new BorcluBilgisi();
-		//plakaGetir();
-		hesaplarlistesi = new ArrayList<HesaplarList>();
-		icradosyasi.setBK84("E");
-		icradosyasi.setKKDF("H");
-		icradosyasi.setBSMV("E");
-		icradosyasi.setTakipSekliId(0);
-		icradosyasi.setTakipTipiId(1);
-		icradosyasi.setTalepEdilenHak(
-				"Alacağımızın asıl alacağa takip tarihinden tahsiline kadar sözleşme gereğince takip tarihinden itibaren işleyecek %30.24 temerrüt faizi, faizin %5 gider vergisi, icra harç ve masrafları, avukatlık vekalet ücreti ile birlikte, TBK.Madde 100 gereğince kısmi ödemelerin öncelikle faiz ve masraflara mahsup edileceği, (artan faiz oranlarının tatbiki kaydı ile talep) haklarımız saklı kalmak ve tahsilde tekerrür etmemek kaydı ile tahsili talebidir.");
-		borclubilgisi.setAdresTuruId(9);
-		icradosyasi.setTakipYoluId(0);
-
-		icradosyasi.setDosyaTipiId(0);
-		borclubilgisi.setTelefon_no3("0000000000");
-	}
-
 	public void onDateSelect(SelectEvent event) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -493,51 +171,6 @@ public class IcraDosyaIslemleriBean {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
 	}
 
-	public Date getTarih() {
-		return Tarih;
-	}
-
-	public void setTarih(Date tarih) {
-		Tarih = tarih;
-	}
-
-	private IcraDosyasi icradosyasilistesi = new IcraDosyasi();
-
-	public IcraDosyasi getIcradosyasilistesi() {
-		return icradosyasilistesi;
-	}
-
-	public void setIcradosyasilistesi(IcraDosyasi icradosyasilistesi) {
-		this.icradosyasilistesi = icradosyasilistesi;
-	}
-
-	public BorcluBilgisi getBorclubilgisilistesi() {
-		return borclubilgisilistesi;
-	}
-
-	public void setBorclubilgisilistesi(BorcluBilgisi borclubilgisilistesi) {
-		this.borclubilgisilistesi = borclubilgisilistesi;
-	}
-
-	public Hesap getHesaplistesi() {
-		return hesaplistesi;
-	}
-
-	public void setHesaplistesi(Hesap hesaplistesi) {
-		this.hesaplistesi = hesaplistesi;
-	}
-
-	private BorcluBilgisi borclubilgisilistesi = new BorcluBilgisi();
-	private Hesap hesaplistesi = new Hesap();
-	private AlacakliBilgiler alacaklilistesi = new AlacakliBilgiler();
-
-	public AlacakliBilgiler getAlacaklilistesi() {
-		return alacaklilistesi;
-	}
-
-	public void setAlacaklilistesi(AlacakliBilgiler alacaklilistesi) {
-		this.alacaklilistesi = alacaklilistesi;
-	}
 
 	public void Kaydet() throws Exception {
 
@@ -573,7 +206,6 @@ public class IcraDosyaIslemleriBean {
 
 		BaglantiDAO daobaglanti = new BaglantiDAO();
 		daobaglanti.Kaydet(baglanti);
-	
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Kayıt İşlemi Başarı İle Gerçekleştirildi..."));
@@ -582,7 +214,7 @@ public class IcraDosyaIslemleriBean {
 		hesap = new Hesap();
 		baglanti = new Baglanti();
 		borclubilgisi = new BorcluBilgisi();
-		//plakaGetir();
+		// plakaGetir();
 		hesaplarlistesi = new ArrayList<HesaplarList>();
 		icradosyasi.setBK84("E");
 		icradosyasi.setKKDF("H");
@@ -651,7 +283,7 @@ public class IcraDosyaIslemleriBean {
 
 		IcraDosyasiDAO icraDAO = new IcraDosyasiDAO();
 		icraDAO.GenelHacizBilgisiGuncelle(icradosyasilistesi);
-		
+
 		GelismisListe(AktifBean.icraDosyaID);
 
 	}
@@ -706,8 +338,8 @@ public class IcraDosyaIslemleriBean {
 			pelops.controller.AktifBean.setBorcluAdi(daoborclu.Liste(borclubilgisiID).getAdSoyad());
 
 			icradosyasilistesi = icradosyasidao.Listele(icradosyaID);
-			
-			dosyaStatusu=icradosyasidao.getDosyaStatusu(icradosyasilistesi.getDosyaStatusuId());
+
+			dosyaStatusu = icradosyasidao.getDosyaStatusu(icradosyasilistesi.getDosyaStatusuId());
 
 			BorcluBilgisiDAO borcludao = new BorcluBilgisiDAO();
 			borclubilgisilistesi = borcludao.Liste(borclubilgisiID);
@@ -716,7 +348,7 @@ public class IcraDosyaIslemleriBean {
 
 			AlacakliDAO alacaklidao = new AlacakliDAO();
 			alacaklilistesi = alacaklidao.ListeGetir(alacakliID);
-			//plakaGetir();
+			// plakaGetir();
 			Hesapla();
 		}
 
@@ -735,18 +367,16 @@ public class IcraDosyaIslemleriBean {
 			IcraDosyasiDAO icradosyasidao = new IcraDosyasiDAO();
 
 			IcraDosyasi icraDosyasi = icradosyasidao.Listele(id);
+
+			dosyaStatusu = icradosyasidao.getDosyaStatusu(icraDosyasi.getDosyaStatusuId());
 			
-			dosyaStatusu=icradosyasidao.getDosyaStatusu(icraDosyasi.getDosyaStatusuId());
-			
-			showPic=true;
-			
-			if(dosyaStatusu.toLowerCase().equals("derdest"))
-			{
-				showPic=false;
+			AktifBean.DOSYA_STATUSU_ID=icraDosyasi.getDosyaStatusuId();
+
+			showPic = true;
+
+			if (dosyaStatusu.toLowerCase().equals("derdest")) {
+				showPic = false;
 			}
-			
-			
-			
 
 			String icradosyano = icraDosyasi.getIcraDosyaNo();
 
@@ -761,6 +391,9 @@ public class IcraDosyaIslemleriBean {
 						(new IcraMudurluguDAO()).Liste(icraDosyasi.getIcraMudurluguId()).get(0).getAdi());
 				int icradosyaID = id;
 				icradosyasi.setId(id);
+				
+					AktifBean.ICRA_MUDURLUK_ID=icraDosyasi.getIcraMudurluguId();
+				
 
 				if (icradosyaID == 0) {
 					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Üzgünüz !!!",
@@ -816,20 +449,18 @@ public class IcraDosyaIslemleriBean {
 
 					hesapTarihi = new Date();
 
-					//plakaGetir();
+					// plakaGetir();
 
 					Hesapla();
 					refreshPanelVisible();
 				}
 			}
 
-		} 
-			catch (Exception e) {
-				
-				
-				System.out.println("Hata icraDosyaIslemleri GelismisListe :"+e.getMessage());
-				
-			}
+		} catch (Exception e) {
+
+			System.out.println("Hata icraDosyaIslemleri GelismisListe :" + e.getMessage());
+
+		}
 
 	}
 
@@ -1045,8 +676,6 @@ public class IcraDosyaIslemleriBean {
 
 		AktifBean.hesaplistesi = hesaplistesi;
 	} // PROSEDÜR SONU
-
-	
 
 	public void itirazDurum() {
 		IcraDosyasiDAO icd = new IcraDosyasiDAO();
@@ -1304,8 +933,391 @@ public class IcraDosyaIslemleriBean {
 	public void setShowPic(boolean showPic) {
 		this.showPic = showPic;
 	}
+
+	public String getKart_1() {
+		return kart_1;
+	}
+
+	public void setKart_1(String kart_1) {
+		this.kart_1 = kart_1;
+	}
+
+	public String getKart2() {
+		return kart2;
+	}
+
+	public void setKart2(String kart2) {
+		this.kart2 = kart2;
+	}
+
+	public String getKart_3() {
+		return kart_3;
+	}
+
+	public void setKart_3(String kart_3) {
+		this.kart_3 = kart_3;
+	}
+
+	public String getKart_4() {
+		return kart_4;
+	}
+
+	public void setKart_4(String kart_4) {
+		this.kart_4 = kart_4;
+	}
+
+	public String getArac_1() {
+		return Arac_1;
+	}
+
+	public void setArac_1(String arac_1) {
+		Arac_1 = arac_1;
+	}
+
+	public String getArac_2() {
+		return Arac_2;
+	}
+
+	public void setArac_2(String arac_2) {
+		Arac_2 = arac_2;
+	}
+
+	public String getArac_3() {
+		return Arac_3;
+	}
+
+	public void setArac_3(String arac_3) {
+		Arac_3 = arac_3;
+	}
+
+	public String getArac_4() {
+		return Arac_4;
+	}
+
+	public void setArac_4(String arac_4) {
+		Arac_4 = arac_4;
+	}
+
+	public String getEv_1() {
+		return Ev_1;
+	}
+
+	public void setEv_1(String ev_1) {
+		Ev_1 = ev_1;
+	}
+
+	public String getEv_2() {
+		return Ev_2;
+	}
+
+	public void setEv_2(String ev_2) {
+		Ev_2 = ev_2;
+	}
+
+	public String getEv_3() {
+		return Ev_3;
+	}
+
+	public void setEv_3(String ev_3) {
+		Ev_3 = ev_3;
+	}
+
+	public String getEv_4() {
+		return Ev_4;
+	}
+
+	public void setEv_4(String ev_4) {
+		Ev_4 = ev_4;
+	}
+
+	public String getEv() {
+		return Ev;
+	}
+
+	public void setEv(String ev) {
+		Ev = ev;
+	}
+
+	public String getArac() {
+		return Arac;
+	}
+
+	public String getPara() {
+		return Para;
+	}
+
+	public void setPara(String para) {
+		Para = para;
+	}
+
+	public String getHaciz() {
+		return Haciz;
+	}
+
+	public void setHaciz(String haciz) {
+		Haciz = haciz;
+	}
+
+	public String getItiraz() {
+		return Itiraz;
+	}
+
+	public void setItiraz(String itiraz) {
+		Itiraz = itiraz;
+	}
+
+	public String getIstahbarat() {
+		return Istahbarat;
+	}
+
+	public void setIstahbarat(String istahbarat) {
+		Istahbarat = istahbarat;
+	}
+
+	public String getBila() {
+		return Bila;
+	}
+
+	public void setBila(String bila) {
+		Bila = bila;
+	}
+
+	public String getHitam() {
+		return Hitam;
+	}
+
+	public void setHitam(String hitam) {
+		Hitam = hitam;
+	}
+
+	public String getTemlik() {
+		return Temlik;
+	}
+
+	public void setTemlik(String temlik) {
+		Temlik = temlik;
+	}
+
+	public String getVefat() {
+		return Vefat;
+	}
+
+	public void setVefat(String vefat) {
+		Vefat = vefat;
+	}
+
+	public void setArac(String arac) {
+		Arac = arac;
+	}
+
+	public int getAracSayisi() {
+		return AracSayisi;
+	}
+
+	public void setAracSayisi(int aracSayisi) {
+		AracSayisi = aracSayisi;
+	}
+
+	public int getEvSayisi() {
+		return EvSayisi;
+	}
+
+	public void setEvSayisi(int evSayisi) {
+		EvSayisi = evSayisi;
+	}
+
+	public boolean getIsdialogsVisible() {
+		return isdialogsVisible;
+	}
+
+	public void setIsdialogsVisible(boolean isdialogsVisible) {
+		this.isdialogsVisible = isdialogsVisible;
+	}
+
+	public void setDialogPage(String arg) {
+		setDialogUrl(arg);
+	}
+
+	public String getDialogUrl() {
+		return dialogUrl;
+	}
+
+	public void setDialogUrl(String dialogUrl) {
+		this.dialogUrl = dialogUrl;
+	}
+
+	public int getHesapTumId() {
+		return HesapTumId;
+	}
+
+	public void setHesapTumId(int hesapTumId) {
+		HesapTumId = hesapTumId;
+	}
+
+	public ArrayList<HesaplarList> getHesaplarlistesi() {
+		return hesaplarlistesi;
+	}
+
+	public void setHesaplarlistesi(ArrayList<HesaplarList> hesaplarlistesi) {
+		this.hesaplarlistesi = hesaplarlistesi;
+	}
+
+	public double getHarcoranTL() {
+		return harcoranTL;
+	}
+
+	public void setHarcoranTL(double harcoranTL) {
+		this.harcoranTL = harcoranTL;
+	}
+
+	public double getBasvuruHarciTL() {
+		return basvuruHarciTL;
+	}
+
+	public void setBasvuruHarciTL(double basvuruHarciTL) {
+		this.basvuruHarciTL = basvuruHarciTL;
+	}
+
+	public double getVekaletHarciTL() {
+		return vekaletHarciTL;
+	}
+
+	public void setVekaletHarciTL(double vekaletHarciTL) {
+		this.vekaletHarciTL = vekaletHarciTL;
+	}
+
+	public double getPesinHarcTL() {
+		return pesinHarcTL;
+	}
+
+	public void setPesinHarcTL(double pesinHarcTL) {
+		this.pesinHarcTL = pesinHarcTL;
+	}
+
+	public Date getHesapTarihi() {
+		return hesapTarihi;
+	}
+
+	public void setHesapTarihi(Date hesapTarihi) {
+		this.hesapTarihi = hesapTarihi;
+	}
+
+	public int getIcraMudurluguID() {
+		return icraMudurluguID;
+	}
+
+	public void setIcraMudurluguID(int icraMudurluguID) {
+		this.icraMudurluguID = icraMudurluguID;
+	}
+
+	public String getIcraDosyaNo() {
+		return icraDosyaNo;
+	}
+
+	public void setIcraDosyaNo(String icraDosyaNo) {
+		this.icraDosyaNo = icraDosyaNo;
+	}
+
+	public int getAlacakliID() {
+		return alacakliID;
+	}
+
+	public void setAlacakliID(int alacakliID) {
+		this.alacakliID = alacakliID;
+	}
+
+	public BorcluBilgisi getBorclubilgisi() {
+		return borclubilgisi;
+	}
+
+	public void setBorclubilgisi(BorcluBilgisi borclubilgisi) {
+		this.borclubilgisi = borclubilgisi;
+	}
+
+	public Baglanti getBaglanti() {
+		return baglanti;
+	}
+
+	public void setBaglanti(Baglanti baglanti) {
+		this.baglanti = baglanti;
+	}
+
+	public Hesap getHesap() {
+		return hesap;
+	}
+
+	public void setHesap(Hesap hesap) {
+		this.hesap = hesap;
+	}
+
+	public IcraDosyasi getIcradosyasi() {
+		return icradosyasi;
+	}
+
+	public void setIcradosyasi(IcraDosyasi icradosyasi) {
+		this.icradosyasi = icradosyasi;
+	}
+
+	private Date Tarih, Tarih1, Tarih2;
+
+	public Date getTarih1() {
+		return Tarih1;
+	}
+
+	public void setTarih1(Date tarih1) {
+		Tarih1 = tarih1;
+	}
+
+	public Date getTarih2() {
+		return Tarih2;
+	}
+
+	public void setTarih2(Date tarih2) {
+		Tarih2 = tarih2;
+	}
 	
-	
-	
+	public Date getTarih() {
+		return Tarih;
+	}
+
+	public void setTarih(Date tarih) {
+		Tarih = tarih;
+	}
+
+	private IcraDosyasi icradosyasilistesi = new IcraDosyasi();
+
+	public IcraDosyasi getIcradosyasilistesi() {
+		return icradosyasilistesi;
+	}
+
+	public void setIcradosyasilistesi(IcraDosyasi icradosyasilistesi) {
+		this.icradosyasilistesi = icradosyasilistesi;
+	}
+
+	public BorcluBilgisi getBorclubilgisilistesi() {
+		return borclubilgisilistesi;
+	}
+
+	public void setBorclubilgisilistesi(BorcluBilgisi borclubilgisilistesi) {
+		this.borclubilgisilistesi = borclubilgisilistesi;
+	}
+
+	public Hesap getHesaplistesi() {
+		return hesaplistesi;
+	}
+
+	public void setHesaplistesi(Hesap hesaplistesi) {
+		this.hesaplistesi = hesaplistesi;
+	}
+
+
+	public AlacakliBilgiler getAlacaklilistesi() {
+		return alacaklilistesi;
+	}
+
+	public void setAlacaklilistesi(AlacakliBilgiler alacaklilistesi) {
+		this.alacaklilistesi = alacaklilistesi;
+	}
+
 
 }

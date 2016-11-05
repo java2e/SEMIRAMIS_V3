@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -12,10 +13,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineModel;
 import pelops.controller.AktifBean;
 import pelops.report.model.ReportUtils;
+import semimis.utils.GenelArama;
 import semiramis.operasyon.model.Chronology;
 import semiramis.report.util.ReportPublish;
 
@@ -62,6 +65,33 @@ public class BasicTimelineController implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void chooseIcraDosyasi() {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		options.put("contentWidth", 1800);
+		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
+
+	}
+
+	public void onIcraDosyasiChosen(SelectEvent event) {
+		GenelArama genelArama = (GenelArama) event.getObject();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Seçildi :",
+				"Id:" + genelArama.getId());
+
+		FacesContext.getCurrentInstance().addMessage(null, message);
+
+		AktifBean.borcluId = genelArama.getBorcluId();
+		AktifBean.icraDosyaID = genelArama.getId();
+		AktifBean.borcluAdi = genelArama.getBorcluAdi();
+		AktifBean.icraDosyaNo = genelArama.getIcraDosyaNo();
+		AktifBean.muvekkilAdi = genelArama.getMuvekkilAdi();
+
+		icraDosyaNo = genelArama.getIcraDosyaNo();
+
+		initialize();
 	}
 
 	public void icraDosyaSec(int id) {

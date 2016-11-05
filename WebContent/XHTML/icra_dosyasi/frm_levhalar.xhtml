@@ -20,18 +20,17 @@
 	</style>
 
 	
-	<p:column rowspan="1" style="width:40%">
 				<p:panel header="İCRA LEVHALARI" style="display:block; horizontal-align:center; width:100%" id="icralevhalari">
 				
 				
 				
 				
 						<p:panelGrid columns="4" style=" border-style: hidden !important; width:100%" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
-								<p:graphicImage value="#{levhaBean.itiraz}" height="95" width="100%" />
+								<p:graphicImage value="#{levhaBean.tebligatDurum}" height="95" width="100%" />
 								<p:graphicImage value="#{levhaBean.bila}" height="95" width="100%" />
 								<p:graphicImage value="#{levhaBean.hitam}" height="95" width="100%" />
 								
-<p:commandLink update="panelicarac" type="button" onclick="PF('gayrimenkulGoster').show();" style="text-decoration:none;">
+<p:commandLink type="button" onclick="PF('gayrimenkulGoster').show();" style="text-decoration:none;">
 <h:panelGrid columns="1" style="text-align:center;"  width="100%">
 <p:outputLabel value="#{levhaBean.levhaBilgi.vizitDurumTxt}" style="color:red;font-size:bold;"/>
 <p:graphicImage value="#{levhaBean.vizit}" height="95" width="100%" />
@@ -40,20 +39,28 @@
 </p:commandLink>
 								<p:graphicImage value="#{levhaBean.temlik}" height="95" width="100%" />
 	  							<p:graphicImage value="#{levhaBean.vefat}" height="95" width="100%" />
-<p:commandLink update="panelicarac" type="button" onclick="PF('gayrimenkulGoster').show();" style="text-decoration:none;">
+	  							
+	  							
+	  							
+<p:commandLink id="tapuLink" onclick="PF('gayrimenkulGoster').show();" style="text-decoration:none;">
 <h:panelGrid columns="1" style="text-align:center;"  width="100%">
 <p:outputLabel value="#{levhaBean.levhaBilgi.evDurumTxt}" style="color:red;font-size:bold;"/>
 <p:graphicImage value="img/Gayrimenkul_#{levhaBean.levhaBilgi.evDurum}.png" height="95" width="100%" />
 <p:outputLabel value="#{levhaBean.levhaBilgi.evSayisi} ADET" style="color:red;font-size:bold;"/>
 </h:panelGrid>
 </p:commandLink>
-<p:commandLink update="panelicev" type="button" onclick="PF('arabaGoster').show();" style="text-decoration:none;">
+
+
+<p:commandLink id="aracLink"   onclick="PF('arabaGoster').show();" style="text-decoration:none;">
 <h:panelGrid columns="1" style="text-align:center;"  width="100%">
 <p:outputLabel value="#{levhaBean.levhaBilgi.aracDurumTxt}" style="color:red;font-size:bold;"/>
 <p:graphicImage value="/img/arac_#{levhaBean.levhaBilgi.aracDurum}.png" height="95" width="100%" />
 <p:outputLabel value="#{levhaBean.levhaBilgi.aracSayisi} ADET" style="color:red;font-size:bold;"/>
 </h:panelGrid>
 </p:commandLink>
+
+
+     
 
 <p:commandLink type="button"  style="text-decoration:none;">
 <h:panelGrid columns="1" style="text-align:center;"  width="100%">
@@ -76,36 +83,62 @@
 								
 						</p:panelGrid>
 				</p:panel>
-			</p:column>
 	
-	
-	<p:dialog header="ARAÇ LİSTESİ" widgetVar="arabaGoster" minHeight="100" minWidth="450" height="100" width="450">
 
-			<p:panel  id="panelicev" style=" border-style: hidden !important;"  >
-						<p:panelGrid columns="5" style=" border-style: hidden !important;">
-						
-								<p:graphicImage value="#{levhaBean.arac_1}" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.arac_2}" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.arac_3 }" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.arac_4}" height="75" width="75" />
-								
-						</p:panelGrid>
-				</p:panel>     	    
+   <!-- Araç Listesi Pop  -->
 
-			</p:dialog>
-		
-			<p:dialog header="GAYRİMENKUL LİSTESİ" widgetVar="gayrimenkulGoster" minHeight="100" minWidth="450" height="100" width="450">
-
-			<p:panel id="panelicarac" style=" border-style: hidden !important;"  >
-						<p:panelGrid columns="5" style=" border-style: hidden !important;">
-							
-								<p:graphicImage value="#{levhaBean.ev_1}" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.ev_2}" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.ev_3 }" height="75" width="75" />
-								<p:graphicImage value="#{levhaBean.ev_4}" height="75" width="75" />
-						</p:panelGrid>
-				</p:panel>     	    
-	</p:dialog>
-	
+	  <p:overlayPanel id="imgPanel" for="aracLink" showEffect="blind" hideEffect="explode" showEvent="mousedown" hideEvent="mousedown"
+                    dismissable="false" showCloseIcon="true" style="width:400px;font-size:12px;">
+                    
+       
+     <p:dataTable var="car" value="#{levhaBean.aracListesi}" >
+    <p:column headerText="PLAKA">
+        <h:outputText value="#{car.aracPlakaNo}" />
+    </p:column>
+ 
+    <p:column headerText="ARAÇ TİPİ">
+        <h:outputText value="#{car.aracAracTipi}" />
+    </p:column>
+ 
+    <p:column headerText="EKLEME TARİHİ">
+        <h:outputText value="#{car.eklemeTarihi}" />
+    </p:column>
+ 
+   </p:dataTable>
+                      
+        
+      </p:overlayPanel>
+      
+     <!-- Tapu Listesi Pop  -->
+         
+      <p:overlayPanel id="imgPanel2" for="tapuLink" showEffect="blind" hideEffect="explode" showEvent="mousedown" hideEvent="mousedown"
+                    dismissable="false" showCloseIcon="true" style="width:400px;">
+                    
+    <p:dataTable var="car" value="#{levhaBean.tapuListesi}" >
+    <p:column headerText="AÇIKLAMA">
+        <h:outputText value="#{car.tapuAciklama}" />
+    </p:column>
+ 
+    <p:column headerText="ADRES">
+        <h:outputText value="#{car.tapuMahalleAdi}" />
+    </p:column>
+ 
+    <p:column headerText="TAPU İL">
+        <h:outputText value="#{car.tapuIl}" />
+    </p:column>
+    
+     <p:column headerText="TAPU İLÇE">
+        <h:outputText value="#{car.tapuIlce}" />
+    </p:column>
+ 
+   </p:dataTable>
+      
+      
+      </p:overlayPanel>
+      
+      
+      
+      
+      
 </ui:composition>
 </html>

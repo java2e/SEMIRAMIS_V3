@@ -14,12 +14,88 @@ public class IzlemeBilgisi {
 	private int PersonelId;
 	private int icraDosyasiId;
 	private int IzlemeSonucuId;
+	
+	private int izlemeStatusuId;
+	
+	private String izlemeStatusuAdi;
+	
 	private String izlemeSonucu;
 	private boolean vizitDurumu;
 	private int cagriAdet;
-
+	
+	private int borcluId;
+	
+	private String borcluAdSoyad;
+	
+	private String alacakliAdSoyad;
+	
+	private int icraDosyaId;
+	
+	private String icraDosyaNo;
+	
 	
 
+	
+	
+	
+	
+
+
+	public int getBorcluId() {
+		return borcluId;
+	}
+
+	public void setBorcluId(int borcluId) {
+		this.borcluId = borcluId;
+	}
+
+	public String getBorcluAdSoyad() {
+		return borcluAdSoyad;
+	}
+
+	public void setBorcluAdSoyad(String borcluAdSoyad) {
+		this.borcluAdSoyad = borcluAdSoyad;
+	}
+
+	public String getAlacakliAdSoyad() {
+		return alacakliAdSoyad;
+	}
+
+	public void setAlacakliAdSoyad(String alacakliAdSoyad) {
+		this.alacakliAdSoyad = alacakliAdSoyad;
+	}
+
+	public int getIcraDosyaId() {
+		return icraDosyaId;
+	}
+
+	public void setIcraDosyaId(int icraDosyaId) {
+		this.icraDosyaId = icraDosyaId;
+	}
+
+	public String getIcraDosyaNo() {
+		return icraDosyaNo;
+	}
+
+	public void setIcraDosyaNo(String icraDosyaNo) {
+		this.icraDosyaNo = icraDosyaNo;
+	}
+
+	public int getIzlemeStatusuId() {
+		return izlemeStatusuId;
+	}
+
+	public void setIzlemeStatusuId(int izlemeStatusuId) {
+		this.izlemeStatusuId = izlemeStatusuId;
+	}
+
+	public String getIzlemeStatusuAdi() {
+		return izlemeStatusuAdi;
+	}
+
+	public void setIzlemeStatusuAdi(String izlemeStatusuAdi) {
+		this.izlemeStatusuAdi = izlemeStatusuAdi;
+	}
 
 	public String getIzlemeSonucu() {
 		return izlemeSonucu;
