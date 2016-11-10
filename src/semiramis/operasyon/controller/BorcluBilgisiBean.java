@@ -1,4 +1,4 @@
-package pelops.controller;
+package semiramis.operasyon.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,11 +8,13 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import pelops.dao.BorcluBilgisiDAO;
+import pelops.controller.AktifBean;
+import pelops.controller.GenelSehirlerBean;
 import pelops.db.DBConnection;
-import pelops.model.BorcluBilgisi;
 import pelops.model.BorcluTipi;
 import pelops.model.Ilce;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 
 @ManagedBean(name = "borcluBilgisiBean")
 @RequestScoped

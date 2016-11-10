@@ -23,14 +23,12 @@ import com.a.a.a.b.i;
 
 import pelops.dao.AlacakliDAO;
 import pelops.dao.BaglantiDAO;
-import pelops.dao.BorcluBilgisiDAO;
 import pelops.dao.HesapDAO;
 import pelops.dao.IcraDosyasiDAO;
 import pelops.dao.MuameleIslemleriDAO;
 import pelops.dao.PostaDAO;
 import pelops.interfaces.ReportCRUDInterface;
 import pelops.model.Avukat;
-import pelops.model.BorcluBilgisi;
 import pelops.model.DortluYapi;
 import pelops.model.Ilce;
 import pelops.model.MuameleAutoFields;
@@ -44,6 +42,8 @@ import pelops.muameleislemleri.util.GayrimenkulModel;
 import pelops.muameleislemleri.util.KurumModel;
 import pelops.muameleislemleri.util.MuameleIslemleriRequireCtrl;
 import pelops.reports.controller.GenelYazdirBean;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 
 import java.io.InputStream;
 import java.util.HashMap;

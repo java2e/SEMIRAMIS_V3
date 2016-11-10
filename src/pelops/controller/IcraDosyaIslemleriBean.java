@@ -21,7 +21,6 @@ import org.primefaces.event.SelectEvent;
 import pelops.dao.AlacakliDAO;
 import pelops.dao.BaglantiDAO;
 import pelops.dao.BasvuruHarciDAO;
-import pelops.dao.BorcluBilgisiDAO;
 import pelops.dao.HarcBilgisiDAO;
 import pelops.dao.HesapDAO;
 import pelops.dao.IcraDosyasiDAO;
@@ -31,7 +30,6 @@ import pelops.dao.VekaletHarciDAO;
 import pelops.dao.VekaletSinirlariDAO;
 import pelops.model.AlacakliBilgiler;
 import pelops.model.Baglanti;
-import pelops.model.BorcluBilgisi;
 import pelops.model.HarcBilgisi;
 import pelops.model.Hesap;
 import pelops.model.HesaplarList;
@@ -39,6 +37,8 @@ import pelops.model.IcraDosyasi;
 import pelops.model.Ilce;
 import pelops.model.LogError;
 import semimis.utils.GenelArama;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 
 @ManagedBean(name = "icradosyaislemleribean")
 @SessionScoped

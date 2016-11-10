@@ -1,4 +1,4 @@
-package pelops.dao;
+package semiramis.operasyon.dao;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,10 +15,12 @@ import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
 import pelops.controller.AktifBean;
+import pelops.dao.SehirlerDAO;
 import pelops.db.DBConnection;
-import pelops.model.BorcluBilgisi;
 import pelops.model.BorcluTipi;
 import pelops.report.model.ReportUtils;
+import semiramis.operasyon.model.BorcluBilgisi;
+import semiramis.uyap.model.Sgk;
 
 public class BorcluBilgisiDAO extends DBConnection {
 
@@ -337,7 +339,7 @@ public class BorcluBilgisiDAO extends DBConnection {
 
 		if (result == 1) {
 			guncelle = true;
-			//saveCoordinate(tcSorgulama(borcluBilgisi.getTcNo()));
+			// saveCoordinate(tcSorgulama(borcluBilgisi.getTcNo()));
 
 		}
 
@@ -567,6 +569,60 @@ public class BorcluBilgisiDAO extends DBConnection {
 			}
 		}
 
+	}
+
+	public boolean saveMernisAdress(String adress, String tcNo) {
+		boolean result = false;
+		PreparedStatement pstm;
+		int rs = 0;
+		String sql = "update tbl_borclu SET adres=? where tc_no =?";
+		if (!adress.toLowerCase().trim().equals("mernis kaydı yok")) {
+			if (tcNo != null && tcNo.length() > 0) {
+				newConnectDB();
+				try {
+					pstm = conn.prepareStatement(sql);
+					pstm.setString(1, adress);
+					pstm.setString(2, tcNo);
+					rs = pstm.executeUpdate();
+					disconnectDB();
+				} catch (Exception e) {
+					System.out.println("BorcluDAO.saveMernisAdress : " + e.getMessage());
+				}
+				if (rs == 1) {
+					result = true;
+				}
+
+			}
+		}
+
+		return result;
+	}
+
+	public boolean saveSGKInfo(Sgk sgk) {
+		boolean result = false;
+		int rs = 0;
+		try {
+			String sql = "UPDATE tbl_borclu SET is_yeri_adi=? ,isyeri_adres=?, ssk_sicil_no=?  WHERE tc_no= ?";
+
+			newConnectDB();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, sgk.getIsYeri());
+			psmt.setString(2, sgk.getIsYeriAdress());
+			psmt.setString(3, sgk.getIsYeriSicilNo());
+			psmt.setString(4, sgk.getTcNo());
+			rs = psmt.executeUpdate();
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("HATA borcluDAO saveSGKInfo :" + e.getMessage());
+
+		}
+		if (rs == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 }

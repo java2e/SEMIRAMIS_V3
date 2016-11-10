@@ -3,10 +3,10 @@ package OtherOPCode;
 import java.util.ArrayList; 
 
 import pelops.dao.BaglantiDAO;
-import pelops.dao.BorcluBilgisiDAO;
 import pelops.dao.HesapDAO;
 import pelops.db.DBConnection;
 import pelops.model.Baglanti;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
 
 public class UrunAyiklama extends DBConnection{
 

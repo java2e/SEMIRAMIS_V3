@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
-import pelops.model.BorcluBilgisi;
 import pelops.model.IcraDosyasi;
+import semiramis.operasyon.model.BorcluBilgisi;
 import semiramis.operasyon.model.PairLevha;
 
 public class IcraDosyasiDAO extends DBConnection {

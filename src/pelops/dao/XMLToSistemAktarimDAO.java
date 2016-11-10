@@ -7,13 +7,14 @@ import java.text.SimpleDateFormat;
 
 import pelops.model.AlacakBilgisi;
 import pelops.model.Baglanti;
-import pelops.model.BorcluBilgisi;
 import pelops.model.ExcellModel;
 import pelops.model.FreeXML;
 import pelops.model.Hesap;
 import pelops.model.IcraDosyasi;
 import pelops.model.XMLToUyap;
 import semiramis.operasyon.controller.Utils;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 import semiramis.operasyon.model.ChronologyIdentifier;
 
 public class XMLToSistemAktarimDAO {

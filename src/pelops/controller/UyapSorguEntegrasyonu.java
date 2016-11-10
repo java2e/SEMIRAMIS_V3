@@ -20,11 +20,11 @@ import org.primefaces.event.FileUploadEvent;
 
 import org.primefaces.model.UploadedFile;
 
-import pelops.dao.BorcluBilgisiDAO;
 import pelops.dao.HaczeEsasMalBilgisiDAO;
-import pelops.model.BorcluBilgisi;
 import pelops.model.EgmSorgu;
 import pelops.model.HaczeEsasMalBilgisi;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 
 @ManagedBean(name="uyapsorguentegrasyonu")
 @SessionScoped

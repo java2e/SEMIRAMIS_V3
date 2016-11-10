@@ -18,11 +18,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pelops.db.DBConnection;
-import pelops.model.BorcluBilgisi;
 import pelops.model.ExcelEAktarma;
 import pelops.model.ExcellModel;
 import pelops.model.Hesap;
 import pelops.model.IcraDosyasi;
+import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.BorcluBilgisi;
 
 public class ExcellParserDAO extends DBConnection {
 
