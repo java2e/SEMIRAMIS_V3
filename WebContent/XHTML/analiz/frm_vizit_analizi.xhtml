@@ -5,28 +5,31 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	>
+	xmlns:p="http://primefaces.org/ui">
 
 
 <ui:composition>
 
-<style>
+	<style>
 #chartdiv {
-  width: 100%;
-  height: 500px;
-}												
+	width: 100%;
+	height: 500px;
+}
 </style>
 
-<!-- Resources -->
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/pie.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+	<!-- Resources -->
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+	<script
+		src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<link rel="stylesheet"
+		href="https://www.amcharts.com/lib/3/plugins/export/export.css"
+		type="text/css" media="all" />
+	<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
 
-<!-- Chart code -->
-<script type="text/javascript">
+	<h:form id="form">
+		<!-- Chart code -->
+		<script type="text/javascript">
 			//<![CDATA[
 
 		
@@ -138,100 +141,152 @@ var chart3 = AmCharts.makeChart( "chartdiv3", {
 </script>
 
 
-<h:form id="form">
-<h:inputHidden id="durumId" value="#{vizitAnalizBean.id}" />
-<p:commandButton style="display:none" id="hh" value="kaydet"  update=":form:panelTable" actionListener="#{vizitAnalizBean.getList}"/>
+		<p:panel id="searchVizit">
+			<p:panelGrid columns="10" style="margin-top:10px">
+				<p:outputLabel>İcra Md.</p:outputLabel>
+				<p:selectOneMenu id="icraMudurlugu" effect="fold" filter="true"
+					filterMatchMode="startsWith" styleClass="selectMenu"
+					value="#{vizitAnalizBean.icraMdId}" style="width: 180px">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems
+						value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
+						var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Müvekkil Adı" />
+				<p:selectOneMenu id="detay_muvekkil" effect="fold" filter="true"
+					filterMatchMode="startsWith"
+					value="#{vizitAnalizBean.muvekkilId}" style="width: 180px">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems value="#{alacakliBean.Liste()}" var="listeler"
+						itemLabel="#{listeler.muvekkilAdi}" itemValue="#{listeler.id}" />
+				</p:selectOneMenu>
 
-<div style="margin: auto;width: 100%">
+				<p:outputLabel>Başlangıç Tarihi</p:outputLabel>
+				<p:calendar pattern="dd/MM/yyyy" mask="true"
+					value="#{vizitAnalizBean.date1}" size="19" locale="tr">
+				</p:calendar>
 
-<div style="margin: 20px 10px 0 10px; width: 100%;height:3px;background-image: url('img/chart_line.png'); background-repeat: repeat;">
-</div>
+				<p:outputLabel>Bitiş Tarihi</p:outputLabel>
+				<p:calendar pattern="dd/MM/yyyy" mask="true"
+					value="#{vizitAnalizBean.date2}" size="19" locale="tr">
+				</p:calendar>
 
-<div style="margin:auto;height: 300px;width: 100%;">
+				<p:commandButton value="Listele" icon="ui-icon-search "
+					action="#{vizitAnalizBean.search}" update=":form" />
 
-<div style="height: 300px; width:30%; float: left;">
-<div style="margin-top:10px;"><center>VİZİT DURUMU</center></div>
-<div id="chartdiv" style="margin: 10px 10px 0 20px; height: 300px; width:100%; float: left;">
-</div>
-</div>
+				<p:commandButton icon="ui-icon-cancel "
+					action="#{vizitAnalizBean.cancel}" update=":form:searchVizit" />
 
-<div style="height: 300px; width:30%; float: left;">
-<div style="margin-top:10px;"><center>VİZİT TAHSİLAT</center></div>
-<div id="chartdiv2" style="margin: 10px 10px 0 20px; height: 300px; width:100%; float: left;">
-</div>
-</div>
+			</p:panelGrid>
+		</p:panel>
+		<h:inputHidden id="durumId" value="#{vizitAnalizBean.id}" />
+		<p:commandButton style="display:none" id="hh" value="kaydet"
+			update=":form:panelTable" actionListener="#{vizitAnalizBean.getList}" />
 
-<div style="height: 300px; width:30%; float: left;">
-<div style="margin-top:10px;"><center>VİZİT STATÜSÜ</center></div>
-<div id="chartdiv3" style="margin: 10px 10px 0 20px; height: 300px; width:100%; float: left;">
-</div>
-</div>
+		<div style="margin: auto; width: 100%">
+
+			<div
+				style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;">
+			</div>
+
+			<div style="margin: auto; height: 300px; width: 100%;">
+
+				<div style="height: 300px; width: 30%; float: left;">
+					<div style="margin-top: 10px;">
+						<center>VİZİT DURUMU</center>
+					</div>
+					<div id="chartdiv"
+						style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+					</div>
+				</div>
+
+				<div style="height: 300px; width: 30%; float: left;">
+					<div style="margin-top: 10px;">
+						<center>VİZİT TAHSİLAT</center>
+					</div>
+					<div id="chartdiv2"
+						style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+					</div>
+				</div>
+
+				<div style="height: 300px; width: 30%; float: left;">
+					<div style="margin-top: 10px;">
+						<center>VİZİT STATÜSÜ</center>
+					</div>
+					<div id="chartdiv3"
+						style="margin: 10px 10px 0 20px; height: 300px; width: 100%; float: left;">
+					</div>
+				</div>
 
 
-</div>
+			</div>
 
 
 
-<div style="margin: 20px 10px 0 10px; width: 100%;height:3px;background-image: url('img/chart_line.png');background-repeat: repeat;">
-</div>
+			<div
+				style="margin: 20px 10px 0 10px; width: 100%; height: 3px; background-image: url('img/chart_line.png'); background-repeat: repeat;">
+			</div>
 
-<p:panel id="panelTable" header="VİZİT BİLGİSİ LİSTESİ" style="text-align: center !important;
+			<p:panel id="panelTable" header="VİZİT BİLGİSİ LİSTESİ"
+				style="text-align: center !important;
 	font-size: 14px;margin-top:10px;">
-<p:dataTable value="#{vizitAnalizBean.liste}" var="vb"
-				id="tblVizitBilgisi">
+				<p:dataTable value="#{vizitAnalizBean.liste}" var="vb"
+					id="tblVizitBilgisi">
 
-		
 
-				<p:column headerText="BORÇLU ADI">
-					<h:outputText value="#{vb.borcluAdSoyad}" />
-				</p:column>
 
-				<p:column headerText="İCRA DOSYA NO">
-					<h:outputText value="#{vb.icraDosyaNo}" />
-				</p:column>
+					<p:column headerText="BORÇLU ADI">
+						<h:outputText value="#{vb.borcluAdSoyad}" />
+					</p:column>
 
-				<p:column headerText="İZLEME TARİHİ">
-					<h:outputText value="#{vb.izlemeTarihi}" />
-				</p:column>
-				
-				<p:column headerText="İZLEME SONUCU">
-					<h:outputText value="#{vb.izlemeSonucu}" />
-				</p:column>
-				
-				<p:column headerText="VİZİT TARİHİ">
-					<h:outputText value="#{vb.vizitTarihi}" />
-				</p:column>
+					<p:column headerText="İCRA DOSYA NO">
+						<h:outputText value="#{vb.icraDosyaNo}" />
+					</p:column>
 
-				<p:column headerText="VİZİT STATÜSÜ">
-					<h:outputText value="#{vb.vizitStatusu}" />
-				</p:column>
-				
+					<p:column headerText="İZLEME TARİHİ">
+						<h:outputText value="#{vb.izlemeTarihi}" />
+					</p:column>
+
+					<p:column headerText="İZLEME SONUCU">
+						<h:outputText value="#{vb.izlemeSonucu}" />
+					</p:column>
+
+					<p:column headerText="VİZİT TARİHİ">
+						<h:outputText value="#{vb.vizitTarihi}" />
+					</p:column>
+
+					<p:column headerText="VİZİT STATÜSÜ">
+						<h:outputText value="#{vb.vizitStatusu}" />
+					</p:column>
+
 					<p:column headerText="ÖDEME SÖZÜ TARİHİ">
-					<h:outputText value="#{vb.odemeSozuTarih}" />
-				</p:column>
-				
-				
+						<h:outputText value="#{vb.odemeSozuTarih}" />
+					</p:column>
+
+
 					<p:column headerText="ÖDEME SÖZÜ MİKTARI">
-					<h:outputText value="#{vb.odemeSozuMiktari}" />
-				</p:column>
-				
+						<h:outputText value="#{vb.odemeSozuMiktari}" />
+					</p:column>
+
 					<p:column headerText="VİZİT NOTU">
-					<h:outputText value="#{vb.vizitNotu}" />
-				</p:column>
-				
+						<h:outputText value="#{vb.vizitNotu}" />
+					</p:column>
+
 					<f:facet name="footer">
-    					   <p:commandButton value="LİSTE TOPLU PDF"  actionListener="#{muameleBean.topluListe}" />
-    					     <p:commandButton value="LİSTE TOPLU EXCEL"  actionListener="#{muameleBean.topluListe}" />
-     			</f:facet>
-				
-			</p:dataTable>
+						<p:commandButton value="LİSTE TOPLU PDF"
+							actionListener="#{muameleBean.topluListe}" />
+						<p:commandButton value="LİSTE TOPLU EXCEL"
+							actionListener="#{muameleBean.topluListe}" />
+					</f:facet>
 
-</p:panel>
+				</p:dataTable>
+
+			</p:panel>
 
 
-</div>
+		</div>
 
-</h:form>
+	</h:form>
 
 </ui:composition>
 </html>

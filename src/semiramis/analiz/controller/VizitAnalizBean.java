@@ -1,6 +1,7 @@
 package semiramis.analiz.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -21,11 +22,11 @@ public class VizitAnalizBean {
 
 	public static final int VIZIT_STATUSU_1 = 5;
 	public static final int VIZIT_STATUSU_2 = 6;
-	
+
 	private String vizitDurum;
-	
+
 	private String vizitTahsilat;
-	
+
 	private String vizitStatusu;
 
 	private int id;
@@ -34,6 +35,11 @@ public class VizitAnalizBean {
 
 	private List<VizitAnaliz> liste;
 
+	private int icraMdId;
+	private int muvekkilId;
+	private Date date1;
+	private Date date2;
+
 	public VizitAnalizBean() {
 		// TODO Auto-generated constructor stub
 
@@ -41,46 +47,57 @@ public class VizitAnalizBean {
 
 		liste = new ArrayList<VizitAnaliz>();
 
-		liste = analizDAO.getList();
+		liste = analizDAO.getWholeDataWithOptions(date1, date2, icraMdId, muvekkilId);
 
-		
 		getJSON();
-		
+
 	}
-	
-	public void getJSON()
-	{
-		
-		int vizitDurumYapildi=0,vizitDurumYapilmadi=0;
-		
-				for (int i = 0; i < liste.size(); i++) {
-					
-					
-					if(liste.get(i).getVizitTarihi()!=null)
-					{
-						vizitDurumYapildi++;
-					}
-					else
-					{
-						vizitDurumYapilmadi++;
-						
-					}
-					
-				}
-				
-				
-				vizitDurum="{\"id\":1,\"durum\":\"YAPILDI\",\"adet\":"+vizitDurumYapildi+"},{\"id\":2,\"durum\":\"YAPILMADI\",\"adet\":"+vizitDurumYapilmadi+"}";
-		
-		
+
+	public void getJSON() {
+
+		int vizitDurumYapildi = 0, vizitDurumYapilmadi = 0;
+
+		for (int i = 0; i < liste.size(); i++) {
+
+			if (liste.get(i).getVizitTarihi() != null) {
+				vizitDurumYapildi++;
+			} else {
+				vizitDurumYapilmadi++;
+
+			}
+
+		}
+
+		vizitDurum = "{\"id\":1,\"durum\":\"YAPILDI\",\"adet\":" + vizitDurumYapildi
+				+ "},{\"id\":2,\"durum\":\"YAPILMADI\",\"adet\":" + vizitDurumYapilmadi + "}";
+
+	}
+
+	public void search() {
+		System.out.println(date1 + " " + date2 + " " + muvekkilId + " " + icraMdId);
+		liste = analizDAO.getWholeDataWithOptions(date1, date2, icraMdId, muvekkilId);
+
+		try {
+			getJSON();
+		} catch (Exception e) {
+			System.out.println("JSON Veri çekerken HATA getJSON :" + e.getMessage());
+		}
+	}
+
+	public void cancel() {
+		date1 = null;
+		date2 = null;
+		muvekkilId = 0;
+		icraMdId = 0;
+
 	}
 
 	public void getList() {
 
-		
 		liste = analizDAO.getList();
-		
+
 		if (id == VIZIT_DURUM_YAPILDI) {
-			
+
 			List<VizitAnaliz> liste2 = new ArrayList<VizitAnaliz>();
 
 			for (int i = 0; i < liste.size(); i++) {
@@ -94,9 +111,9 @@ public class VizitAnalizBean {
 			liste = liste2;
 
 		}
-		
+
 		else if (id == VIZIT_DURUM_YAPILMADI) {
-			
+
 			List<VizitAnaliz> liste2 = new ArrayList<VizitAnaliz>();
 
 			for (int i = 0; i < liste.size(); i++) {
@@ -152,7 +169,37 @@ public class VizitAnalizBean {
 	public void setVizitStatusu(String vizitStatusu) {
 		this.vizitStatusu = vizitStatusu;
 	}
-	
-	
+
+	public int getIcraMdId() {
+		return icraMdId;
+	}
+
+	public void setIcraMdId(int icraMdId) {
+		this.icraMdId = icraMdId;
+	}
+
+	public int getMuvekkilId() {
+		return muvekkilId;
+	}
+
+	public void setMuvekkilId(int muvekkilId) {
+		this.muvekkilId = muvekkilId;
+	}
+
+	public Date getDate1() {
+		return date1;
+	}
+
+	public void setDate1(Date date1) {
+		this.date1 = date1;
+	}
+
+	public Date getDate2() {
+		return date2;
+	}
+
+	public void setDate2(Date date2) {
+		this.date2 = date2;
+	}
 
 }
