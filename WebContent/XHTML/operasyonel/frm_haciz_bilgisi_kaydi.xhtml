@@ -210,7 +210,8 @@
 
 					<p:commandButton icon="ui-icon-disk" value="Düzenle"
 						disabled="#{hacizBilgisiBean.buttonDisabled}"
-						action="#{hacizBilgisiBean.Duzenle}" update=":hacizForm">
+						action="#{hacizBilgisiBean.Duzenle}"
+						update=":hacizForm, :hacizForm:tblHacizBilgisi">
 						<f:param name="buttonDuzenle" value="#{list.id}" />
 					</p:commandButton>
 
@@ -235,27 +236,25 @@
 
 				</p:column>
 
-				<p:column headerText="Haciz Statüsü">
-					<p:outputLabel value="#{list.hacizStatusuAdi}" />
+				<p:column headerText="Borçlu">
+					<p:outputLabel value="#{list.borcluAdi}" />
 				</p:column>
 
-				<p:column headerText="Haciz Talimat Tarihi">
-					<p:outputLabel value="#{list.talimatTarihi}" />
+				<p:column headerText="Alacaklı">
+					<p:outputLabel value="#{list.alacakli}" />
 				</p:column>
 
-				<p:column headerText="Haciz Tarihi">
-					<p:outputLabel value="#{list.hacizTarihi}" />
+				<p:column headerText="İcra Müdürlüğü">
+					<p:outputLabel value="#{list.talimatIcraMd}" />
 				</p:column>
 
-				<p:column headerText="Haciz Bedeli">
-					<p:outputLabel value="#{list.hacizBedeli}" />
+				<p:column headerText="İcra Dosya No">
+					<p:outputLabel value="#{list.icraDosyaNo}" />
 				</p:column>
 
 
-				<p:column headerText="Açıklama">
-					<p:outputLabel value="#{list.aciklama}" />
-				</p:column>
-				
+
+
 				<f:facet name="footer">
 					<p:commandButton value="LİSTE TOPLU PDF" ajax="false"
 						action="#{hacizBilgisiBean.printPDF}" />
@@ -266,7 +265,7 @@
 			</p:dataTable>
 
 		</h:form>
-		
+
 
 	</p:panel>
 

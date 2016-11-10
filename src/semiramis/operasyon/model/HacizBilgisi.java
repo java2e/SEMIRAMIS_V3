@@ -40,8 +40,15 @@ public class HacizBilgisi {
 	private String hacizBedeliTL;
 	private Date hacizTarihiDate;
 	private Date talimatTarihiDate;
-	
-	
+	private String alacakli;
+
+	public String getAlacakli() {
+		return alacakli;
+	}
+
+	public void setAlacakli(String alacakli) {
+		this.alacakli = alacakli;
+	}
 
 	public Date getHacizTarihiDate() {
 		return hacizTarihiDate;

@@ -43,7 +43,9 @@ public class HacizBilgisiBean {
 	private boolean lblRender;
 	private String bilgiNotu;
 	private boolean kaydetButtonRender;
-	
+
+	private boolean selected = false;
+
 	private static String HACIZBILGISIJASPER = "haciz_bilgisi";
 
 	private ArrayList<Tipi> hacizTipiList = new ArrayList<Tipi>();
@@ -52,9 +54,8 @@ public class HacizBilgisiBean {
 	private List<ComboItem> ListhacizStatusu;
 
 	private String personelAdi;
-	
-	private ReportPublish publish = new ReportPublish();
 
+	private ReportPublish publish = new ReportPublish();
 
 	public ArrayList<Tipi> getHacizTipiList() throws Exception {
 		list = dao.getHaczeEsasMalBilgisiFromBorcluID(AktifBean.borcluId);
@@ -94,8 +95,10 @@ public class HacizBilgisiBean {
 		borcluAdi = AktifBean.borcluAdi;
 
 		ListhacizStatusu = new ArrayList<>();
-
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		if (selected)
+			hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		else
+			hacizList = dao.getAllHacizList();
 
 		if (buttonDisabled == false) {
 			PanelClose();
@@ -133,7 +136,7 @@ public class HacizBilgisiBean {
 
 		icraDosyaNo = genelArama.getIcraDosyaNo();
 		borcluAdi = genelArama.getBorcluAdi();
-
+		selected = true;
 		init();
 	}
 
@@ -224,8 +227,8 @@ public class HacizBilgisiBean {
 			status = 0;
 
 		}
-		
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+
+		hacizList = dao.getAllHacizList();
 
 	}
 
@@ -233,7 +236,7 @@ public class HacizBilgisiBean {
 
 		status = 1;
 
-		ArrayList<HacizBilgisi> list = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		ArrayList<HacizBilgisi> list = dao.getAllHacizList();
 
 		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
 				.get("buttonDuzenle").toString());
@@ -246,8 +249,14 @@ public class HacizBilgisiBean {
 				}
 			}
 		}
-
-		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		if (hacizkayit != null) {
+			AktifBean.borcluId = hacizkayit.getBorcluId();
+			AktifBean.icraDosyaID = hacizkayit.getIcra_dosyasi_id();
+			AktifBean.borcluAdi = hacizkayit.getBorcluAdi();
+			AktifBean.icraDosyaNo = hacizkayit.getIcraDosyaNo();
+			AktifBean.muvekkilAdi = hacizkayit.getAlacakli();
+		}
+		hacizList = dao.getAllListFromIcraDosyaID(AktifBean.getIcraDosyaID());
 
 		PanelOpen();
 		ButtonClose();
@@ -282,6 +291,7 @@ public class HacizBilgisiBean {
 	public void Vazgec() {
 
 		status = 0;
+		hacizList = dao.getAllHacizList();
 		PanelClose();
 		ButtonOpen();
 
@@ -369,7 +379,7 @@ public class HacizBilgisiBean {
 
 	public ArrayList<HacizBilgisi> getHacizList() throws Exception {
 
-		return dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		return this.hacizList;
 	}
 
 	public void setHacizList(ArrayList<HacizBilgisi> hacizList) {
@@ -393,9 +403,10 @@ public class HacizBilgisiBean {
 		this.setButtonDisabled(true);
 
 	}
+
 	public void printExcell() {
 		if (AktifBean.icraDosyaID != 0) {
-			
+
 			if (hacizList.size() > 0) {
 				publish.getReportXLS(hacizList, HACIZBILGISIJASPER);
 			}

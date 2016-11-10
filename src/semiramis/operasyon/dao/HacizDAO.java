@@ -124,13 +124,17 @@ public class HacizDAO extends DBConnection {
 				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, ht.adi as haciz_turu_adi, "
 				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id, h.haciz_tur_id,"
 				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi, "
-				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad " + "FROM tbl_haciz_bilgisi h "
-				+ "inner join tbl_kullanici u on h.personel_adi_id=u.id "
+				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad , ab.muvekkil_adi as alacakli, "
+				+ " icra.icra_dosyasi_no FROM tbl_haciz_bilgisi h "
+				+ " inner join tbl_kullanici u on h.personel_adi_id=u.id "
 				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
 				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
 				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
 				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
-				+ " inner join tbl_borclu b on b.id=h.borclu_id where h.icra_dosyasi_id=" + id
+				+ " inner join tbl_borclu b on b.id=h.borclu_id "
+				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
+				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
+				+ " inner join tbl_icra_dosyasi icra on icra.id= h.icra_dosyasi_id " + " where h.icra_dosyasi_id=" + id
 				+ ";";
 
 		newConnectDB();
@@ -170,6 +174,8 @@ public class HacizDAO extends DBConnection {
 				hacizBilgisi.setIcraDosyaNo(AktifBean.getIcraDosyaNo());
 				hacizBilgisi.setHacizBedeliTL(String.valueOf(rs.getDouble("haciz_bedeli") + " TL"));
 				hacizBilgisi.setBorcluAdi(rs.getString("ad_soyad"));
+				hacizBilgisi.setAlacakli(rs.getString("alacakli"));
+				hacizBilgisi.setIcraDosyaNo(rs.getString("icra_dosyasi_no"));
 
 				list.add(hacizBilgisi);
 			}
@@ -183,6 +189,85 @@ public class HacizDAO extends DBConnection {
 			}
 		} catch (Exception e) {
 			System.out.println("HacizDao.getAllListFromIcraDosyaID " + e.getMessage());
+		}
+
+		return list;
+
+	}
+
+	public ArrayList<HacizBilgisi> getAllHacizList() {
+
+		ArrayList<HacizBilgisi> list = new ArrayList<HacizBilgisi>();
+
+		SQL = "SELECT h.id, h.borclu_id, h.haciz_tipi_id, "
+				+ " h.talimat_icra_mudurlugu, h.talimat_dosya_no, h.talimat_tarihi, "
+				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, ht.adi as haciz_turu_adi, "
+				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id, h.haciz_tur_id,"
+				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi, "
+				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad , ab.muvekkil_adi as alacakli, "
+				+ " icra.icra_dosyasi_no FROM tbl_haciz_bilgisi h "
+				+ " inner join tbl_kullanici u on h.personel_adi_id=u.id "
+				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
+				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
+				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
+				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
+				+ " inner join tbl_borclu b on b.id=h.borclu_id "
+				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
+				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
+				+ " inner join tbl_icra_dosyasi icra on icra.id= h.icra_dosyasi_id " + ";";
+
+		newConnectDB();
+		try {
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+
+				HacizBilgisi hacizBilgisi = new HacizBilgisi();
+
+				hacizBilgisi.setId(rs.getInt("id"));
+				hacizBilgisi.setBorcluId(rs.getInt("borclu_id"));
+				hacizBilgisi.setHacizTipiId(rs.getInt("haciz_tipi_id"));
+				hacizBilgisi.setTalimatIcraMd(rs.getString("talimat_icra_mudurlugu"));
+				hacizBilgisi.setDosyaNo(rs.getString("talimat_dosya_no"));
+				hacizBilgisi.setTalimatTarihi(rs.getString("talimat_tarihi"));
+				hacizBilgisi.setHacizTarihi(rs.getString("haciz_tarihi"));
+				hacizBilgisi.setTalimatTarihiDate(rs.getDate("talimat_tarihi"));
+				hacizBilgisi.setHacizTarihiDate(rs.getDate("haciz_tarihi"));
+				hacizBilgisi.setHacizBedeli(rs.getDouble("haciz_bedeli"));
+				hacizBilgisi.setSehir(rs.getString("sehir"));
+				hacizBilgisi.setAciklama(rs.getString("aciklama"));
+				hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
+				hacizBilgisi.setHaczedilenTipiId(rs.getInt("haczedilen_tipi_id"));
+				hacizBilgisi.setPersonelId(rs.getInt("personel_adi_id"));
+				hacizBilgisi.setPersoneName(rs.getString("uadi"));
+				hacizBilgisi.setTeslimYeriId(rs.getInt("teslim_yeri_id"));
+				hacizBilgisi.setTeslimYeri(rs.getString("tyadi"));
+				hacizBilgisi.setIcra_dosyasi_id(rs.getInt("icra_dosyasi_id"));
+				hacizBilgisi.setHacizStatusuId(rs.getInt("haciz_statusu_id"));
+				hacizBilgisi.setHacizStatusuAdi(rs.getString("haciz_statusu_adi"));
+				hacizBilgisi.setHacizTuruId(rs.getInt("haciz_tur_id"));
+				hacizBilgisi.setHacizTuru(rs.getString("haciz_turu_adi"));
+				hacizBilgisi.setTalimatIcraMd(rs.getString("icra_md"));
+				hacizBilgisi.setYazdirmaTarih(new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+				hacizBilgisi.setIcraDosyaNo(AktifBean.getIcraDosyaNo());
+				hacizBilgisi.setHacizBedeliTL(String.valueOf(rs.getDouble("haciz_bedeli") + " TL"));
+				hacizBilgisi.setBorcluAdi(rs.getString("ad_soyad"));
+				hacizBilgisi.setAlacakli(rs.getString("alacakli"));
+				hacizBilgisi.setIcraDosyaNo(rs.getString("icra_dosyasi_no"));
+
+				list.add(hacizBilgisi);
+			}
+
+			disconnectDB();
+
+			for (int i = 0; i < list.size(); i++) {
+				String name = null;
+				name = getHaczedilenTipi(list.get(i).getHaczedilenTipiId());
+				list.get(i).setHaczedilenTipiAdi(name);
+			}
+		} catch (Exception e) {
+			System.out.println("HacizDao.getAllHacizList " + e.getMessage());
 		}
 
 		return list;
@@ -422,6 +507,27 @@ public class HacizDAO extends DBConnection {
 			}
 		}
 		return borcluMalTipiList;
+	}
+
+	public static void main(String[] args) {
+		String sql = "SELECT h.id, h.borclu_id, h.haciz_tipi_id, "
+				+ " h.talimat_icra_mudurlugu, h.talimat_dosya_no, h.talimat_tarihi, "
+				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, ht.adi as haciz_turu_adi, "
+				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id, h.haciz_tur_id,"
+				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi, "
+				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad , ab.muvekkil_adi as alacakli, "
+				+ " icra.icra_dosyasi_no FROM tbl_haciz_bilgisi h "
+				+ " inner join tbl_kullanici u on h.personel_adi_id=u.id "
+				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
+				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
+				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
+				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
+				+ " inner join tbl_borclu b on b.id=h.borclu_id "
+				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
+				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
+				+ " inner join tbl_icra_dosyasi icra on icra.id= h.icra_dosyasi_id " + ";";
+
+		System.out.println(sql);
 	}
 
 }
