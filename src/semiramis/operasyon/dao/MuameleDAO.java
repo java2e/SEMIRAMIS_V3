@@ -185,7 +185,7 @@ public class MuameleDAO extends DBConnection {
 
 			}
 
-			muamele.setMuameleTarihiTxt(new SimpleDateFormat("DD/MM/YYYY").format(muamele.getMumaleTarihi()));
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("dd/MM/YYYY").format(muamele.getMumaleTarihi()));
 			muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
 			muamele.setBorcMiktari(
 					Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
@@ -262,7 +262,7 @@ public class MuameleDAO extends DBConnection {
 				muamele.setAsilAlacak(set.getDouble("asil_alacak"));
 				muamele.setTapuAciklama(set.getString("tapu_aciklama"));
 				muamele.setHaczeEsasMalId(set.getString("hacze_esas_id"));
-				muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
+				muamele.setMuameleTarihiTxt(new SimpleDateFormat("dd/MM/yyyy").format(muamele.getMumaleTarihi()));
 				muamele.setBorcMiktari(muamele.getTakipAlacak() - muamele.getTahsilatMiktari());
 				muamele.setBorcMiktari(
 						Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
@@ -346,7 +346,7 @@ public class MuameleDAO extends DBConnection {
 
 			}
 
-			muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("dd/mm/yyyy").format(muamele.getMumaleTarihi()));
 			muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
 			muamele.setBorcMiktari(
 					Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
@@ -420,7 +420,7 @@ public class MuameleDAO extends DBConnection {
 			muamele.setBorcMiktariTxt(new DecimalFormat("###,###.##").format(muamele.getBorcMiktari()));
 			muamele.setAvukatIBAN("TR3000 1230 0067 1038 9292 8100");
 			muamele.setAvukatAdi("M.Oruç SASA");
-			muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 
 
 			disconnectDB();
