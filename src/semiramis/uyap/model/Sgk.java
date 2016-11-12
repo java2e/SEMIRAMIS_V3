@@ -6,6 +6,15 @@ public class Sgk {
 	private String isYeri;
 	private String isYeriAdress;
 	private String isYeriSicilNo;
+	private String borcluSigortaStatusu;
+
+	public String getBorcluSigortaStatusu() {
+		return borcluSigortaStatusu;
+	}
+
+	public void setBorcluSigortaStatusu(String borcluSigortaStatusu) {
+		this.borcluSigortaStatusu = borcluSigortaStatusu;
+	}
 
 	public String getTcNo() {
 		return tcNo;

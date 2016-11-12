@@ -24,8 +24,15 @@
 		<h:form id="tebligatForm">
 
 			<p:panel>
+				<p:commandButton id="btnDetayliArama" value="Detaylı Arama"
+					icon="ui-icon-extlink"
+					actionListener="#{tebligatBean.chooseIcraDosyasi}"
+					style="width:47%">
+					<p:ajax event="dialogReturn"
+						listener="#{tebligatBean.onIcraDosyasiChosen}"
+						update="tebligatForm" />
+				</p:commandButton>
 				<p:panelGrid columns="2" style="margin-top:10px">
-
 					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
 					<p:inputText id="icraDosyaNo"
 						value="#{tebligatBean.tebligat.icraDosyaNo}" style="width: 250px"
@@ -75,8 +82,7 @@
 
 					<p:commandButton id="cmdButtonSearch" value="Son Durumu Sorgula"
 						actionListener="#{tebligatBean.search}" style="width: 250px"
-						oncomplete="PF('myDialogVar').show();"
-						update="tebligatForm" />
+						oncomplete="PF('myDialogVar').show();" update="tebligatForm" />
 
 
 					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"

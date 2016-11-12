@@ -19,6 +19,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import com.a.a.a.g.m.s;
+
 import semiramis.uyap.dao.SgkDAO;
 import semiramis.uyap.model.Sgk;
 
@@ -116,7 +118,7 @@ public class SgkBean {
 			if (check.contains("EMEKL")) {
 				String[] arr = sonuc.split(";");
 				if (arr.length > 0) {
-					sgk.setIsYeri(arr[0]);
+					sgk.setBorcluSigortaStatusu(arr[0]);
 					sgk.setIsYeriAdress("-");
 					sgk.setTcNo(tcNo);
 					sgk.setIsYeriSicilNo(sicilNo);
@@ -127,11 +129,17 @@ public class SgkBean {
 			if (check.contains("KAMU")) {
 				String[] arr = check.split(":");
 				if (arr.length > 0) {
-					sgk.setIsYeri(arr[0]);
+					sgk.setBorcluSigortaStatusu(arr[0]);
 					String[] arr2 = arr[1].split("-  İŞE BAŞLAMA");
 					if (arr2.length > 0)
 						sgk.setIsYeriAdress(arr2[0]);
 				}
+				String[] tmp = sgk.getIsYeriAdress().split("-");
+				if (tmp.length > 1) {
+					sgk.setIsYeri(tmp[0]);
+					sgk.setIsYeriAdress(tmp[1]);
+				}
+
 				sgk.setTcNo(tcNo);
 				sgk.setIsYeriSicilNo(sicilNo);
 
@@ -140,9 +148,15 @@ public class SgkBean {
 				while (m.find()) {
 					sgk.setIsYeriAdress(m.group(1));
 				}
+				String[] tmp = sgk.getIsYeriAdress().split("-");
+				if (tmp.length > 1) {
+					sgk.setIsYeri(tmp[0]);
+					sgk.setIsYeriAdress(tmp[1]);
+				}
+
 				String[] arr = check.split("-");
 				if (arr.length > 0)
-					sgk.setIsYeri(arr[0]);
+					sgk.setBorcluSigortaStatusu(arr[0]);
 				sgk.setTcNo(tcNo);
 				sgk.setIsYeriSicilNo(sicilNo);
 			}

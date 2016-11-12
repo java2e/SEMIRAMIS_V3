@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
+import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.uyap.model.Sgk;
 
-public class SgkDAO extends BorcluBilgisiDAO {
+public class SgkDAO extends EgmDAO {
 
 	private static SgkDAO dao;
-	private BorcluBilgisiDAO borcluDAO = new BorcluBilgisiDAO();
+	private BorcluBilgisiDAO borcluBilgisiDAO = new BorcluBilgisiDAO();
 
 	public static SgkDAO getInstance() {
 		if (dao == null)
@@ -21,13 +23,14 @@ public class SgkDAO extends BorcluBilgisiDAO {
 		int id = 0;
 		boolean rs = false;
 		try {
-			id = borcluDAO.tcSorgulama(sgk.getTcNo());
+			id = borcluBilgisiDAO.tcSorgulama(sgk.getTcNo());
 		} catch (Exception e) {
 			System.out.println("MernisDAO.borcluDAO.tcSorgulama : " + e.getMessage());
 		}
 
 		if (id != 0) {
-			rs = saveSGKInfo(sgk);
+
+			rs = kaydet(convertSGKtoHB(sgk, id));
 		}
 		return rs;
 	}
@@ -44,6 +47,18 @@ public class SgkDAO extends BorcluBilgisiDAO {
 		}
 
 		return list;
+	}
+
+	public HaczeEsasMalBilgisi convertSGKtoHB(Sgk sgk, int borcluId) {
+		HaczeEsasMalBilgisi haczeEsasMalBilgisi = new HaczeEsasMalBilgisi();
+		haczeEsasMalBilgisi.setBorcluId(borcluId);
+		haczeEsasMalBilgisi.setIcraDosyaId(getIcraDosyaID(sgk.getTcNo()));
+
+		haczeEsasMalBilgisi.setMuhatapAdi(sgk.getIsYeri());
+		haczeEsasMalBilgisi.setMuhattapSicilNo(sgk.getIsYeriSicilNo());
+		haczeEsasMalBilgisi.setMalTipiId(2);// 2: sgk maaş
+		haczeEsasMalBilgisi.setMuhatapAdresi(sgk.getIsYeriAdress());
+		return haczeEsasMalBilgisi;
 	}
 
 }

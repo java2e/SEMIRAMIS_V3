@@ -9,15 +9,15 @@ public class HaczeEsasMalBilgisi {
 	private String menkulBilgisi;
 	private String ilAdi;
 	private String ilceAdi;
-	
+
 	private int tapuIlId;
 	private String tapuIl;
 	private String tapuIlce;
 	private int tapuIlceId;
 	private String tapuMahalleAdi;
-	
+
 	private int mulkTipiId;
-	
+
 	private String tapuMulkTipi;
 	private String tapuParsel;
 	private String tapuAda;
@@ -25,9 +25,9 @@ public class HaczeEsasMalBilgisi {
 	private String tapuCiltNo;
 	private String tapuAciklama;
 	private String tapuSicilMudurluk;
-	
+
 	private String aracPlakaNo;
-	
+
 	private int aracTipiId;
 	private String aracAracTipi;
 	private String bankaHesapNo;
@@ -36,16 +36,35 @@ public class HaczeEsasMalBilgisi {
 	private String digerBilgiler;
 	private int malTutari;
 	private int icraDosyaId;
-	
+
 	private int malTipiId;
 	private String malTipi;
-	
-	
+
 	private String mevduatBilgisi;
 	private Date eklemeTarihi;
 	private Date guncellemeTarihi;
 	private int guncelleyenKullanici;
 	private String guncelleyenKullaniciAdSoyad;
+
+	private String borcluSigortaStatusu;
+
+	private String muhattapSicilNo;
+
+	public String getMuhattapSicilNo() {
+		return muhattapSicilNo;
+	}
+
+	public void setMuhattapSicilNo(String muhattapSicilNo) {
+		this.muhattapSicilNo = muhattapSicilNo;
+	}
+
+	public String getBorcluSigortaStatusu() {
+		return borcluSigortaStatusu;
+	}
+
+	public void setBorcluSigortaStatusu(String borcluSigortaStatusu) {
+		this.borcluSigortaStatusu = borcluSigortaStatusu;
+	}
 
 	public int getId() {
 		return id;
@@ -230,8 +249,6 @@ public class HaczeEsasMalBilgisi {
 	public void setGuncelleyenKullanici(int guncelleyenKullanici) {
 		this.guncelleyenKullanici = guncelleyenKullanici;
 	}
-	
-	
 
 	public String getGuncelleyenKullaniciAdSoyad() {
 		return guncelleyenKullaniciAdSoyad;
@@ -320,15 +337,5 @@ public class HaczeEsasMalBilgisi {
 	public void setTapuIlce(String tapuIlce) {
 		this.tapuIlce = tapuIlce;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

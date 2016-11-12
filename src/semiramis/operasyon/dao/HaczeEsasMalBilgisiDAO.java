@@ -18,6 +18,7 @@ import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.model.HaczeEsasMalBilgisiView;
+import semiramis.uyap.model.Sgk;
 
 public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEsasMalBilgisi> {
 
@@ -108,9 +109,10 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 					+ " tapu_sayfa_no, tapu_cilt_no, arac_plaka_no, arac_aractipi, banka_hesap_no,  "
 					+ " muhatap_adi, muhatap_adresi, diger_bilgiler, mal_tutari, icra_dosyasi_id,  "
 					+ " mevduat_bilgisi, tapu_il_id,  "
-					+ " tapu_ilce_id, mulk_tipi_id, arac_tipi_id, mal_tipi_id, guncelleyen_kullanici_id, ekleme_tarihi, guncelleme_tarihi,haciz_durum,tapu_ada,tapu_aciklama) "
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  "
-					+ " ?, ?,now(),now(),1,?,?); ";
+					+ " tapu_ilce_id, mulk_tipi_id, arac_tipi_id, mal_tipi_id, guncelleyen_kullanici_id,"
+					+ " ekleme_tarihi, guncelleme_tarihi,haciz_durum,tapu_ada,tapu_aciklama, borclu_sigorta_statusu, "
+					+ "muhattap_sicil_no) " + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  "
+					+ " ?, ?,now(),now(),1,?,?, ?, ?); ";
 
 			newConnectDB();
 
@@ -129,7 +131,7 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 			stmt.setString(11, t.getMuhatapAdresi());
 			stmt.setString(12, t.getDigerBilgiler());
 			stmt.setInt(13, t.getMalTutari());
-			stmt.setInt(14, AktifBean.getIcraDosyaID());
+			stmt.setInt(14, t.getIcraDosyaId() == 0 ? AktifBean.getIcraDosyaID() : t.getIcraDosyaId());
 			stmt.setString(15, t.getMevduatBilgisi());
 			stmt.setInt(16, t.getTapuIlId());
 			stmt.setInt(17, t.getTapuIlceId());
@@ -139,6 +141,8 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 			stmt.setInt(21, Util.getUser().getUsrId());
 			stmt.setString(22, t.getTapuAda());
 			stmt.setString(23, t.getTapuAciklama());
+			stmt.setString(24, t.getBorcluSigortaStatusu());
+			stmt.setString(25, t.getMuhattapSicilNo());
 
 			int sonuc = stmt.executeUpdate();
 
@@ -293,8 +297,6 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 				haczeEsasMalBilgisi.setIlAdi(set.getString("tapu_il"));
 				haczeEsasMalBilgisi.setIlceAdi(set.getString("tapu_ilce"));
 				haczeEsasMalBilgisi.setTapuMahalleAdi(set.getString("tapu_mahalle_adi"));
-				haczeEsasMalBilgisi.setTapuAda(set.getString("tapu_ada"));
-				haczeEsasMalBilgisi.setTapuAciklama(set.getString("tapu_aciklama"));
 				haczeEsasMalBilgisi.setTapuMulkTipi(set.getString("mulk_adi"));
 				haczeEsasMalBilgisi.setTapuParsel(set.getString("tapu_parsel"));
 				haczeEsasMalBilgisi.setTapuSayfaNo(set.getString("tapu_sayfa_no"));
