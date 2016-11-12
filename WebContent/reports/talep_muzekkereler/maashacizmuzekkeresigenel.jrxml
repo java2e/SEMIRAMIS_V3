@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-11-08T20:41:45 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="maashacizmuzekkeresigenel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cfe93346-2c07-437d-adca-7e7a9777c6a0">
 	<property name="ireport.zoom" value="1.464100000000011"/>
 	<property name="ireport.x" value="0"/>
@@ -195,11 +197,11 @@ ANKARA]]></text>
 				<text><![CDATA[T.C. Kimlik No :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="402" y="113" width="110" height="19" uuid="1620c9b0-2b3c-4d18-ba72-4316a0dd206f"/>
+				<reportElement x="402" y="113" width="126" height="19" uuid="1620c9b0-2b3c-4d18-ba72-4316a0dd206f"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" pdfEncoding="Cp1254"/>
+					<font fontName="Times New Roman" size="9" pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[KURUMUNUZ PERSONELİ :]]></text>
+				<text><![CDATA[KURUMUNUZ PERSONELİ ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="239" y="174" width="242" height="20" uuid="08fd47fd-759a-439c-b4c3-2ac9a20f8e0a"/>

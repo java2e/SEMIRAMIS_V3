@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-11-08T22:06:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="4lu5bankatalebi" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15bbab6b-08e6-47a3-b8e5-3d13429efc83">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="icraMudurlugu" class="java.lang.String"/>
+	<field name="icraDosyaNo" class="java.lang.String"/>
+	<field name="muameleTarihiTxt" class="java.lang.String"/>
+	<field name="avukatAdi" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="71" y="0" width="48" height="29" uuid="9ce465da-b5a1-463a-964c-db42c1e10cec"/>
+				<textElement textAlignment="Center">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[T.C.
+ANKARA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="14" y="29" width="277" height="20" uuid="c72a6285-2aae-408e-b92a-afb07dc3a023"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{icraMudurlugu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="14" y="50" width="277" height="20" uuid="9c5380c5-2255-4c04-8670-a10ffa99cbd1"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DOSYA/ESAS :"+$F{icraDosyaNo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="484" splitType="Stretch">
+			<staticText>
+				<reportElement x="390" y="331" width="115" height="90" uuid="7e47f8d6-ce81-44fe-b813-5cf26bb06891"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[SORGU SONUÇLARI
+
+ARAÇ
+TAPU
+SGK
+POSTA ÇEKİ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="301" width="500" height="18" uuid="40fa79fc-5aa3-43c2-bc29-0946b0ab4d0a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["İş bu talep uyap üzerinden e-imza ile "+$F{muameleTarihiTxt}+" tarihinde gönderilmiştir. "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="0" width="535" height="250" uuid="cff7c442-5b75-44b2-b919-33ccb59888e2"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Av. Geldi
+
+1.NOLU TALEP :
+
+1.SGK SORGU TALEBİ :Borçlunun uyap üzerinden e-imza ile uyap üzerinden sgk sorgusu yapılmıştır. Sonuçlarına ilişkin bilgi ve belgeler icra dosyası içerisine evrak olarak konmuştur. Buna göre SGK'SI AKTİF OLAN borçlu hakkında çalıştığı işyerine, işverenine maaş, ek ücret ve nemalarının haczi için maaş haczi müzekkeresinin gönderilmesine, haciz konulması halinde paranın dosyamıza gönderilmesine;
+2. EMEKLİ İKRAMİYESİNİN HACZİ : Borçlunun EMEKLİ OLMASI HALİNDE emekli ikramiyesinin HACZİ için ilgili sosyal güvenlik kurumuna bildirilmesine;
+3.EGM SORGU TALEBİ : Borçlunun uyap üzerinden e-imza ile uyap üzerinden ARAÇ sorgusu yapılmıştır. Sonuçlarına ilişkin bilgi ve belgeler icra dosyası içerine evrak olarak konmuştur. Buna göre üzerine ARAÇ TRAFİK KAYDI OLAN borçlu hakkında uyap üzerinden araç trafik sicil kaydına HACİZ ŞERHİ işlenmesine;
+
+4.TAPU SORGU TALEBİ : Borçlunun uyap üzerinden tapu sorgusu yapılması, TAPU KAYDI OLAN borçlu hakkında tapu müdürlüğüne haciz müzekkeresi gönderilmesini (Müdürlüğünüzce yapılarak OLUMLU veya OLUMSUZ sonucunun sisteme kaydedilmesi);]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="331" width="200" height="30" uuid="7631a2a9-1c51-4456-88c0-9a9438b7fc36"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Av. "+$F{avukatAdi}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
