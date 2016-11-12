@@ -293,6 +293,8 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 				haczeEsasMalBilgisi.setIlAdi(set.getString("tapu_il"));
 				haczeEsasMalBilgisi.setIlceAdi(set.getString("tapu_ilce"));
 				haczeEsasMalBilgisi.setTapuMahalleAdi(set.getString("tapu_mahalle_adi"));
+				haczeEsasMalBilgisi.setTapuAda(set.getString("tapu_ada"));
+				haczeEsasMalBilgisi.setTapuAciklama(set.getString("tapu_aciklama"));
 				haczeEsasMalBilgisi.setTapuMulkTipi(set.getString("mulk_adi"));
 				haczeEsasMalBilgisi.setTapuParsel(set.getString("tapu_parsel"));
 				haczeEsasMalBilgisi.setTapuSayfaNo(set.getString("tapu_sayfa_no"));

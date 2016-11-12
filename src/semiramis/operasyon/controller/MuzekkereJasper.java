@@ -149,6 +149,8 @@ public class MuzekkereJasper
 		ArrayList<TebligatZarfi> dataBeanListForTebligat = new ArrayList<TebligatZarfi>();
 		TebligatZarfi zarf = new TebligatZarfi();
 		
+		zarf.setMuameleTarihiTxt(muamele.getMuameleTarihiTxt());
+		
 		// Maaş Müzekkeresi Genel Durumunda 
 		
 		if(muamele.getMuzekkereId()==MUZEKKERE_MAAS)
@@ -164,7 +166,7 @@ public class MuzekkereJasper
 		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
 		{
 			zarf.setBorcluAdi(muamele.getTapuAciklama().split(" ")[1]+" TAPU SİCİL MÜDÜRLÜĞÜ");
-			zarf.setBorcluAdres(muamele.getTapuAciklama().split(" ")[1]);
+			zarf.setBorcluAdres(muamele.getTapuAciklama().split(" ")[1]+"/"+muamele.getTapuAciklama().split(" ")[0]);
 			zarf.setMuzekkereTalepAdi("Tapu Haciz Müzekkeresi (Nokta)");
 			zarfTipi="Tapu Haciz Müzekkeresi";
 		}
@@ -200,15 +202,15 @@ public class MuzekkereJasper
 		HashMap<String, Object> parameters = new HashMap<String, Object>();
 
 		ArrayList<TebligatListesi> dataBeanListForTebligat = new ArrayList<TebligatListesi>();
-		TebligatListesi tebligatZarfi = new TebligatListesi();
+		TebligatListesi tebligatListesi = new TebligatListesi();
 		
 		// Maaş Müzekkeresi Genel Durumunda 
 		
 		if(muamele.getMuzekkereId()==MUZEKKERE_MAAS)
 		{
 		
-		tebligatZarfi.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
-		tebligatZarfi.setIl(muamele.getIcraMudurlugu().split(" ")[0]);
+		tebligatListesi.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
+		tebligatListesi.setIl(muamele.getIcraMudurlugu().split(" ")[0]);
 		zarfTipi="Maaş Müzekkeresi";
 		parameters.put("konu", zarfTipi);
 		parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());
@@ -217,24 +219,24 @@ public class MuzekkereJasper
 		}
 		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
 		{
-			tebligatZarfi.setBorcluAdi(muamele.getBorcluAdSoyad());
-			tebligatZarfi.setIl(muamele.getTapuAciklama().split(" ")[1]);
-			zarfTipi="Tapu Talep Müzekkeresi";
+			tebligatListesi.setBorcluAdi(muamele.getBorcluAdSoyad());
+			tebligatListesi.setIl(muamele.getTapuAciklama().split(" ")[1]);
+			zarfTipi="Tapu Talep M.";
 			parameters.put("konu", zarfTipi);
 			parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());
 		
 				
 		}
 		
-		tebligatZarfi.setIcraDosyaNo(muamele.getIcraDosyaNo());
-		tebligatZarfi.setIcraBilgi(muamele.getIcraMudurlugu());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		tebligatZarfi.setTarih(sdf.format(new java.util.Date()));
+		tebligatListesi.setIcraDosyaNo(muamele.getIcraDosyaNo());
+		tebligatListesi.setIcraBilgi(muamele.getIcraMudurlugu());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+		tebligatListesi.setTarih(sdf.format(new java.util.Date()));
 		
-		tebligatZarfi.setBrcd(muamele.getBarkod());
-		tebligatZarfi.setKonu(zarfTipi);
+		tebligatListesi.setBrcd(muamele.getBarkod());
+		tebligatListesi.setKonu(zarfTipi);
 
-		dataBeanListForTebligat.add(tebligatZarfi);
+		dataBeanListForTebligat.add(tebligatListesi);
 
 		
 
@@ -291,9 +293,9 @@ public JasperPrint tebligatListesi(List<Muamele> muameleList, String muzekkereTa
 		}
 		else if(muamele.getMuzekkereId()==MUZEKKERE_TAPU)
 		{
-			liste.setBorcluAdi(muamele.getTapuMudurlugu()+" TAPU MÜDÜRLÜĞÜ");
-			liste.setIl(muamele.getTapuAciklama().split(" ")[1]);
-			zarfTipi="Tapu Talep Müzekkeresi";
+			liste.setBorcluAdi(muamele.getTapuMudurlugu()+" TAPU SİCİL MÜD.");
+			liste.setIl(muamele.getTapuAciklama().split(" ")[0]);
+			zarfTipi="Tapu Talep M.";
 			parameters.put("konu", zarfTipi);
 			parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());
 			
@@ -304,7 +306,7 @@ public JasperPrint tebligatListesi(List<Muamele> muameleList, String muzekkereTa
 		
 		liste.setIcraDosyaNo(muamele.getIcraDosyaNo());
 		liste.setIcraBilgi(muamele.getIcraMudurlugu());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
 		liste.setTarih(sdf.format(new java.util.Date()));
 		
 		liste.setBrcd(muamele.getBarkod());

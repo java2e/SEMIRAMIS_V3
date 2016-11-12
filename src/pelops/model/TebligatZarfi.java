@@ -12,7 +12,18 @@ public class TebligatZarfi {
 	private String avukatAdi;
 	private Object barkod;
 	
+	private String muameleTarihiTxt;
 	
+	
+	
+	
+	
+	public String getMuameleTarihiTxt() {
+		return muameleTarihiTxt;
+	}
+	public void setMuameleTarihiTxt(String muameleTarihiTxt) {
+		this.muameleTarihiTxt = muameleTarihiTxt;
+	}
 	public String getIcraDosyaNo() {
 		return icraDosyaNo;
 	}

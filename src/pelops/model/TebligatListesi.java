@@ -15,6 +15,19 @@ public class TebligatListesi {
 	private Object brcd;
 	
 	private String icraBilgi;
+	
+	private String muameleTarihiTxt;
+	
+	
+	
+
+	public String getMuameleTarihiTxt() {
+		return muameleTarihiTxt;
+	}
+
+	public void setMuameleTarihiTxt(String muameleTarihiTxt) {
+		this.muameleTarihiTxt = muameleTarihiTxt;
+	}
 
 	public String getTarih() {
 		return tarih;

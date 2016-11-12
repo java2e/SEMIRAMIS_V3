@@ -67,6 +67,18 @@ public class Muamele {
 	private String tapuAciklama="";
 	private String eki;
 	
+	private String icraMudurTxt;
+	
+	
+	
+	public String getIcraMudurTxt() {
+		return icraMudurTxt;
+	}
+
+	public void setIcraMudurTxt(String icraMudurTxt) {
+		this.icraMudurTxt = icraMudurTxt;
+	}
+
 	private List<SubReport> subReportList;
 	
 	private List<TapuBilgisi> tapuBilgisiListesi;

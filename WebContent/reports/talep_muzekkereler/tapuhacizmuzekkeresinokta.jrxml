@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-28T03:58:40 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-12T15:01:05 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tapuhacizmuzekkeresinokta" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15bbab6b-08e6-47a3-b8e5-3d13429efc83">
 	<property name="ireport.zoom" value="2.1435888100000047"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="192"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\SEMIRAMIS\\RAPOR\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["/Users/mehmetdemircioglu/git/SUBREPORT/"]]></defaultValueExpression>
 	</parameter>
 	<field name="icraMudurlugu" class="java.lang.String"/>
 	<field name="icraDosyaNo" class="java.lang.String"/>
@@ -108,11 +108,11 @@ hissedarların adı soyadı adreslerinin tarafımıza bildirilmesi rica olunur.]
 				<text><![CDATA[TAPU KAYITLARI :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="280" y="380" width="239" height="20" uuid="7363cf25-61d5-4358-9dd1-a37bb41c68b6"/>
+				<reportElement x="280" y="360" width="239" height="20" uuid="7363cf25-61d5-4358-9dd1-a37bb41c68b6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" pdfFontName="Times-Roman" pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{icraMudurlugu}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{icraMudurlugu}.split( "MÜDÜRLÜĞÜ" )[0]+" MÜD. YARD."]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="88" y="379" width="20" height="20" uuid="680ecf24-1a7a-4b67-ab19-8ed2fd788f38"/>
@@ -250,7 +250,7 @@ hissedarların adı soyadı adreslerinin tarafımıza bildirilmesi rica olunur.]
 				<textFieldExpression><![CDATA[$F{tapuMudurlugu}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="4" y="203" width="545" height="167" isPrintWhenDetailOverflows="true" uuid="9c16a7ea-04ef-4604-8fcf-9f9568a390de"/>
+				<reportElement x="0" y="203" width="545" height="154" isPrintWhenDetailOverflows="true" uuid="9c16a7ea-04ef-4604-8fcf-9f9568a390de"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{subReportList})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"tapuhacizmuzekkeresinokta_subreport1.jasper"]]></subreportExpression>
 			</subreport>

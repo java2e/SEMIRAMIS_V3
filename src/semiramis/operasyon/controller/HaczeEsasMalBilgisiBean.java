@@ -165,6 +165,10 @@ public class HaczeEsasMalBilgisiBean {
 		islem = 1;
 		updatedVisible = true;
 		updatedHczEsasMal = hczEsasMalDAO.getT(id);
+		
+		ilId=updatedHczEsasMal.getTapuIlId();
+		
+		changeIlceList();
 
 		changePanel();
 

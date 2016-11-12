@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-11-12T14:19:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tebligat_zarfi" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="06aed5c4-0571-4de3-8e18-000cd58016d0">
 	<property name="ireport.zoom" value="1.4641000000000035"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="201"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<field name="icraMudurluguAdi" class="java.lang.String"/>
 	<field name="icraDosyaNo" class="java.lang.String"/>
 	<field name="borcluAdi" class="java.lang.String"/>
@@ -10,12 +13,23 @@
 	<field name="talepMuzekkereAdi" class="java.lang.String"/>
 	<field name="alacakliAdi" class="java.lang.String"/>
 	<field name="avukatAdi" class="java.lang.String"/>
+	<field name="muameleTarihiTxt" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="28" splitType="Stretch"/>
 	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="397" y="30" width="153" height="20" uuid="12d62f36-cbb5-44fa-b0c6-e876cb2d54bb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{muameleTarihiTxt}+" SASA"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
 	<detail>
 		<band height="655" splitType="Stretch">
 			<frame>

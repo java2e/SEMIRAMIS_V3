@@ -185,7 +185,7 @@ public class MuameleDAO extends DBConnection {
 
 			}
 
-			muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
+			muamele.setMuameleTarihiTxt(new SimpleDateFormat("DD/MM/YYYY").format(muamele.getMumaleTarihi()));
 			muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
 			muamele.setBorcMiktari(
 					Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
