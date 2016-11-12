@@ -174,8 +174,14 @@
 					style="text-align:center">
 					<p:outputLabel value="#{list.borcluAdSoyad}" />
 				</p:column>
+				
+			   <p:column headerText="İCRA MÜDÜRLÜĞÜ" width="15%"
+					filterBy="#{list.icraMudurlugu}" filterMatchMode="contains"
+					style="text-align:center">
+					<p:outputLabel value="#{list.icraMudurlugu}" />
+				</p:column>
 
-				<p:column headerText="Müzekkere/Talep" width="25%"
+				<p:column headerText="Müzekkere/Talep" width="10%"
 					filterBy="#{list.muzekkereAdi}" filterMatchMode="contains"
 					style="text-align:center">
 					<p:outputLabel value="#{list.muzekkereAdi}" />
@@ -205,9 +211,9 @@
 
 
 				<p:column headerText="Tarih" width="15%"
-					filterBy="#{list.mumaleTarihi}" filterMatchMode="contains"
+					filterBy="#{list.muameleTarihiTxt}" filterMatchMode="contains"
 					style="text-align:center">
-					<p:outputLabel value="#{list.mumaleTarihi}" />
+					<p:outputLabel value="#{list.muameleTarihiTxt}" />
 				</p:column>
 				
 				
@@ -231,9 +237,10 @@
         <f:selectItem  itemLabel="Talep" itemValue="4" />
         <f:selectItem  itemLabel="Tebligat Zarfı" itemValue="2" />
         <f:selectItem  itemLabel="Tebligat Listesi" itemValue="3" />
+        <f:selectItem  itemLabel="Dörtlü Talep" itemValue="5" />
     </p:selectManyCheckbox>
 	
-	<p:commandButton value="YAZDIR" update="pdfGoruntuleme" actionListener="#{muzekkereTopluBean.muameleListYazdir}"/>
+	<p:commandButton value="GÖRÜNTÜLE / YAZDIR" update="pdfGoruntuleme" actionListener="#{muzekkereTopluBean.muameleListYazdir}"/>
 	</p:panelGrid>
 	
 		</p:panel>

@@ -254,6 +254,8 @@ public class MuzekkereTopluBean extends ConvertDate {
 		List<JasperPrint> listJasperPrint = new ArrayList<JasperPrint>();
 
 		try {
+			
+			List<Muamele> tebligatListesi=new ArrayList<Muamele>();
 
 			for (int i = 0; i < selectedMuameleList.size(); i++) {
 
@@ -273,7 +275,13 @@ public class MuzekkereTopluBean extends ConvertDate {
 
 
 						muzekkereTalep = "maashacizmuzekkeresigenel";
+						
+						if(chooseEvrak(4))
+						{
+							listJasperPrint.add(new MuzekkereJasper().getTalepler("maas_talep", muamele));
 
+						}
+						
 					}
 
 
@@ -293,6 +301,8 @@ public class MuzekkereTopluBean extends ConvertDate {
 						}
 
 						muamele.setSubReportList(liste);
+						
+
 
 					}
 					else if(muzekkereTipiId==TALEP_ARAC_SERH)
@@ -303,6 +313,9 @@ public class MuzekkereTopluBean extends ConvertDate {
 						muamele.setHaczeEsasMalId(String.valueOf(liste.get(0).getId()));
 						muamele.setPlaka(liste.get(0).getAracPlakaNo());
 						muamele.setMuzekkereId(TALEP_ARAC_SERH);
+						
+
+						
 						
 					}
 
@@ -316,22 +329,36 @@ public class MuzekkereTopluBean extends ConvertDate {
 					
 					else {
 						if (chooseEvrak(1))
+						{
 							listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
-
+							listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+}
 						if (chooseEvrak(2))
+						{
 							listJasperPrint.add(new MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
+						}
+						
+						if(chooseEvrak(5))
+						{
+							listJasperPrint.add(new MuzekkereJasper().getTalepler("dortlu_talep", muamele));
 
+						}
+						
+						
 						// listJasperPrint.add(new
 						// MuzekkereJasper().tebligatListesiJasper(muamele,
 						// muzekkereTalep));
 					}
+					
+					
+					tebligatListesi.add(muamele);
 
 				}
 
 			}
 
 			if (chooseEvrak(3))
-				listJasperPrint.add(new MuzekkereJasper().tebligatListesi(selectedMuameleList, muzekkereTalep));
+				listJasperPrint.add(new MuzekkereJasper().tebligatListesi(tebligatListesi, muzekkereTalep));
 
 			String path = genelPath + muzekkereTalep + ".pdf";
 

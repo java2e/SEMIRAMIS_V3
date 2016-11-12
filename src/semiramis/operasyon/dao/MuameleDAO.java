@@ -263,9 +263,12 @@ public class MuameleDAO extends DBConnection {
 				muamele.setTapuAciklama(set.getString("tapu_aciklama"));
 				muamele.setHaczeEsasMalId(set.getString("hacze_esas_id"));
 				muamele.setMuameleTarihiTxt(new SimpleDateFormat("MM/dd/yyyy").format(muamele.getMumaleTarihi()));
-				muamele.setBorcMiktari(muamele.getToplamAlacak() - muamele.getTahsilatMiktari());
+				muamele.setBorcMiktari(muamele.getTakipAlacak() - muamele.getTahsilatMiktari());
 				muamele.setBorcMiktari(
 						Double.valueOf(new DecimalFormat("0.00").format(muamele.getBorcMiktari()).replace(",", ".")));
+				
+				//System.out.println(muamele.getBorcMiktari());
+				
 				muamele.setBorcMiktariTxt(new DecimalFormat("###,###.##").format(muamele.getBorcMiktari()));
 				muamele.setAvukatIBAN("TR3000 1230 0067 1038 9292 8100");
 				muamele.setAvukatAdi("M.Oruç SASA");
