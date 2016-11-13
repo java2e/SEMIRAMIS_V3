@@ -64,6 +64,7 @@ public class Muamele {
 	
 	private String haczeEsasMalId;
 	private String tapuMudurlugu;
+	private String tapuMudurluguIlce;
 	private String tapuAciklama="";
 	private String eki;
 	
@@ -474,6 +475,14 @@ public class Muamele {
 
 	public void setEki(String eki) {
 		this.eki = eki;
+	}
+
+	public String getTapuMudurluguIlce() {
+		return tapuMudurluguIlce;
+	}
+
+	public void setTapuMudurluguIlce(String tapuMudurluguIlce) {
+		this.tapuMudurluguIlce = tapuMudurluguIlce;
 	}
 
 

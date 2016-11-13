@@ -291,6 +291,9 @@ public class MuzekkereTopluBean extends ConvertDate {
 						muamele.setTapuMudurlugu(muamele.getTapuAciklama().split(" ").length > 0
 								? muamele.getTapuAciklama().split(" ")[1]+" "+muamele.getTapuAciklama().split(" ")[0] : "");
 
+						muamele.setTapuMudurluguIlce(muamele.getTapuAciklama().split(" ").length > 0
+								? muamele.getTapuAciklama().split(" ")[1] : "");
+						
 						List<SubReport> liste = new ArrayList<SubReport>();
 
 						for (int i1 = 0; i1 < muamele.getTapuAciklama().split("<br>").length; i1++) {
