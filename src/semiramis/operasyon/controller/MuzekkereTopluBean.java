@@ -289,7 +289,7 @@ public class MuzekkereTopluBean extends ConvertDate {
 						muzekkereTalep = "tapuhacizmuzekkeresinokta";
 
 						muamele.setTapuMudurlugu(muamele.getTapuAciklama().split(" ").length > 0
-								? muamele.getTapuAciklama().split(" ")[1] : "");
+								? muamele.getTapuAciklama().split(" ")[1]+" "+muamele.getTapuAciklama().split(" ")[0] : "");
 
 						List<SubReport> liste = new ArrayList<SubReport>();
 
