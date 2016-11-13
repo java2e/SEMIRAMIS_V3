@@ -17,17 +17,17 @@ public class IcraDosyasiDAO extends DBConnection {
 	public static PreparedStatement psmt = null;
 	public static ResultSet rs = null;
 
-	public void ExcelGuncelle(int id, String icraDosyaNo, String icraMudurlugu) throws Exception {
+	public void ExcelGuncelle(int id, String icraDosyaNo, String icraAdi,int icraNo) throws Exception {
 
 		try {
 
-			if (icraDosyaNo != null && icraMudurlugu != null) {
+			if (icraDosyaNo != null && icraAdi != null) {
 				String SQL = "UPDATE tbl_icra_dosyasi SET icra_dosyasi_no=?, icra_mudurlugu_id=? WHERE id=" + id;
 				newConnectDB();
 				PreparedStatement pstmt = conn.prepareStatement(SQL.toString());
 
 				pstmt.setString(1, icraDosyaNo);
-				pstmt.setInt(2, IcraId(icraMudurlugu));
+				pstmt.setInt(2, IcraId(icraAdi,icraNo));
 
 				pstmt.executeUpdate();
 
@@ -43,15 +43,15 @@ public class IcraDosyasiDAO extends DBConnection {
 
 	}
 
-	public int IcraId(String icraMudurlugu) throws Exception {
+	public int IcraId(String icraAdi,int icraNo) throws Exception {
 
 		int id = 0;
 
-		if (icraMudurlugu != null || icraMudurlugu != "") {
+		if (icraAdi != null || icraAdi != "") {
 
 			try {
 
-				String SQL = "SELECT * FROM tbl_icra_mudurlugu where adi='" + icraMudurlugu + "'";
+				String SQL = "SELECT * FROM tbl_icra_mudurlugu where icra_adi='" + icraAdi + "' and icra_no="+icraNo;
 				Statement stmt;
 				ResultSet rs;
 				stmt = conn.createStatement();
