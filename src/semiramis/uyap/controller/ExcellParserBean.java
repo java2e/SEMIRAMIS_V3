@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -194,6 +195,8 @@ public class ExcellParserBean {
 		int rowNum = xlsTablo.getLastRowNum() + 1;
 
 		IcraDosyasiDAO dao = new IcraDosyasiDAO();
+		
+		int index=0;
 
 		for (int i = 1; i < rowNum; i++) {
 
@@ -204,16 +207,18 @@ public class ExcellParserBean {
 			} else {
 
 				if (row.getCell(0) != null && row.getCell(2) != null && row.getCell(1) != null)
+				{
 					dao.ExcelGuncelle((int) row.getCell(0).getNumericCellValue(), row.getCell(3).getStringCellValue(),
 							row.getCell(1).getStringCellValue(),(int) row.getCell(2).getNumericCellValue());
-
+				index++;
+				}
 			}
 
 		}
 
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		context.addMessage(null, new FacesMessage("Sisteme Aktarım Mesajı", "İşlem Başarı ile Gerçekleştirilmiştir. "));
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Yükleme", index+" Adet İcra Dosya No ve İcra Müdürlükleri Güncellenmiştir.");
+        
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
 
 	}
 
