@@ -80,7 +80,6 @@ public class EGMBean {
 
 				int borcluId = dao.getBorcluID(tcNo);
 				if (borcluId != 0) {
-					System.out.println("borcluId : " + borcluId);
 					if (row.getCell(SONUC) != null && row.getCell(SONUC).getStringCellValue().length() > 0) {
 						String plakas = row.getCell(SONUC).getStringCellValue();
 						plakas = plakas.replace("\n", "_");
@@ -149,10 +148,7 @@ public class EGMBean {
 				}
 			}
 
-			for (HaczeEsasMalBilgisi h : list) {
-				System.out.println("borcLU: " + h.getBorcluId() + "  icrad : " + h.getIcraDosyaId() + "   plaka : "
-						+ h.getAracPlakaNo() + "   detay : " + h.getDigerBilgiler());
-			}
+			
 			List returnList = dao.saveEGMs(list);
 			FacesContext context = FacesContext.getCurrentInstance();
 			if (returnList.size() < 1) {

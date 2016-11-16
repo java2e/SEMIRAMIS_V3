@@ -1,36 +1,77 @@
 package semiramis.operasyon.model;
 
+import semiramis.tracking.classes.Checkpoint;
+import semiramis.tracking.classes.Tracking;
+
 public class Tebligat {
-	
+
 	private int id;
-	
+
 	private int icraDosyaId;
-	
+
 	private String icraDosyaNo;
-	
+
 	private int borcluId;
-	
+
 	private String borcluAdSoyad;
-	
+
 	private int tebligatTuruId;
-	
+
 	private String tebligatTuruAdi;
-	
+
 	private int tebligatStatusuId;
-	
+
 	private String tebligatStatusuAdi;
-	
+
 	private int tebligatSonucuId;
-	
+
 	private String tebligatSonucuAdi;
-	
+
 	private String guncellemeTarihi;
-	
+
 	private int kullaniciId;
-	
+
 	private String kullaniciAdSoyad;
-	
-	
+
+	private String barkod;
+
+	private String icraMd;
+
+	private Tracking tracking;
+
+	private Checkpoint lastCheckPoint;
+
+	public Checkpoint getLastCheckPoint() {
+		return lastCheckPoint;
+	}
+
+	public void setLastCheckPoint(Checkpoint lastCheckPoint) {
+		this.lastCheckPoint = lastCheckPoint;
+	}
+
+	public Tracking getTracking() {
+		return tracking;
+	}
+
+	public void setTracking(Tracking tracking) {
+		this.tracking = tracking;
+	}
+
+	public String getBarkod() {
+		return barkod;
+	}
+
+	public void setBarkod(String barkod) {
+		this.barkod = barkod;
+	}
+
+	public String getIcraMd() {
+		return icraMd;
+	}
+
+	public void setIcraMd(String icraMd) {
+		this.icraMd = icraMd;
+	}
 
 	public int getBorcluId() {
 		return borcluId;
@@ -143,10 +184,5 @@ public class Tebligat {
 	public void setKullaniciAdSoyad(String kullaniciAdSoyad) {
 		this.kullaniciAdSoyad = kullaniciAdSoyad;
 	}
-	
-	
-	
-
-	
 
 }

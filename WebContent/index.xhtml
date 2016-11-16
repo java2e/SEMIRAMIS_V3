@@ -32,34 +32,38 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 </style>
 
 
-<script type="text/javascript">
-        PrimeFaces.locales['tr'] = {
-            closeText: 'kapat',
-            prevText: 'geri',
-            nextText: 'ileri',
-            currentText: 'bugün',
-            monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
-            monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz', 'Tem','Ağu','Eyl','Eki','Kas','Ara'],
-            dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
-            dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
-            dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
-            weekHeader: 'Hf',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-            timeOnlyTitle: 'Zaman Seçiniz',
-            timeText: 'Zaman',
-            hourText: 'Saat',
-            minuteText: 'Dakika',
-            secondText: 'Saniye',
-            ampm: false,
-            month: 'Ay',
-            week: 'Hafta',
-            day: 'Gün',
-            allDayText : 'Tüm Gün'
-        };
-    </script>
+	<script type="text/javascript">
+		PrimeFaces.locales['tr'] = {
+			closeText : 'kapat',
+			prevText : 'geri',
+			nextText : 'ileri',
+			currentText : 'bugün',
+			monthNames : [ 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs',
+					'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım',
+					'Aralık' ],
+			monthNamesShort : [ 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+					'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara' ],
+			dayNames : [ 'Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe',
+					'Cuma', 'Cumartesi' ],
+			dayNamesShort : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+			dayNamesMin : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+			weekHeader : 'Hf',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Zaman Seçiniz',
+			timeText : 'Zaman',
+			hourText : 'Saat',
+			minuteText : 'Dakika',
+			secondText : 'Saniye',
+			ampm : false,
+			month : 'Ay',
+			week : 'Hafta',
+			day : 'Gün',
+			allDayText : 'Tüm Gün'
+		};
+	</script>
 
 </h:head>
 
@@ -71,7 +75,8 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 		<div id="header" style="background-image: url('img/header_back.png');">
 
-			<div id="header2" style="background-image: url('img/header_back.png');">
+			<div id="header2"
+				style="background-image: url('img/header_back.png');">
 				<img src="img/header-logo.png" height="60" width="270"
 					style="margin-top: 10px; margin-left: 50px;" />
 			</div>
@@ -79,50 +84,60 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 
 
-<div style="background-image: url('img/info_back.png'); float: right; height: 98px;width:400px; margin-right: 25px;">
+			<div
+				style="background-image: url('img/info_back.png'); float: right; height: 98px; width: 400px; margin-right: 25px;">
 
-<div style="float:left;height: 95px;width: 95px; margin-top: 3px;">
-<img src="USER/USER_IMG/#{loginBean.user.usrPhotoUrl}" id="img-circle" height="90" width="90" />
-</div>
+				<div
+					style="float: left; height: 95px; width: 95px; margin-top: 3px;">
+					<img src="USER/USER_IMG/#{loginBean.user.usrPhotoUrl}"
+						id="img-circle" height="90" width="90" />
+				</div>
 
-<div style="float:left; width: 180px;height: 98px;margin-left: 10px;">
+				<div
+					style="float: left; width: 180px; height: 98px; margin-left: 10px;">
 
-<div style="float:left;width: 180px;height: 20px;margin-top:10px;">
+					<div
+						style="float: left; width: 180px; height: 20px; margin-top: 10px;">
 
-<p style="font-family:verdana;color:white;">#{loginBean.user.usrAdSoyad}</p>
-</div>
-<div style="float:left;width: 180px;height: 20px;margin-top:2px;">
-<p  style="font-family:verdana;color:white;">YÖNETİCİ</p>
-</div>
-<div style="float:left;width: 180px;height: 20px;margin-top:2px;">
-<p  style="font-family:verdana;color:white;">Son Giriş : 12/06/2016</p>
-</div>
+						<p style="font-family: verdana; color: white;">#{loginBean.user.usrAdSoyad}</p>
+					</div>
+					<div
+						style="float: left; width: 180px; height: 20px; margin-top: 2px;">
+						<p style="font-family: verdana; color: white;">YÖNETİCİ</p>
+					</div>
+					<div
+						style="float: left; width: 180px; height: 20px; margin-top: 2px;">
+						<p style="font-family: verdana; color: white;">Son Giriş :
+							12/06/2016</p>
+					</div>
 
-</div>
+				</div>
 
-<div style="float:left;width: 102;height: 98px;margin-left: 5px;">
-<div style="float:left;width: 101;height: 37px;margin-top: 30px;">
+				<div
+					style="float: left; width: 102; height: 98px; margin-left: 5px;">
+					<div
+						style="float: left; width: 101; height: 37px; margin-top: 30px;">
 
-<p:commandLink action="#{loginBean.logout()}" >
-    <img src="img/logout.png" height="37" width="101"/>
-</p:commandLink>
+						<p:commandLink action="#{loginBean.logout()}">
+							<img src="img/logout.png" height="37" width="101" />
+						</p:commandLink>
 
-</div>
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
+					</div>
+				</div>
 
 
-			
+
+			</div>
+
+
+
+
+
+
+
+
+
+
 			<div class="logo"></div>
 		</div>
 
@@ -135,23 +150,26 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 
 
-			
+
 
 				<p:menubar id="mb">
-				
-				<p:menuitem value="ANA SAYFA" ajax="false" update=":OrtaSayfa"
-							actionListener="#{anaSayfaBean.gotoPage(55555)}" />
 
-					<p:submenu label="HIZLI ERİŞİM" expanded="true" rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
+					<p:menuitem value="ANA SAYFA" ajax="false" update=":OrtaSayfa"
+						actionListener="#{anaSayfaBean.gotoPage(55555)}" />
+
+					<p:submenu label="HIZLI ERİŞİM" expanded="true"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
 
 						<p:menuitem value="Hızlı Takip Açma    " ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(101)}"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(101)}"
 							icon="ui-icon-home" />
 						<p:menuitem value="İcra Dosya Takibi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(102)}"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(102)}"
 							icon="ui-icon-star" />
 
-					    <p:menuitem value="Toplu/Tekli Muamele İşlemleri" ajax="false"
+						<p:menuitem value="Toplu/Tekli Muamele İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(1020)}"
 							icon="ui-icon-star" />
@@ -161,13 +179,16 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 					<p:submenu label="TANIMLAR" expanded="true" toggleable="true"
 						id="tanimlar" rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
-						
-						<p:menuitem value="Adres Statüsü" ajax="false" rendered="#{anaSayfaBean.tanimlar.isReadPage(1)}"
+
+						<p:menuitem value="Adres Statüsü" ajax="false"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(1)}"
 							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(1)}"
 							icon="ui-icon-disk" />
-						<p:menuitem value="Adres Tipi" ajax="false" update=":OrtaSayfa" rendered="#{anaSayfaBean.tanimlar.isReadPage(2)}"
+						<p:menuitem value="Adres Tipi" ajax="false" update=":OrtaSayfa"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(2)}"
 							actionListener="#{anaSayfaBean.gotoPage(2)}" icon="ui-icon-disk" />
-						<p:menuitem value="Adres Türü" ajax="false" update=":OrtaSayfa" rendered="#{anaSayfaBean.tanimlar.isReadPage(3)}"
+						<p:menuitem value="Adres Türü" ajax="false" update=":OrtaSayfa"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(3)}"
 							actionListener="#{anaSayfaBean.gotoPage(3)}" icon="ui-icon-disk" />
 						<p:menuitem value="Alacak Belge Tipi   " ajax="false"
 							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(4)}"
@@ -312,164 +333,239 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 					</p:submenu>
 
-					<p:submenu label="İCRA DOSYASI" expanded="false" id="icradosyasi" rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
+					<p:submenu label="İCRA DOSYASI" expanded="false" id="icradosyasi"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(100)}">
 						<p:menuitem value="Hızlı Takip Açma    " ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(101)}"
-							icon="ui-icon-home"  rendered="#{anaSayfaBean.tanimlar.isReadPage(101)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(101)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(101)}" />
 						<p:menuitem value="İcra Dosya Takibi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(102)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(102)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(102)}"
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(102)}" />
 						<p:menuitem value="Alacak Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(103)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(103)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(103)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(103)}" />
 						<p:menuitem value="Alacaklı Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(104)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(104)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(104)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(104)}" />
 						<p:menuitem value="Borçlu bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(105)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(105)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(105)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(105)}" />
 
 					</p:submenu>
 
 					<p:submenu label="OPERASYONEL İŞLEMLER" expanded="false"
-						id="operasyonel" rendered="#{anaSayfaBean.tanimlar.isReadPage(200)}">
-							<p:menuitem value="Tebligat Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(217)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(217)}" />
-							
+						id="operasyonel"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(200)}">
+						<p:menuitem value="Tebligat Bilgisi Kaydı" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(217)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(217)}" />
+
+						<p:menuitem value="Toplu Tebligat Bilgisi Kaydı" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(218)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(218)}" />
+
 						<p:menuitem value="Haciz Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(201)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(201)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(201)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(201)}" />
 						<p:menuitem value="Hacze Esas Mal Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(202)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(202)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(202)}"
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(202)}" />
 						<p:menuitem value="Harç Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(203)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(203)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(203)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(203)}" />
 						<p:menuitem value="Masraf Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(204)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(204)}"/>
-						
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(204)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(204)}" />
+
 						<p:menuitem value="Ödeme Emri Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(205)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(205)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(205)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(205)}" />
 						<p:menuitem value="Vizit Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(206)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(206)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(206)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(206)}" />
 						<p:menuitem value="İcra Borçlu Ses Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(207)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(207)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(207)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(207)}" />
 						<p:menuitem value="İzleme Bilgisi Kaydı" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(208)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(208)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(208)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(208)}" />
 						<p:menuitem value="Otomatik Dosya Yükleme" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(209)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(209)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(209)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(209)}" />
 						<p:menuitem value="Ödeme Planı" ajax="false" update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(210)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(210)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(210)}" />
 						<p:menuitem value="Tahsilat İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(211)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(211)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(211)}" />
 						<p:menuitem value="Muamele İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(212)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(212)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(212)}" />
 						<p:menuitem value="Yazdır" ajax="false" update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(213)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(213)}"/>
-						<p:menuitem value="Dosya Kronolojisi" ajax="false" update=":OrtaSayfa"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(213)}" />
+						<p:menuitem value="Dosya Kronolojisi" ajax="false"
+							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(214)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(214)}"/>
-						<p:menuitem value="Personel Hedef İşlemleri" ajax="false" update=":OrtaSayfa"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(214)}" />
+						<p:menuitem value="Personel Hedef İşlemleri" ajax="false"
+							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(215)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(215)}"/>
-							
-							<p:menuitem value="Vizit Talep Listesi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(216)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(216)}"/>
-							
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(215)}" />
+
+						<p:menuitem value="Vizit Talep Listesi" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(216)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(216)}" />
+
 					</p:submenu>
 
 
-					<p:submenu label="ANALİZ" expanded="false" id="analiz" rendered="#{anaSayfaBean.tanimlar.isReadPage(300)}">
+					<p:submenu label="ANALİZ" expanded="false" id="analiz"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(300)}">
 						<p:menuitem value="Muamele Analizi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(301)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(301)}"/>
-					
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(301)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(301)}" />
 
-					<p:menuitem value="Tebligat Analizi" ajax="false" update=":OrtaSayfa"
+
+						<p:menuitem value="Tebligat Analizi" ajax="false"
+							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(307)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(307)}"/>
-	
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(307)}" />
+
 						<p:menuitem value="Vizit Analizi" ajax="false" update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(306)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(306)}"/>
-							
-							
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(306)}" />
+
+
 						<p:menuitem value="İzleme Analizi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(302)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(302)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(302)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(302)}" />
 						<p:menuitem value="Tahsilat Analizi" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(303)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(303)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(303)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(303)}" />
 						<p:menuitem value="Haciz Analizi" ajax="false" update=":OrtaSayfa"
-							actionListener="#{anaSayfaBean.gotoPage(304)}" icon="ui-icon-home" 
-							rendered="#{anaSayfaBean.tanimlar.isReadPage(304)}"/>
+							actionListener="#{anaSayfaBean.gotoPage(304)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(304)}" />
 						<p:menuitem value="Kasa Analizi" ajax="false" update=":OrtaSayfa"
-							actionListener="#{anaSayfaBean.gotoPage(305)}" 
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(305)}"/>
+							actionListener="#{anaSayfaBean.gotoPage(305)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(305)}" />
 						<p:menuitem value="Risk Analizi" ajax="false" update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(306)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(306)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(306)}" />
 
 
 
 
 					</p:submenu>
 
-					<p:submenu label="UYAP" expanded="false" id="uyap" rendered="#{anaSayfaBean.tanimlar.isReadPage(400)}">
+					<p:submenu label="UYAP" expanded="false" id="uyap"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(400)}">
 
 						<p:menuitem value="Uyap Dosyası Oluştur" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(401)}"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(401)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(401)}"
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(401)}" />
 						<p:menuitem value="Uyap Entegrasyonu" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(402)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(402)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(402)}"
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(402)}" />
 						<p:menuitem value="EXCEL ENTEGRASYONU" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(403)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(403)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(403)}"
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(403)}" />
 
 						<p:menuitem value="Uyap Sorgu Entegrasyonu" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(404)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(404)}" />
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(404)}" />
 
 						<p:menuitem value="XML Entegrasyonu" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(405)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(405)}"/>
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(405)}"
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(405)}" />
 
 					</p:submenu>
 
-					<p:submenu label="KASA" expanded="false" id="kasa" rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
+					<p:submenu label="KASA" expanded="false" id="kasa"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
 
 						<p:menuitem value="Kasa Tahsilat" ajax="false" update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(501)}"
-							
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(501)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(501)}" />
 
 						<p:menuitem value="Kasa Panosu" ajax="false" update=":OrtaSayfa"
 							action="XHTML/kasa/dash_board_kasa.jsf?faces-redirect=true"
-							icon="ui-icon-home" rendered="#{anaSayfaBean.tanimlar.isReadPage(501)}"/>
+							icon="ui-icon-home"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(501)}" />
 
 					</p:submenu>
 
-					
 
-					<p:submenu label="RAPORLAMA" expanded="false" id="raporlama" rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
+
+					<p:submenu label="RAPORLAMA" expanded="false" id="raporlama"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
 						<p:submenu label="AÇILAN TAKİP DOSTA TÜRLERİ" expanded="false"
-							id="dsytakiptur" rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
+							id="dsytakiptur"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
 
 							<p:menuitem value="Gayrimenkul Rehni Dosyaları(128 Adet)"
 								update=":OrtaSayfa" actionListener="#" icon="ui-icon-star" />
@@ -486,7 +582,8 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 
 						</p:submenu>
 						<p:submenu label="HACİZ KONULAN DOSYALAR" expanded="false"
-							id="hczkondos" rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
+							id="hczkondos"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(500)}">
 
 							<p:menuitem value="Taşınmaz Haczi" update=":OrtaSayfa"
 								actionListener="#" icon="ui-icon-star" />
@@ -498,63 +595,74 @@ li.ui-menuitem.ui-menubar-options.ui-widget.ui-corner-all {
 								actionListener="#" icon="ui-icon-star" />
 
 						</p:submenu>
-						
+
 					</p:submenu>
 
-					<p:submenu label="OTOMATİK PİLOT" expanded="false" id="otopilot" rendered="#{anaSayfaBean.tanimlar.isReadPage(1000)}">
+					<p:submenu label="OTOMATİK PİLOT" expanded="false" id="otopilot"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(1000)}">
 
 						<p:menuitem value="Otomatik Pilotu Çalıştır" update=":OrtaSayfa"
 							ajax="false" actionListener="#{anaSayfaBean.gotoPage(1004)}"
-							icon="ui-icon-star" rendered="#{anaSayfaBean.tanimlar.isReadPage(1004)}"/>
+							icon="ui-icon-star"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(1004)}" />
 					</p:submenu>
-					
-					<p:submenu label="KULLANICI İŞLEMLERİ" expanded="false" id="bykexcel" rendered="#{anaSayfaBean.tanimlar.isReadPage(900)}">
-					
-					<p:menuitem value="Kullanici İşlemleri" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(901)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(901)}"/>	
-					
-				<p:menuitem value="Takım İşlemleri" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(902)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(902)}"/>	
-					
-				<p:menuitem value="Takım Kullanıcı İşlemleri" ajax="false"
-							update=":OrtaSayfa" actionListener="#{anaSayfaBean.gotoPage(903)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(903)}"/>	
-					
+
+					<p:submenu label="KULLANICI İŞLEMLERİ" expanded="false"
+						id="bykexcel" rendered="#{anaSayfaBean.tanimlar.isReadPage(900)}">
+
+						<p:menuitem value="Kullanici İşlemleri" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(901)}"
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(901)}" />
+
+						<p:menuitem value="Takım İşlemleri" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(902)}"
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(902)}" />
+
+						<p:menuitem value="Takım Kullanıcı İşlemleri" ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(903)}"
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(903)}" />
+
 					</p:submenu>
-					
-					
+
+
 					<p:submenu label="YÖNETİCİ İŞLEMLERİ" expanded="false"
-						id="yoneticiIslem" rendered="#{anaSayfaBean.tanimlar.isReadPage(1000)}">
+						id="yoneticiIslem"
+						rendered="#{anaSayfaBean.tanimlar.isReadPage(1000)}">
 
 						<p:menuitem value="Görev Tanımlama İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(1001)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(1001)}"/>
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(1001)}" />
 
 						<p:menuitem value="Duyuru Tanımlama İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(1002)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(1002)}"/>
-							
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(1002)}" />
+
 						<p:menuitem value="Etkinlik Tanımlama İşlemleri" ajax="false"
 							update=":OrtaSayfa"
 							actionListener="#{anaSayfaBean.gotoPage(1003)}"
-							icon="ui-icon-disk" rendered="#{anaSayfaBean.tanimlar.isReadPage(1003)}"/>	
+							icon="ui-icon-disk"
+							rendered="#{anaSayfaBean.tanimlar.isReadPage(1003)}" />
 
 					</p:submenu>
-					
-					<p:submenu label="AYARLAR" expanded="false"
-						id="ayarlar" >
-						
-						</p:submenu>
-						
-						<p:submenu label="YARDIM" expanded="false"
-						id="yardim">
-						
-						</p:submenu>
-							
+
+					<p:submenu label="AYARLAR" expanded="false" id="ayarlar">
+
+					</p:submenu>
+
+					<p:submenu label="YARDIM" expanded="false" id="yardim">
+
+					</p:submenu>
+
 
 
 				</p:menubar>

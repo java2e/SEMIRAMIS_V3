@@ -1,5 +1,6 @@
 package semiramis.operasyon.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class IslemDAO extends DBConnection {
 	}
 
 	public void saveIslem(int icraDosyaId, int islemId, String barkod) {
-		sql = "INSERT INTO tbl_islem( islem_id, icra_dosya_id, barkod , barkod_encoded) VALUES ( ?, ?, ?, ?);";
+		sql = "INSERT INTO tbl_islem( islem_id, icra_dosya_id, barkod , barkod_encoded, tarih) VALUES ( ?, ?, ?, ?, ?);";
 		newConnectDB();
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -36,6 +37,8 @@ public class IslemDAO extends DBConnection {
 			pstm.setString(3, barkod);
 			BarcodeBuilder builder = new BarcodeBuilder(barkod);
 			pstm.setString(4, builder.getFullCode());
+			java.util.Date date = new java.util.Date();
+			pstm.setDate(5, convertFromJAVADateToSQLDate(date));
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("İslemDAO.saveIslem :" + e.getMessage());
@@ -104,8 +107,7 @@ public class IslemDAO extends DBConnection {
 			disconnectDB();
 			if (list.size() > 0) {
 				for (Posta posta : list) {
-					IslemDAO.getInstance().saveIslem(posta.getIcra_dosya_id(), ReportUtils.ODEME_EMRI_ISLEM_ID,
-							posta.getBarkod());
+					saveIslem(posta.getIcra_dosya_id(), ReportUtils.ODEME_EMRI_ISLEM_ID, posta.getBarkod());
 
 				}
 			}

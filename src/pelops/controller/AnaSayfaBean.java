@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.context.RequestContext;
 
+import com.a.a.a.c.f;
+
 @ManagedBean(name = "anaSayfaBean")
 @SessionScoped
 public class AnaSayfaBean {
@@ -17,12 +19,13 @@ public class AnaSayfaBean {
 	private String formPath;
 	private Tanimlar tanimlar;
 	FacesContext context = FacesContext.getCurrentInstance();
+
 	public AnaSayfaBean() {
 
 		formPath = "frm_anasayfa_default.xhtml";
 
-		tanimlar=new Tanimlar();
-		
+		tanimlar = new Tanimlar();
+
 		// formPath = "frm_rapor_charts.xhtml";
 
 	}
@@ -37,17 +40,14 @@ public class AnaSayfaBean {
 
 	public void gotoPage(int id) {
 
-		if (AktifBean.icraDosyaID == 0 && id > 49 && id < 64 || (id==1010 && AktifBean.icraDosyaID == 0 )) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_INFO,
-					"ÜZGÜNÜZ !!!",
+		if (AktifBean.icraDosyaID == 0 && id > 49 && id < 64 || (id == 1010 && AktifBean.icraDosyaID == 0)) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "ÜZGÜNÜZ !!!",
 					"İCRA DOSYASINI SEÇMEDEN BU ALANDA İŞLEM YAPAMAZSINIZ...İCRA DOSYA TAKİP SAYFASINA YÖNLENDİRİLDİNİZ....");
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 			formPath = "XHTML/icra_dosyasi/frm_icra_dosya_takibi.xhtml";
 		} else {
 			switch (id) {
 
-		
 			case 1:
 				formPath = "/XHTML/tanimlar/frm_adres_statusu.xhtml";
 				break;
@@ -190,25 +190,22 @@ public class AnaSayfaBean {
 			case 47:
 				formPath = "/XHTML/tanimlar/frm_vizit_statusu.xhtml";
 				break;
-				
+
 			case 48:
 				formPath = "/XHTML/tanimlar/frm_basvuru_harci.xhtml";
 				break;
-				
+
 			case 49:
 				formPath = "/XHTML/tanimlar/frm_vekalet_harci.xhtml";
 				break;
-				
+
 			case 50:
 				formPath = "/XHTML/tanimlar/frm_vekalet_sinirlari.xhtml";
 				break;
-				
-				
+
 			case 51:
 				formPath = "/XHTML/tanimlar/frm_muvekkil_bilgisi_kaydi.xhtml";
 				break;
-
-			
 
 			case 101:
 				formPath = "/XHTML/icra_dosyasi/frm_hizli_takip.xhtml";
@@ -225,9 +222,7 @@ public class AnaSayfaBean {
 			case 105:
 				formPath = "/XHTML/icra_dosyasi/frm_borclu_bilgisi_kaydi.xhtml";
 				break;
-				
-				
-				
+
 			case 201:
 				formPath = "/XHTML/operasyonel/frm_haciz_bilgisi_kaydi.xhtml";
 				break;
@@ -259,7 +254,7 @@ public class AnaSayfaBean {
 				formPath = "/XHTML/operasyonel/frm_odeme_plani.xhtml";
 				break;
 			case 211:
-				formPath = "/XHTML/operasyonel/frm_tahsilat_listesi.xhtml";
+				formPath = "/XHTML/operasyonel/frm_toplu_tebligat_bilgisi.xhtml";
 				break;
 			case 212:
 				formPath = "/XHTML/operasyonel/frm_muamele_islemleri_kaydi.xhtml";
@@ -279,10 +274,10 @@ public class AnaSayfaBean {
 			case 217:
 				formPath = "/XHTML/operasyonel/frm_tebligat_bilgisi.xhtml";
 				break;
-			
-			
-			
-			
+			case 218:
+				formPath = "/XHTML/operasyonel/frm_toplu_tebligat_bilgisi.xhtml";
+				break;
+				
 
 			case 301:
 				formPath = "/XHTML/analiz/frm_muamele_analizi.xhtml";
@@ -305,11 +300,7 @@ public class AnaSayfaBean {
 			case 307:
 				formPath = "/XHTML/analiz/frm_tebligat_analizi.xhtml";
 				break;
-				
-				
-				
-				
-				
+
 			case 401:
 				formPath = "/XHTML/uyap/frm_uyap_XML.xhtml";
 				break;
@@ -318,28 +309,25 @@ public class AnaSayfaBean {
 				break;
 			case 404:
 				formPath = "/XHTML/uyap/frm_uyap_sorgu_entegrasyonu.xhtml";
-				break;	
+				break;
 			case 405:
 				formPath = "/XHTML/uyap/frm_XML_to_uyap.xhtml";
-				break;	
-				
-				
+				break;
+
 			case 501:
 				formPath = "/XHTML/kasa/frm_kasa2.xhtml";
 				break;
-				
-				
-			case 901: 
-				formPath="/XHTML/kullanici/frm_hesap_tanimlama.xhtml"; 
-			break;	
-			case 902: 
-				formPath="/XHTML/kullanici/frm_takim.xhtml"; 
-			break;
-			case 903: 
-				formPath="/XHTML/kullanici/frm_kullanici_takim.xhtml"; 
-			break;
-			
-			
+
+			case 901:
+				formPath = "/XHTML/kullanici/frm_hesap_tanimlama.xhtml";
+				break;
+			case 902:
+				formPath = "/XHTML/kullanici/frm_takim.xhtml";
+				break;
+			case 903:
+				formPath = "/XHTML/kullanici/frm_kullanici_takim.xhtml";
+				break;
+
 			case 1001:
 				formPath = "/XHTML/yonetici/frm_gorev_tanimlama.xhtml";
 				break;
@@ -350,43 +338,26 @@ public class AnaSayfaBean {
 				formPath = "/XHTML/yonetici/frm_gorev_tanimlama.xhtml";
 				break;
 
-		
+			/*
+			 * case 101: formPath = "frm_muamele_islemleri.xhtml"; break;
+			 * 
+			 * case 102: formPath = "frm_tahsilat_listesi_kaydi.xhtml"; break;
+			 * 
+			 * case 103: formPath = "frm_reddiyat_listesi_kaydi.xhtml"; break;
+			 * 
+			 * 
+			 * 
+			 * case 169: formPath = "frm_uyap_sorgu_entegrasyonu.xhtml"; break;
+			 * 
+			 * case 1001: formPath = "dlg_icds_detayli_arama.xhtml"; break;
+			 * 
+			 * case 1002: formPath = "frm_anasayfa_default.xhtml"; break;
+			 * 
+			 * // case 1003: // formPath = "newYazdir.xhtml"; // break;F_
+			 * 
+			 * case 1003: formPath = "frm_otomatik_dosya_yazdirma.xhtml"; break;
+			 */
 
-		/*	case 101:
-				formPath = "frm_muamele_islemleri.xhtml";
-				break;
-
-			case 102:
-				formPath = "frm_tahsilat_listesi_kaydi.xhtml";
-				break;
-
-			case 103:
-				formPath = "frm_reddiyat_listesi_kaydi.xhtml";
-				break;
-		
-			
-				
-			case 169:
-				formPath = "frm_uyap_sorgu_entegrasyonu.xhtml";
-				break;
-
-			case 1001:
-				formPath = "dlg_icds_detayli_arama.xhtml";
-				break;
-
-			case 1002:
-				formPath = "frm_anasayfa_default.xhtml";
-				break;
-
-			// case 1003:
-			// formPath = "newYazdir.xhtml";
-			// break;F_
-
-			case 1003:
-				formPath = "frm_otomatik_dosya_yazdirma.xhtml";
-				break;
-*/
-			
 			case 1004:
 				formPath = "frm_otorobot.xhtml";
 				break;
@@ -394,25 +365,22 @@ public class AnaSayfaBean {
 				formPath = "/XHTML/tanimlar/frm_dosya_yukleme.xhtml";
 				break;
 			case 1010:
-				formPath ="/XHTML/muzekkere/frm_muze_talep2.xhtml";
+				formPath = "/XHTML/muzekkere/frm_muze_talep2.xhtml";
 				break;
 			case 1020:
-				formPath ="/XHTML/muzekkere/frm_toplu_muzekkere.xhtml";
+				formPath = "/XHTML/muzekkere/frm_toplu_muzekkere.xhtml";
 				break;
 			case 1111:
-				formPath ="/muzekkere/frm_muze_talep.xhtml";
+				formPath = "/muzekkere/frm_muze_talep.xhtml";
 				break;
-			
-		
-			
 
-				
 			default:
 
 				formPath = "frm_anasayfa_default.xhtml"; // ilk sayfa
 			}
 		}
 	}
+
 	public Tanimlar getTanimlar() {
 		return tanimlar;
 	}

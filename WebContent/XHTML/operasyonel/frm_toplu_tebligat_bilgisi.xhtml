@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition>
+	<script type="text/javascript">
+		PrimeFaces.locales['tr'] = {
+			closeText : 'kapat',
+			prevText : 'geri',
+			nextText : 'ileri',
+			currentText : 'bugün',
+			monthNames : [ 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs',
+					'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım',
+					'Aralık' ],
+			monthNamesShort : [ 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz',
+					'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara' ],
+			dayNames : [ 'Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe',
+					'Cuma', 'Cumartesi' ],
+			dayNamesShort : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+			dayNamesMin : [ 'Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct' ],
+			weekHeader : 'Hf',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Zaman Seçiniz',
+			timeText : 'Zaman',
+			hourText : 'Saat',
+			minuteText : 'Dakika',
+			secondText : 'Saniye',
+			ampm : false,
+			month : 'Ay',
+			week : 'Hafta',
+			day : 'Gün',
+			allDayText : 'Tüm Gün'
+		};
+	</script>
+	<p:panel id="panelPG" header="TTOPLU EBLİGAT BİLGİSİ SORGULAMA PANELİ"
+		style="text-align:left;">
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; width: 256px; left:0%; top:0%; z-index:2; height: 100%; width: 100%">
+			<p:graphicImage value="img/yukleme.gif" height="80" width="80" />
+		</p:dialog>
+
+		<h:form id="topluTebligatForm">
+
+			<p:panel>
+
+				<p:panelGrid columns="2" style="margin-top:10px">
+
+
+					<p:outputLabel for="tebTuru">Tebligat Türü :</p:outputLabel>
+					<p:selectOneMenu id="tebTuru"
+						value="#{topluTebligatBean.tebligatTuru}" style="width: 200px">
+
+						<f:selectItem itemLabel="Tür Seçiniz " itemValue="0" />
+						<f:selectItems
+							value="#{geneltanimbean.ListeGetir('tbl_tebligat_tipi')}"
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+
+					</p:selectOneMenu>
+					<p:outputLabel>Talimat İcra Mdr. :</p:outputLabel>
+					<p:selectOneMenu id="icraMudurlugu" effect="fold" filter="true"
+						filterMatchMode="startsWith" styleClass="selectMenu"
+						value="#{topluTebligatBean.icraMdId}" style="width: 200px">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems
+							value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
+							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+
+					</p:selectOneMenu>
+
+					<p:outputLabel>Başlangıç Tarihi</p:outputLabel>
+					<p:calendar pattern="dd/MM/yyyy" mask="true"
+						value="#{topluTebligatBean.date1}" size="27" locale="tr">
+					</p:calendar>
+
+					<p:outputLabel>Bitiş Tarihi</p:outputLabel>
+					<p:calendar pattern="dd/MM/yyyy" mask="true"
+						value="#{topluTebligatBean.date2}" size="27" locale="tr">
+					</p:calendar>
+
+
+					<p:commandButton id="btnIptal" value="İptal"
+						actionListener="#{topluTebligatBean.cancel}" style="width: 250px"
+						update="topluTebligatForm" />
+
+
+					<p:commandButton id="cmdButtonKAYDET" value="Listele"
+						actionListener="#{topluTebligatBean.search}" style="width: 250px"
+						update="topluTebligatForm" />
+
+
+				</p:panelGrid>
+			</p:panel>
+
+			<p:dataTable value="#{topluTebligatBean.tebligatList}" var="list"
+				rendered="#{topluTebligatBean.renderTable}"
+				selection="#{topluTebligatBean.selectedTebligatList}"
+				rowKey="#{list.barkod}" id="tblTebligatList"
+				update=":tblTebligatList" paginator="true" rows="10">
+
+				<p:column selectionMode="multiple"
+					style="width:16px;text-align:center" />
+
+				<p:column headerText="İcra Dosya No">
+					<p:outputLabel value="#{list.icraDosyaNo}" />
+				</p:column>
+
+				<p:column headerText="İcra Müdürlüğü">
+					<p:outputLabel value="#{list.icraMd}" />
+				</p:column>
+
+				<p:column headerText="Barkod Numarası">
+					<p:outputLabel value="#{list.barkod}" />
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton update=":topluTebligatForm" icon="ui-icon-search"
+						value="Sorgula" action="#{topluTebligatBean.searchDetailWithApi}" />
+				</f:facet>
+
+
+			</p:dataTable>
+
+			<p:panel id="tebligatTracking">
+				<p:dataTable id="datatable" var="list"
+					rendered="#{topluTebligatBean.resultRender}"
+					value="#{topluTebligatBean.trackings}" rowIndexVar="rowIndex">
+					<p:column headerText="İcra Dosya No">
+						<p:outputLabel value="#{list.icraDosyaNo}" />
+					</p:column>
+
+					<p:column headerText="İcra Müdürlüğü">
+						<p:outputLabel value="#{list.icraMd}" />
+					</p:column>
+
+					<p:column headerText="Barkod Numarası">
+						<p:outputLabel value="#{list.barkod}" />
+					</p:column>
+
+					<p:column headerText="Tarih" width="10%">
+						<h:outputText value="#{list.lastCheckPoint.checkpointTime}">
+							<f:convertDateTime pattern="MM-dd-yyyy hh:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Bulunduğu Yer" width="10%">
+						<p:outputLabel value="#{list.lastCheckPoint.location}" />
+					</p:column>
+					<p:column headerText="Açıklama" width="15%">
+						<p:outputLabel value="#{list.lastCheckPoint.message}" />
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+
+
+		</h:form>
+
+
+
+	</p:panel>
+
+</ui:composition>
+
+</html>
