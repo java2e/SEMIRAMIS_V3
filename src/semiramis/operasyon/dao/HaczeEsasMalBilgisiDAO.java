@@ -118,7 +118,7 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
-			stmt.setInt(1, AktifBean.getBorcluId());
+			stmt.setInt(1, t.getBorcluId() == 0 ? AktifBean.getBorcluId() : t.getBorcluId());
 			stmt.setString(2, t.getMenkulBilgisi());
 			stmt.setString(3, t.getTapuMahalleAdi());
 			stmt.setString(4, t.getTapuParsel());

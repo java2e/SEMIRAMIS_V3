@@ -2,13 +2,20 @@ package semiramis.uyap.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.format.CellFormatType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,8 +23,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-import pelops.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
+import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.uyap.dao.EgmDAO;
 
 @ManagedBean(name = "egmBean")
@@ -25,11 +32,9 @@ import semiramis.uyap.dao.EgmDAO;
 public class EGMBean {
 
 	private static XSSFSheet xlsTable;
-
-	private int ARAC_PLAKA = 30;
-	private int ARAC_MARKA = 31;
-	private int ARAC_MODEL = 29;
-	private int ARAC_CINS = 28;
+	private int SONUC = 6;
+	private int ARAC_DETAY = 7;
+	private int ARAC_HACIZ_BILGILERI = 8;
 
 	private EgmDAO dao = new EgmDAO();
 
@@ -59,69 +64,113 @@ public class EGMBean {
 		int rowNum = xlsTable.getLastRowNum();
 		Row r = xlsTable.getRow(0);
 		int cellNum = r.getLastCellNum();
+		List<HaczeEsasMalBilgisi> list = new ArrayList<>();
 		String message = "";
-		if (cellNum == 50
-				&& r.getCell(cellNum - 1).getStringCellValue().trim().toLowerCase().equals("taşınma tarihi")) {
-			if (r.getCell(31).getStringCellValue().toLowerCase().trim().equals("araç marka")
-					&& r.getCell(30).getStringCellValue().trim().toLowerCase().equals("araç plaka no")
-					&& r.getCell(29).getStringCellValue().trim().toLowerCase().equals("araç model")
-					&& r.getCell(28).getStringCellValue().trim().toLowerCase().equals("araç cins")) {
-				String tcNo = "";
-				HaczeEsasMalBilgisi malBilgisi = null;
-				for (int i = 1; i < rowNum; i++) {
-					Row row = xlsTable.getRow(i);
-					if (row.getCell(0) != null) {
-						Cell cell = row.getCell(0);
-						cell.setCellType(Cell.CELL_TYPE_STRING);
-						tcNo = cell.getStringCellValue();
-					}
+		if (cellNum == 9
+				&& r.getCell(cellNum - 1).getStringCellValue().trim().toLowerCase().equals("araç haciz bilgileri")) {
+			String tcNo = "";
+			HaczeEsasMalBilgisi malBilgisi = null;
+			for (int i = 0; i < rowNum; i++) {
+				Row row = xlsTable.getRow(i);
+				if (row.getCell(2) != null && row.getCell(2).toString().length() > 0) {
+					Cell cell = row.getCell(2);
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					tcNo = cell.getStringCellValue();
+				}
 
-					int borcluId = dao.getBorcluID(tcNo);
-					if (borcluId != 0) {
-
-						if (row.getCell(ARAC_PLAKA) != null && row.getCell(ARAC_CINS) != null
-								&& row.getCell(ARAC_MARKA) != null && row.getCell(ARAC_MODEL) != null) {
-							malBilgisi = new HaczeEsasMalBilgisi();
-							malBilgisi.setBorcluId(borcluId);
-							malBilgisi.setIcraDosyaId(dao.getIcraDosyaID(tcNo));
-							Cell cell3 = row.getCell(ARAC_CINS);
-							cell3.setCellType(Cell.CELL_TYPE_STRING);
-							malBilgisi.setAracAracTipi(cell3.getStringCellValue().toUpperCase());
-							Cell cell = row.getCell(ARAC_PLAKA);
-							cell.setCellType(Cell.CELL_TYPE_STRING);
-							malBilgisi.setAracPlakaNo(cell.getStringCellValue().toUpperCase());
-
-							Cell cell4 = row.getCell(ARAC_MARKA);
-							cell4.setCellType(Cell.CELL_TYPE_STRING);
-							Cell cell2 = row.getCell(ARAC_MODEL);
-							cell2.setCellType(Cell.CELL_TYPE_STRING);
-							malBilgisi.setDigerBilgiler("MARKA : " + cell4.getStringCellValue().toUpperCase()
-									+ " MODEL : " + cell2.getStringCellValue().toUpperCase());
-
-							dao.saveEGMVehicle(malBilgisi);
+				int borcluId = dao.getBorcluID(tcNo);
+				if (borcluId != 0) {
+					System.out.println("borcluId : " + borcluId);
+					if (row.getCell(SONUC) != null && row.getCell(SONUC).getStringCellValue().length() > 0) {
+						String plakas = row.getCell(SONUC).getStringCellValue();
+						plakas = plakas.replace("\n", "_");
+						String[] arr = plakas.split(",");
+						ArrayList<String> set = new ArrayList<>();
+						HashMap<String, String> map = new HashMap<>();
+						if (arr.length > 0) {
+							for (String s : arr) {
+								String array[] = s.split("-");
+								if (array.length > 0)
+									set.add(array[0]);
+							}
 						}
 
-					} else {
-						message += "TC No : " + tcNo + ", ";
+						if (row.getCell(ARAC_DETAY) != null
+								&& row.getCell(ARAC_DETAY).getStringCellValue().length() > 0) {
+							String detays = row.getCell(ARAC_DETAY).getStringCellValue();
+							detays = detays.replace("\n", " ");
+							for (String s : set) {
+								detays = detays.replace(s.trim(), "#");
+							}
+							String detayArr[] = detays.split("#");
+							List<String> l = new ArrayList<String>(Arrays.asList(detayArr));
+							l.removeAll(Arrays.asList("", null));
+							if (l.size() == set.size()) {
+								for (int j = 0; j < l.size(); j++) {
+									map.put(set.get(j), l.get(j).trim());
+								}
+							}
+
+						}
+
+						if (row.getCell(ARAC_HACIZ_BILGILERI) != null
+								&& row.getCell(ARAC_HACIZ_BILGILERI).getStringCellValue().length() > 0) {
+							String hacizInfo = row.getCell(ARAC_HACIZ_BILGILERI).getStringCellValue().trim();
+							hacizInfo.replace("\n", " ");
+							for (String s : set) {
+								hacizInfo = hacizInfo.replace(s.trim(), "ozgen");
+							}
+							System.out.println(hacizInfo);
+							String hacizArr[] = hacizInfo.split("ozgen");
+							List<String> l = new ArrayList<String>(Arrays.asList(hacizArr));
+							// for (String string : l) {
+							// System.out.println(string + " ozgen");
+							// }
+							l.removeAll(Arrays.asList("", null));
+							if (l.size() == set.size()) {
+
+								for (int j = 0; j < l.size(); j++) {
+									map.put(set.get(j), map.get(set.get(j)) + "\n" + l.get(j).trim());
+								}
+							}
+						}
+						for (String key : map.keySet()) {
+							malBilgisi = new HaczeEsasMalBilgisi();
+							malBilgisi.setBorcluId(borcluId);
+							malBilgisi.setIcraDosyaId(dao.getIcraDosyaID(borcluId));
+							malBilgisi.setAracPlakaNo(key);
+							malBilgisi.setAracTipiId(3);// 3: ARAC
+							malBilgisi.setDigerBilgiler(map.get(key));
+							list.add(malBilgisi);
+						}
+
 					}
 
 				}
-				FacesContext context = FacesContext.getCurrentInstance();
-				if (message.equals("")) {
-					if (malBilgisi != null) {
-						context.addMessage(null,
-								new FacesMessage("Sisteme Aktarım Mesajı", "İşlem Başarı ile Gerçekleştirilmiştir. "));
-					} else {
-						context.addMessage(null, new FacesMessage("Sisteme Aktarım Mesajı", "Aktarım sırasında hata!"));
-					}
-				} else {
-					message += " numaralı borclular sistemde mevcut olmadığı için kayıt yapılamamaktadır!";
-					context.addMessage(null, new FacesMessage("Sisteme Aktarım Mesajı", message));
-				}
-
 			}
 
+			for (HaczeEsasMalBilgisi h : list) {
+				System.out.println("borcLU: " + h.getBorcluId() + "  icrad : " + h.getIcraDosyaId() + "   plaka : "
+						+ h.getAracPlakaNo() + "   detay : " + h.getDigerBilgiler());
+			}
+			List returnList = dao.saveEGMs(list);
+			FacesContext context = FacesContext.getCurrentInstance();
+			if (returnList.size() < 1) {
+				context.addMessage(null,
+						new FacesMessage("Sisteme Aktarım Mesajı", "İşlem Başarı ile Gerçekleştirilmiştir. "));
+			} else {
+				context.addMessage(null,
+						new FacesMessage("Sisteme Aktarım Mesajı",
+								"Toplam : " + list.size() + " adet kayıttan " + returnList.size()
+										+ " Adet Dosya sisteme kayıtlı olmadığı için sisteme aktarılamadı! "));
+			}
+
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Sisteme Aktarım Mesajı",
+					"Seçilen dosya uygun formatta değildir. Lütfen uygun formatta dosya seçiniz! "));
 		}
+
 		xlsTable = null;
 	}
 

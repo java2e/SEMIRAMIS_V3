@@ -52,7 +52,7 @@ public class SgkDAO extends EgmDAO {
 	public HaczeEsasMalBilgisi convertSGKtoHB(Sgk sgk, int borcluId) {
 		HaczeEsasMalBilgisi haczeEsasMalBilgisi = new HaczeEsasMalBilgisi();
 		haczeEsasMalBilgisi.setBorcluId(borcluId);
-		haczeEsasMalBilgisi.setIcraDosyaId(getIcraDosyaID(sgk.getTcNo()));
+		haczeEsasMalBilgisi.setIcraDosyaId(getIcraDosyaID(borcluId));
 
 		haczeEsasMalBilgisi.setMuhatapAdi(sgk.getIsYeri());
 		haczeEsasMalBilgisi.setMuhattapSicilNo(sgk.getIsYeriSicilNo());
