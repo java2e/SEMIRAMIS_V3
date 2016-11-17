@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -119,7 +120,7 @@ public class EGMBean {
 							for (String s : set) {
 								hacizInfo = hacizInfo.replace(s.trim(), "ozgen");
 							}
-							System.out.println(hacizInfo);
+							// System.out.println(hacizInfo);
 							String hacizArr[] = hacizInfo.split("ozgen");
 							List<String> l = new ArrayList<String>(Arrays.asList(hacizArr));
 							// for (String string : l) {
@@ -149,22 +150,27 @@ public class EGMBean {
 			}
 
 			
-			List returnList = dao.saveEGMs(list);
+			List<?> returnList = dao.saveEGMs(list);
 			FacesContext context = FacesContext.getCurrentInstance();
-			if (returnList.size() < 1) {
+			if (returnList.size() >0) {
 				context.addMessage(null,
 						new FacesMessage("Sisteme Aktarım Mesajı", "İşlem Başarı ile Gerçekleştirilmiştir. "));
 			} else {
-				context.addMessage(null,
-						new FacesMessage("Sisteme Aktarım Mesajı",
-								"Toplam : " + list.size() + " adet kayıttan " + returnList.size()
-										+ " Adet Dosya sisteme kayıtlı olmadığı için sisteme aktarılamadı! "));
+				
+				String txtMesaj="Toplam : " + rowNum + " adet kayıttan " + (rowNum-list.size())
+				+ " Adet Dosya sisteme kayıtlı olmadığı için sisteme aktarılamadı! ";
+				
+				FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı", txtMesaj);
+		         
+		        RequestContext.getCurrentInstance().showMessageInDialog(mesaj);	
+				
 			}
 
 		} else {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Sisteme Aktarım Mesajı",
-					"Seçilen dosya uygun formatta değildir. Lütfen uygun formatta dosya seçiniz! "));
+					
+					FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı", "Dosya formatınız uygun değildir");
+			         
+			        RequestContext.getCurrentInstance().showMessageInDialog(mesaj);	
 		}
 
 		xlsTable = null;

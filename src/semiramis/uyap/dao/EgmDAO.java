@@ -68,10 +68,11 @@ public class EgmDAO extends HaczeEsasMalBilgisiDAO {
 		return id;
 	}
 
-	public List saveEGMs(List egms) {
+	public List<HaczeEsasMalBilgisi> saveEGMs(List egms) {
 		List<HaczeEsasMalBilgisi> returnList = new ArrayList<>();
 		for (Object o : egms) {
 			HaczeEsasMalBilgisi haczeEsasMalBilgisi = (HaczeEsasMalBilgisi) o;
+			haczeEsasMalBilgisi.setMalTipiId(3);
 			boolean result = kaydet(haczeEsasMalBilgisi);
 			if (!result)
 				returnList.add(haczeEsasMalBilgisi);

@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -58,8 +59,8 @@ public class SgkBean {
 		int cellNum = xlsTable.getRow(0).getLastCellNum();
 
 		try {
-			if (cellNum == 8 && xlsTable.getRow(0).getCell(7).getStringCellValue().trim().toLowerCase()
-					.equals("işyeri sicil no")) {
+			if (cellNum == 8)
+			{
 
 				for (int i = 0; i < rowNum; i++) {
 					Row row = xlsTable.getRow(i);
@@ -84,14 +85,19 @@ public class SgkBean {
 				returnList = SgkDAO.getInstance().saveSGKs(sgks);
 				FacesContext context = FacesContext.getCurrentInstance();
 
-				if (returnList.size() < 1) {
+				if (returnList.size() < 0) {
 					context.addMessage(null,
 							new FacesMessage("Sisteme Aktarım Mesajı", "İşlem Başarı ile Gerçekleştirilmiştir. "));
 				} else {
-					context.addMessage(null,
-							new FacesMessage("Sisteme Aktarım Mesajı",
-									"Toplam : " + sgks.size() + " adet kayıttan " + returnList.size()
-											+ " Adet Dosya sisteme kayıtlı olmadığı için sisteme aktarılamadı! "));
+					
+					
+					String txtMesaj="Toplam : " + rowNum + " adet kayıttan " + (rowNum-sgks.size())
+							+ " Adet Dosya sisteme kayıtlı olmadığı için sisteme aktarılamadı! ";
+							
+							FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı", txtMesaj);
+					         
+					        RequestContext.getCurrentInstance().showMessageInDialog(mesaj);	
+							
 				}
 
 			} else {
