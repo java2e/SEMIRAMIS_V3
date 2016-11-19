@@ -26,8 +26,9 @@ public class UtilsDAO extends DBConnection {
 	public void insertChronology(Chronology chronology) {
 		SQL = "INSERT INTO tbl_kronoloji(icra_dosya_id, departman, borclu, islem, aciklama, tarih, userid) "
 				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?);";
-		newConnectDB();
+	
 		try {
+			newConnectDB();
 			pstm = conn.prepareStatement(SQL);
 			pstm.setInt(1, chronology.getIcraDosyaID());
 			pstm.setString(2, chronology.getDepartman());

@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
+
+import semiramis.operasyon.controller.LevhaBean;
 
 @ManagedBean(name = "genelAramaBean")
 @ViewScoped
@@ -34,6 +37,8 @@ public class GenelAramaBean implements Serializable {
 	private GenelArama genelArama;
 	
 	private GenelArama selectedGenelArama;
+	
+
 
 	public GenelAramaBean() {
 		// TODO Auto-generated constructor stub
@@ -59,8 +64,6 @@ public class GenelAramaBean implements Serializable {
 	}
 	
 	public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Car Selected "+((GenelArama) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
         
         RequestContext.getCurrentInstance().closeDialog(((GenelArama) event.getObject()));
     }

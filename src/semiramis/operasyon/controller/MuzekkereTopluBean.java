@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.faces.application.FacesMessage;
@@ -44,8 +45,8 @@ public class MuzekkereTopluBean extends ConvertDate {
 	public final static int MUZEKKERE_MAAS_TALEP = 2;
 
 	public final static int MUZEKKERE_TAPU = 1;
-	
-	public final static int TALEP_ARAC_SERH=3;
+
+	public final static int TALEP_ARAC_SERH = 3;
 
 	private int alacakliId;
 
@@ -60,7 +61,7 @@ public class MuzekkereTopluBean extends ConvertDate {
 	private Date bitTarih;
 
 	private List<ComboItem> alacakliListe;
-	
+
 	private List<ComboItem> muzekkereTipListe;
 
 	public MuzekkereTopluDAO dao;
@@ -92,33 +93,28 @@ public class MuzekkereTopluBean extends ConvertDate {
 		alacakliListe = new ArrayList<ComboItem>();
 
 		alacakliListe = dao.getAlacakliList();
-		
-		muzekkereTipListe=new ArrayList<ComboItem>();
-		
-		muzekkereTipListe=muameleDAO.getMuzekkereTip();
-		
+
+		muzekkereTipListe = new ArrayList<ComboItem>();
+
+		muzekkereTipListe = muameleDAO.getMuzekkereTip();
 
 	}
 
-	public void muameleListYazdir() 
-	{
-		
+	public void muameleListYazdir() {
 
 		for (int i = 0; i < selectedMuameleList.size(); i++) {
 
 			selectedMuameleList.get(i).setBarkodTxt(barkodUret(selectedMuameleList.get(i)));
 
 			if (muzekkereTipiId == MUZEKKERE_MAAS) {
-				
-				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
-				
+
+				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO()
+						.liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
+
 				selectedMuameleList.get(i).setHaczeEsasMalId(String.valueOf(liste.get(0).getId()));
 				selectedMuameleList.get(i).setMuzekkereId(MUZEKKERE_MAAS);
-				
-				
-				muameleDAO.kaydet(selectedMuameleList.get(i));
 
-			
+				muameleDAO.kaydet(selectedMuameleList.get(i));
 
 				MasrafBilgisi masraf = masrafEkle(selectedMuameleList.get(i));
 
@@ -207,7 +203,6 @@ public class MuzekkereTopluBean extends ConvertDate {
 					muameleDAO.kaydet(selectedMuameleList.get(i));
 
 				}
-				
 
 				MasrafBilgisi masraf = masrafEkle(selectedMuameleList.get(i));
 
@@ -224,24 +219,18 @@ public class MuzekkereTopluBean extends ConvertDate {
 				masraf2.setMasrafTipiId(4);
 
 				new MasrafDAO().kaydet(masraf2);
-				
-				
 
-			}
-			else if(muzekkereTipiId==TALEP_ARAC_SERH)
-			{
-				
-				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(selectedMuameleList.get(i).getBorcluId(), TALEP_ARAC_SERH);
-				
+			} else if (muzekkereTipiId == TALEP_ARAC_SERH) {
+
+				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO()
+						.liste(selectedMuameleList.get(i).getBorcluId(), TALEP_ARAC_SERH);
+
 				selectedMuameleList.get(i).setHaczeEsasMalId(String.valueOf(liste.get(0).getId()));
 				selectedMuameleList.get(i).setMuzekkereId(TALEP_ARAC_SERH);
-				
-				
+
 				muameleDAO.kaydet(selectedMuameleList.get(i));
 
-				
 			}
-			
 
 		}
 
@@ -253,9 +242,13 @@ public class MuzekkereTopluBean extends ConvertDate {
 
 		List<JasperPrint> listJasperPrint = new ArrayList<JasperPrint>();
 
+		HashMap<String, List<JasperPrint>> mapList = new HashMap<String, List<JasperPrint>>();
+
+		HashMap<String, List<Muamele>> mapTebligatListesi = new HashMap<String, List<Muamele>>();
+
 		try {
-			
-			List<Muamele> tebligatListesi=new ArrayList<Muamele>();
+
+			List<Muamele> tebligatListesi = new ArrayList<Muamele>();
 
 			for (int i = 0; i < selectedMuameleList.size(); i++) {
 
@@ -267,33 +260,33 @@ public class MuzekkereTopluBean extends ConvertDate {
 					Muamele muamele = muameleListe.get(j);
 
 					if (muzekkereTipiId == MUZEKKERE_MAAS) {
-						
-						List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
-						
+
+						List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO()
+								.liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
+
 						muamele.setBorcluIsyeriAdres(liste.get(0).getMuhatapAdresi());
 						muamele.setBorcluIsyeriAdi(liste.get(0).getMuhatapAdi());
 
-
 						muzekkereTalep = "maashacizmuzekkeresigenel";
-						
-						if(chooseEvrak(4))
-						{
+
+						if (chooseEvrak(4)) {
 							listJasperPrint.add(new MuzekkereJasper().getTalepler("maas_talep", muamele));
 
 						}
-						
-					}
 
+					}
 
 					else if (muzekkereTipiId == MUZEKKERE_TAPU) {
 						muzekkereTalep = "tapuhacizmuzekkeresinokta";
 
 						muamele.setTapuMudurlugu(muamele.getTapuAciklama().split(" ").length > 0
-								? muamele.getTapuAciklama().split(" ")[1]+" "+muamele.getTapuAciklama().split(" ")[0] : "");
+								? muamele.getTapuAciklama().split(" ")[1] + " "
+										+ muamele.getTapuAciklama().split(" ")[0]
+								: "");
 
 						muamele.setTapuMudurluguIlce(muamele.getTapuAciklama().split(" ").length > 0
 								? muamele.getTapuAciklama().split(" ")[1] : "");
-						
+
 						List<SubReport> liste = new ArrayList<SubReport>();
 
 						for (int i1 = 0; i1 < muamele.getTapuAciklama().split("<br>").length; i1++) {
@@ -304,64 +297,131 @@ public class MuzekkereTopluBean extends ConvertDate {
 						}
 
 						muamele.setSubReportList(liste);
-						
 
-
-					}
-					else if(muzekkereTipiId==TALEP_ARAC_SERH)
-					{
+					} else if (muzekkereTipiId == TALEP_ARAC_SERH) {
 						muzekkereTalep = "tapuhacizmuzekkeresinokta";
-						List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(muamele.getBorcluId(), TALEP_ARAC_SERH);
-						
+						List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(muamele.getBorcluId(),
+								TALEP_ARAC_SERH);
+
 						muamele.setHaczeEsasMalId(String.valueOf(liste.get(0).getId()));
 						muamele.setPlaka(liste.get(0).getAracPlakaNo());
 						muamele.setMuzekkereId(TALEP_ARAC_SERH);
-						
 
-						
-						
 					}
 
 					muamele.setBarkod(new GenelYazdirBean().createBarcode(muamele.getBarkodTxt()));
 
 					if (muzekkereTipiId > 10)
 						listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
-					
-					else if(muzekkereTipiId==TALEP_ARAC_SERH)
+
+					else if (muzekkereTipiId == TALEP_ARAC_SERH)
 						listJasperPrint.add(new MuzekkereJasper().getTalepler("aracserhitalebi", muamele));
-					
+
 					else {
-						if (chooseEvrak(1))
-						{
-							listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
-							listJasperPrint.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
-}
-						if (chooseEvrak(2))
-						{
-							listJasperPrint.add(new MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
-						}
-						
-						if(chooseEvrak(5))
-						{
-							listJasperPrint.add(new MuzekkereJasper().getTalepler("dortlu_talep", muamele));
+						if (chooseEvrak(1)) {
+							// listJasperPrint.add(new
+							// MuzekkereJasper().getMuzekkere(muzekkereTalep,
+							// muamele));
+							// listJasperPrint.add(new
+							// MuzekkereJasper().getMuzekkere(muzekkereTalep,
+							// muamele));
+
+							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
+								mapList.get(muamele.getIcraMudurlugu())
+										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+							} else {
+								List<JasperPrint> liste = new ArrayList<JasperPrint>();
+
+								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+								mapList.put(muamele.getIcraMudurlugu(), liste);
+
+							}
 
 						}
-						
-						
+						if (chooseEvrak(2)) {
+							// listJasperPrint.add(new
+							// MuzekkereJasper().tebligatZarfiJasper(muamele,
+							// muzekkereTalep));
+
+							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
+								mapList.get(muamele.getIcraMudurlugu())
+										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+							} else {
+								List<JasperPrint> liste = new ArrayList<JasperPrint>();
+
+								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+								mapList.put(muamele.getIcraMudurlugu(), liste);
+
+							}
+						}
+
+						if (chooseEvrak(5)) {
+							// listJasperPrint.add(new
+							// MuzekkereJasper().getTalepler("dortlu_talep",
+							// muamele));
+
+							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
+								mapList.get(muamele.getIcraMudurlugu())
+										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+							} else {
+								List<JasperPrint> liste = new ArrayList<JasperPrint>();
+
+								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
+								mapList.put(muamele.getIcraMudurlugu(), liste);
+
+							}
+
+						}
+
 						// listJasperPrint.add(new
 						// MuzekkereJasper().tebligatListesiJasper(muamele,
 						// muzekkereTalep));
 					}
-					
-					
-					tebligatListesi.add(muamele);
+
+					// tebligatListesi.add(muamele);
+
+					if (mapTebligatListesi.get(muamele.getIcraMudurlugu()) != null) {
+						mapTebligatListesi.get(muamele.getIcraMudurlugu()).add(muamele);
+
+					} else {
+
+						List<Muamele> listeTebligat = new ArrayList<Muamele>();
+
+						listeTebligat.add(muamele);
+
+						mapTebligatListesi.put(muamele.getIcraMudurlugu(), listeTebligat);
+
+					}
 
 				}
 
 			}
 
-			if (chooseEvrak(3))
-				listJasperPrint.add(new MuzekkereJasper().tebligatListesi(tebligatListesi, muzekkereTalep));
+			if (chooseEvrak(3)) {
+				for (Map.Entry<String, List<Muamele>> entry : mapTebligatListesi.entrySet()) {
+
+					mapList.get(entry.getKey())
+							.add(new MuzekkereJasper().tebligatListesi(entry.getValue(), muzekkereTalep));
+
+				}
+
+				// listJasperPrint.add(new
+				// MuzekkereJasper().tebligatListesi(tebligatListesi,
+				// muzekkereTalep));
+
+			}
+
+			for (Map.Entry<String, List<JasperPrint>> entry : mapList.entrySet()) {
+
+				listJasperPrint.addAll(entry.getValue());
+
+			}
 
 			String path = genelPath + muzekkereTalep + ".pdf";
 
@@ -444,8 +504,8 @@ public class MuzekkereTopluBean extends ConvertDate {
 
 				List<Integer> icraDosyaListesi = dao.getIcraDosyaListesi(alacakliId, icraMudurluguId, muzekkereTipiId,
 						icraDosyaNo, convertDateToString(basTarih), convertDateToString(bitTarih));
-				
-				selectedMuameleList=new ArrayList<Muamele>();
+
+				selectedMuameleList = new ArrayList<Muamele>();
 
 				muameleList = new ArrayList<Muamele>();
 
@@ -508,7 +568,6 @@ public class MuzekkereTopluBean extends ConvertDate {
 			tapu.setAda(liste.get(i).getTapuCiltNo());
 			tapu.setParsel(liste.get(i).getTapuParsel());
 			tapu.setTapuMudurlugu(liste.get(i).getTapuSicilMudurluk());
-			
 
 			tapuList.add(tapu);
 		}

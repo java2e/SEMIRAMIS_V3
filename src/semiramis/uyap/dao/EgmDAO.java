@@ -46,12 +46,13 @@ public class EgmDAO extends HaczeEsasMalBilgisiDAO {
 
 	public int getIcraDosyaID(int borcluID) {
 
-		newConnectDB();
 		int id = 0;
 		String sorgu = "SELECT  icra_dosyasi_id FROM tbl_baglanti where borclu_id =" + borcluID + ";";
 
 		Statement stm;
 		try {
+			newConnectDB();
+
 			stm = conn.createStatement();
 
 			ResultSet rs = stm.executeQuery(sorgu);

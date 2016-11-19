@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -40,6 +41,15 @@ public class IzlemeBilgisiBean {
 	private boolean panelRender;
 	private boolean buttonDisabled;
 	private String personelAdi;
+	
+	@ManagedProperty(value="#{levhaBean}")
+	private LevhaBean levhaBean;
+	
+	
+
+	public void setLevhaBean(LevhaBean levhaBean) {
+		this.levhaBean = levhaBean;
+	}
 
 	public IzlemeBilgisiBean() throws Exception {
 
@@ -91,6 +101,7 @@ public class IzlemeBilgisiBean {
 		AktifBean.icraDosyaNo=genelArama.getIcraDosyaNo();
 		
 
+		levhaBean.init();
 		
 	}
 	
@@ -164,7 +175,7 @@ public class IzlemeBilgisiBean {
 
 			}
 
-			PanelClose();
+			PanelOpen();
 			ButtonOpen();
 
 		} else {
@@ -183,7 +194,7 @@ public class IzlemeBilgisiBean {
 
 		}
 
-		PanelClose();
+		//PanelClose();
 		ButtonOpen();
 
 		izleme = new IzlemeBilgisi();
@@ -208,8 +219,10 @@ public class IzlemeBilgisiBean {
 		}
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 		izleme.setCagriAdet(dao.izlemeSayisi(AktifBean.icraDosyaID));
+		
+		levhaBean.init();
 
-		ButtonClose();
+		//ButtonClose();
 
 	}
 
@@ -241,7 +254,7 @@ public class IzlemeBilgisiBean {
 	public void Vazgec() {
 
 		status = 0;
-		PanelClose();
+		//PanelClose();
 		ButtonOpen();
 
 	}

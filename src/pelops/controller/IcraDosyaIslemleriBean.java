@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -37,6 +38,7 @@ import pelops.model.IcraDosyasi;
 import pelops.model.Ilce;
 import pelops.model.LogError;
 import semimis.utils.GenelArama;
+import semiramis.operasyon.controller.LevhaBean;
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
 import semiramis.operasyon.model.BorcluBilgisi;
 
@@ -49,6 +51,15 @@ public class IcraDosyaIslemleriBean {
 	private int AracSayisi = 0;
 	private int EvSayisi = 0;
 	private Date hesapTarihi = new Date();
+	
+	@ManagedProperty(value="#{levhaBean}")
+	private LevhaBean levhaBean;
+	
+	
+
+	public void setLevhaBean(LevhaBean levhaBean) {
+		this.levhaBean = levhaBean;
+	}
 
 	private double basvuruHarciTL;
 
@@ -132,6 +143,7 @@ public class IcraDosyaIslemleriBean {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dosya Seçildi :", "Id:" + genelArama.getId());
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	
 
 		GelismisListe(genelArama.getId());
 	}
@@ -321,6 +333,7 @@ public class IcraDosyaIslemleriBean {
 		} else {
 			pelops.controller.AktifBean.setIcraDosyaNo(icradosyano);
 			pelops.controller.AktifBean.setIcraDosyaID(icradosyaID);
+			
 
 			BaglantiDAO baglantidao = new BaglantiDAO();
 			int borclubilgisiID = baglantidao.Listele(icradosyaID).getBorcluID();
@@ -403,6 +416,8 @@ public class IcraDosyaIslemleriBean {
 				} else {
 					pelops.controller.AktifBean.setIcraDosyaNo(icradosyano);
 					pelops.controller.AktifBean.setIcraDosyaID(icradosyaID);
+					
+				
 					BaglantiDAO baglantidao = new BaglantiDAO();
 
 					Baglanti baglanti = baglantidao.Listele(icradosyaID);
@@ -453,6 +468,11 @@ public class IcraDosyaIslemleriBean {
 
 					Hesapla();
 					refreshPanelVisible();
+					
+					levhaBean.init();
+
+					
+					
 				}
 			}
 

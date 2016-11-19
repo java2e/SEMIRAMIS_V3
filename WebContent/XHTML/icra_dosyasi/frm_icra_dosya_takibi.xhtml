@@ -22,7 +22,7 @@
 		<p:dialog widgetVar="statusDialog1" modal="true" draggable="false"
 			closable="false" resizable="false" showHeader="false"
 			style="position: absolute; background-color: rgba(0, 0, 0, 0.6); height: 256px; width: 256px; left:0%; top:0%; z-index:2; height: 100%; width: 100%">
-			<p:graphicImage value="img/yukleme.gif" height="80" width="80" />
+			<p:graphicImage value="img/loading.gif" height="80" width="80" />
 		</p:dialog>
 
 
@@ -140,7 +140,7 @@
 					<p:outputLabel style="width:100%">
 						<p:remoteCommand name="test"
 							actionListener="#{icradosyaislemleribean.Liste()}"
-							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,frmLevhaBilgisi:icralevhalari" />
+							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,icralevhalari" />
 						<p:inputMask mask="9999/99999" id="grow" style=" width:100%"
 							value="#{icradosyaislemleribean.icraDosyaNo}"
 							onkeypress="if (event.keyCode == 13) { test(); return false; }" />
@@ -152,11 +152,11 @@
 							showEffect="clip" hideEffect="explode" />
 						<p:commandButton icon="ui-icon-search " style="width:100%; "
 							actionListener="#{icradosyaislemleribean.Liste()}"
-							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,frmLevhaBilgisi" />
+							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,icralevhalari" />
 					</p:outputLabel>
 
 	   <p:commandButton id="btnDetayliArama" value="Detaylı Arama" icon="ui-icon-extlink" actionListener="#{icradosyaislemleribean.chooseIcraDosyasi}" style="width:100%">
-        <p:ajax event="dialogReturn" listener="#{icradosyaislemleribean.onIcraDosyasiChosen}" update=":formMsgs,:formIcraDosyaTakibi:panel,:formDialogs,frmLevhaBilgisi" />
+        <p:ajax event="dialogReturn" listener="#{icradosyaislemleribean.onIcraDosyasiChosen}" update=":formMsgs,:formIcraDosyaTakibi:panel,:formDialogs,icralevhalari" />
     </p:commandButton>
 
 					<p:graphicImage value="#{icradosyaislemleribean.kart_1}"
@@ -246,7 +246,7 @@
 										style="width:100%"
 										action="#{icradosyaislemleribean.guncelleBorclu()}"
 										update=":formIcraDosyaTakibi:borclubilgisi,:formIcraDosyaTakibi:tarihbilgisi,:formIcraDosyaTakibi:itirazbilgisi,
-                :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi,:formIcraDosyaTakibi:alacaklibilgisi,:formIcraDosyaTakibi:genelhacizbilgisi,frmLevhaBilgisi:icralevhalari" />
+                :formIcraDosyaTakibi:frmhesapbilgisi:hesapbilgisi,:formIcraDosyaTakibi:alacaklibilgisi,:formIcraDosyaTakibi:genelhacizbilgisi,icralevhalari" />
 
 
 								</p:panelGrid>
@@ -258,9 +258,7 @@
 						<!-- LEVHALAR KISMI -->
 
 						<p:column>
-						<h:form id="frmLevhaBilgisi">	
 							<ui:include src="/XHTML/icra_dosyasi/frm_levhalar.xhtml"></ui:include>
-						</h:form>
 						</p:column>
 			
 

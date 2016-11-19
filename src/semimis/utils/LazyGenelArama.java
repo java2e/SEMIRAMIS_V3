@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.primefaces.model.LazyDataModel;
@@ -55,7 +56,7 @@ public class LazyGenelArama extends LazyDataModel<GenelArama>
                         Object filterValue = filters.get(filterProperty);
                         String fieldValue = String.valueOf(genelArama.getClass().getField(filterProperty).get(genelArama));
  
-                        if(filterValue == null || fieldValue.startsWith(filterValue.toString())) {
+                        if(filterValue == null || fieldValue.startsWith(filterValue.toString().toUpperCase(Locale.forLanguageTag("tr-TR")))) {
                             match = true;
                     }
                     else {

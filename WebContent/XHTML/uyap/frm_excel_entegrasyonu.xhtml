@@ -133,5 +133,11 @@
 
 		</h:form>
 	</p:panel>
+	
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+<p:dialog appendTo="@(body)" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <img src="img/loading.gif" />
+</p:dialog>
 </h:body>
 </html>

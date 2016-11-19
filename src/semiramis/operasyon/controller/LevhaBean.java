@@ -3,8 +3,10 @@ package semiramis.operasyon.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import pelops.controller.AktifBean;
@@ -18,7 +20,7 @@ import semiramis.operasyon.model.PairLevha;
 import semiramis.operasyon.model.Tebligat;
 
 @ManagedBean(name = "levhaBean", eager = true)
-@RequestScoped
+@SessionScoped
 public class LevhaBean {
 	
 	
@@ -53,26 +55,35 @@ public class LevhaBean {
 	public LevhaBean() throws Exception {
 		// TODO Auto-generated constructor stub
 
-		try {
 		
-		aracListesi=new ArrayList<HaczeEsasMalBilgisi>();
-		tapuListesi=new ArrayList<HaczeEsasMalBilgisi>();
-		
-		
-		levhaBilgi = new Levha();
-		
-		cagriSayisi=new IzlemeBilgisiDAO().izlemeSayisi(AktifBean.icraDosyaID);
-		
-		plakaGetir();
-
-		
-		} catch (Exception e) {
-		
-			System.out.println("Hata LevhaBean :"+e.getMessage());
-			// TODO: handle exception
-		}
 		
 	}
+	
+@PostConstruct
+	public void init()
+	{
+		try {
+			
+			aracListesi=new ArrayList<HaczeEsasMalBilgisi>();
+			tapuListesi=new ArrayList<HaczeEsasMalBilgisi>();
+			
+			
+			levhaBilgi = new Levha();
+			
+			cagriSayisi=new IzlemeBilgisiDAO().izlemeSayisi(AktifBean.icraDosyaID);
+			
+			plakaGetir();
+
+			
+			} catch (Exception e) {
+			
+				System.out.println("Hata LevhaBean :"+e.getMessage());
+				// TODO: handle exception
+			}
+		
+	}
+	
+	
 
 	public void plakaGetir() throws Exception {
 		IcraDosyasiDAO icd = new IcraDosyasiDAO();
