@@ -3,12 +3,13 @@ package semiramis.uyap.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import pelops.db.DBConnection;
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
 import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.uyap.model.Sgk;
 
-public class SgkDAO extends EgmDAO {
+public class SgkDAO extends DBConnection {
 
 	private static SgkDAO dao;
 	private BorcluBilgisiDAO borcluBilgisiDAO = new BorcluBilgisiDAO();
@@ -22,6 +23,7 @@ public class SgkDAO extends EgmDAO {
 	private boolean saveSGK(Sgk sgk) {
 		int id = 0;
 		boolean rs = false;
+		HaczeEsasMalBilgisiDAO dao = new HaczeEsasMalBilgisiDAO();
 		try {
 			id = borcluBilgisiDAO.tcSorgulama(sgk.getTcNo());
 		} catch (Exception e) {
@@ -30,7 +32,7 @@ public class SgkDAO extends EgmDAO {
 
 		if (id != 0) {
 
-			rs = kaydet(convertSGKtoHB(sgk, id));
+			rs = dao.kaydet(convertSGKtoHB(sgk, id));
 		}
 		return rs;
 	}
@@ -50,9 +52,10 @@ public class SgkDAO extends EgmDAO {
 	}
 
 	public HaczeEsasMalBilgisi convertSGKtoHB(Sgk sgk, int borcluId) {
+		EgmDAO egmDAO = new EgmDAO();
 		HaczeEsasMalBilgisi haczeEsasMalBilgisi = new HaczeEsasMalBilgisi();
 		haczeEsasMalBilgisi.setBorcluId(borcluId);
-		haczeEsasMalBilgisi.setIcraDosyaId(getIcraDosyaID(borcluId));
+		haczeEsasMalBilgisi.setIcraDosyaId(egmDAO.getIcraDosyaID(borcluId));
 
 		haczeEsasMalBilgisi.setMuhatapAdi(sgk.getIsYeri());
 		haczeEsasMalBilgisi.setMuhattapSicilNo(sgk.getIsYeriSicilNo());

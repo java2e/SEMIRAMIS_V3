@@ -117,8 +117,11 @@ public class AnaSayfaBean {
 			case 23:
 				formPath = "/XHTML/tanimlar/frm_izleme_sonucu.xhtml";
 				break;
+//			case 24:
+//				formPath = "/XHTML/tanimlar/frm_kasa_gelir_kalemi.xhtml";
+//				break;
 			case 24:
-				formPath = "/XHTML/tanimlar/frm_kasa_gelir_kalemi.xhtml";
+				formPath = "/XHTML/tanimlar/izleme_statusu.xhtml";
 				break;
 			case 25:
 				formPath = "/XHTML/tanimlar/frm_kasa_gider_kalemi.xhtml";

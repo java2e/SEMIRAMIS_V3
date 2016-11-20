@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import pelops.db.DBConnection;
 import pelops.users.User;
 import pelops.users.Util;
 import semiramis.operasyon.controller.Utils;
@@ -16,7 +17,7 @@ import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
 import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 
-public class EgmDAO extends HaczeEsasMalBilgisiDAO {
+public class EgmDAO extends DBConnection {
 	private String SQL = null;
 	private PreparedStatement pstm;
 
@@ -71,10 +72,11 @@ public class EgmDAO extends HaczeEsasMalBilgisiDAO {
 
 	public List<HaczeEsasMalBilgisi> saveEGMs(List egms) {
 		List<HaczeEsasMalBilgisi> returnList = new ArrayList<>();
+		HaczeEsasMalBilgisiDAO dao = new HaczeEsasMalBilgisiDAO();
 		for (Object o : egms) {
 			HaczeEsasMalBilgisi haczeEsasMalBilgisi = (HaczeEsasMalBilgisi) o;
 			haczeEsasMalBilgisi.setMalTipiId(3);
-			boolean result = kaydet(haczeEsasMalBilgisi);
+			boolean result = dao.kaydet(haczeEsasMalBilgisi);
 			if (!result)
 				returnList.add(haczeEsasMalBilgisi);
 		}
