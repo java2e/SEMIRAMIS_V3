@@ -34,7 +34,7 @@ public class TebligatBean {
 
 	public int kaydet = 1;
 
-	private ArrayList<Islem> islems = new ArrayList<>();
+	private ArrayList<Tebligat> tebligats = new ArrayList<>();
 
 	private List<Checkpoint> checkpoints = null;
 
@@ -45,17 +45,12 @@ public class TebligatBean {
 
 		dao = new TebligatDAO();
 
-		tebligat = dao.getT(AktifBean.icraDosyaID);
-
-		if (tebligat != null)
-			kaydet = 2;
-		else
-			tebligat = new Tebligat();
+		tebligat = new Tebligat();
 
 		tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 		tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
 		tebligat.setBorcluId(AktifBean.borcluId);
-		islems = IslemDAO.getInstance().getIslemByIcraDosyaId(AktifBean.icraDosyaID);
+		tebligats = (ArrayList<Tebligat>) dao.getFilteredListFromDB(AktifBean.icraDosyaID);
 	}
 
 	public TebligatBean() {
@@ -92,10 +87,24 @@ public class TebligatBean {
 
 	public void kaydet() {
 
-		if (kaydet == 2)
-			dao.guncelleme(tebligat);
-		else
-			dao.kaydet(tebligat);
+		// if (kaydet == 2)
+		// dao.guncelleme(tebligat);
+		// else
+		boolean rs = dao.kaydet(tebligat);
+		tebligats = (ArrayList<Tebligat>) dao.getFilteredListFromDB(AktifBean.icraDosyaID);
+		if (rs) {
+			FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı",
+					"Kayıt ilşlemi başarı ile gerçekleştirilmiştir.");
+
+			RequestContext.getCurrentInstance().showMessageInDialog(mesaj);
+
+		} else {
+			FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı",
+					"İşlem sırasında hata! Lütfen zorunlu alanları doldurunuz.");
+
+			RequestContext.getCurrentInstance().showMessageInDialog(mesaj);
+
+		}
 
 	}
 
@@ -106,12 +115,12 @@ public class TebligatBean {
 		checkpoints = tracking.getCheckpoints();
 	}
 
-	public ArrayList<Islem> getIslems() {
-		return islems;
+	public ArrayList<Tebligat> getTebligats() {
+		return tebligats;
 	}
 
-	public void setIslems(ArrayList<Islem> islems) {
-		this.islems = islems;
+	public void setTebligats(ArrayList<Tebligat> tebligats) {
+		this.tebligats = tebligats;
 	}
 
 	public Tebligat getTebligat() {

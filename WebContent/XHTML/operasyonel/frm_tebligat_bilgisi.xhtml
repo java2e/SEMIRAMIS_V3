@@ -86,30 +86,31 @@
 
 
 					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
-						actionListener="#{tebligatBean.kaydet}" style="width: 250px" />
+						actionListener="#{tebligatBean.kaydet}" style="width: 250px"
+						update=":tebligatForm:tblTebligatList" />
 
 
 				</p:panelGrid>
 			</p:panel>
 
-			<p:dataTable value="#{tebligatBean.islems}" var="list"
+			<p:dataTable value="#{tebligatBean.tebligats}" var="list"
 				id="tblTebligatList" update=":tblTebligatList" paginator="true"
-				rows="6">
+				rows="10">
 
-				<p:column headerText="İşlem">
-					<p:outputLabel value="#{list.islemAdi}" />
+				<p:column headerText="Borclu Adı">
+					<p:outputLabel value="#{list.borcluAdSoyad}" />
 				</p:column>
 
-				<p:column headerText="Barkodu">
-					<p:outputLabel value="#{list.barcodEncoded}" />
+				<p:column headerText="İcra Müdürlüğü">
+					<p:outputLabel value="#{list.icraMd}" />
+				</p:column>
+
+				<p:column headerText="Tebligat Türü">
+					<p:outputLabel value="#{list.tebligatTuruAdi}" />
 				</p:column>
 
 				<p:column headerText="Tebligat Statüsü">
-					<p:outputLabel value="#{list.statusu}" />
-				</p:column>
-
-				<p:column headerText="Tebligat Sonucu">
-					<p:outputLabel value="#{list.sonuc}" />
+					<p:outputLabel value="#{list.tebligatStatusuAdi}" />
 				</p:column>
 
 
