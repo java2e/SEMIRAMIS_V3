@@ -355,7 +355,7 @@ public class MuzekkereTopluBean extends ConvertDate {
 							}
 
 						}
-						if (chooseEvrak(2)) {
+						if (chooseEvrak(2)) {  // Tebligat Zarfı yazdırmak için
 							// listJasperPrint.add(new
 							// MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
 

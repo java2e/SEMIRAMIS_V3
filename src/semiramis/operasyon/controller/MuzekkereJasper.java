@@ -58,7 +58,7 @@ public class MuzekkereJasper
 		
 			dataBeanList.add(muamele);
 
-			HashMap<String, Object> parameters = new HashMap<String, Object>();
+			//HashMap<String, Object> parameters = new HashMap<String, Object>();
 		
 
 			String pathName = FacesContext.getCurrentInstance().getExternalContext()
@@ -76,7 +76,7 @@ public class MuzekkereJasper
 			JasperDesign jasperDesign = new JasperDesign();
 			jasperDesign = JRXmlLoader.load(inputStream);
 			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+			jasperPrint = JasperFillManager.fillReport(jasperReport, null, beanColDataSource);
 			// JasperExportManager.exportReportToPdfFile(jasperPrint, path);
 
 		
