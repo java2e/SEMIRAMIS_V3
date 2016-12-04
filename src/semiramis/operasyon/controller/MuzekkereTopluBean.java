@@ -111,6 +111,8 @@ public class MuzekkereTopluBean extends ConvertDate {
 				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO()
 						.liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
 
+				if(liste.size()>0)
+				{
 				selectedMuameleList.get(i).setHaczeEsasMalId(String.valueOf(liste.get(0).getId()));
 				selectedMuameleList.get(i).setMuzekkereId(MUZEKKERE_MAAS);
 
@@ -122,6 +124,15 @@ public class MuzekkereTopluBean extends ConvertDate {
 				masraf.setMasrafAciklama("Maaş Müzekkere Tebligat Masrafı");
 
 				new MasrafDAO().kaydet(masraf);
+				}
+				else
+				{
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Unuttunuz!",
+							"Maaş Müzekkeresi için borçlu seçmelisiniz!.");
+
+					RequestContext.getCurrentInstance().showMessageInDialog(message);
+					
+				}
 
 			}
 
@@ -329,10 +340,14 @@ public class MuzekkereTopluBean extends ConvertDate {
 							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
 								mapList.get(muamele.getIcraMudurlugu())
 										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+								mapList.get(muamele.getIcraMudurlugu())
+								.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+
 
 							} else {
 								List<JasperPrint> liste = new ArrayList<JasperPrint>();
 
+								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
 								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
 
 								mapList.put(muamele.getIcraMudurlugu(), liste);
@@ -342,36 +357,33 @@ public class MuzekkereTopluBean extends ConvertDate {
 						}
 						if (chooseEvrak(2)) {
 							// listJasperPrint.add(new
-							// MuzekkereJasper().tebligatZarfiJasper(muamele,
-							// muzekkereTalep));
+							// MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
 
 							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
 								mapList.get(muamele.getIcraMudurlugu())
-										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+										.add(new MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
 
 							} else {
 								List<JasperPrint> liste = new ArrayList<JasperPrint>();
 
-								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+								liste.add(new MuzekkereJasper().tebligatZarfiJasper(muamele, muzekkereTalep));
 
 								mapList.put(muamele.getIcraMudurlugu(), liste);
 
 							}
 						}
 
-						if (chooseEvrak(5)) {
-							// listJasperPrint.add(new
-							// MuzekkereJasper().getTalepler("dortlu_talep",
-							// muamele));
+						if (chooseEvrak(5)) { // Dörtlü talep
+							// listJasperPrint.add(new MuzekkereJasper().getTalepler("dortlu_talep",muamele));
 
 							if (mapList.get(muamele.getIcraMudurlugu()) != null) {
 								mapList.get(muamele.getIcraMudurlugu())
-										.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+										.add(new MuzekkereJasper().getTalepler("dortlu_talep",muamele));
 
 							} else {
 								List<JasperPrint> liste = new ArrayList<JasperPrint>();
 
-								liste.add(new MuzekkereJasper().getMuzekkere(muzekkereTalep, muamele));
+								liste.add(new MuzekkereJasper().getTalepler("dortlu_talep",muamele));
 
 								mapList.put(muamele.getIcraMudurlugu(), liste);
 

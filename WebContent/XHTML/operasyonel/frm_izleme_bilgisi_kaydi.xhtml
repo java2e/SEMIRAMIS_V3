@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+
+<ui:composition
+xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
-<ui:composition>
 
 	<style>
 .ui-panelgrid-cell {
@@ -81,6 +81,16 @@
 						<p:calendar id="mask" size="32"
 							value="#{izlemebilgisibean.izleme.izlemeTarihi}"
 							pattern="dd-MM-yyyy" mask="true" />
+							
+						<p:outputLabel value="İzleme Statüsü" />
+						<p:selectOneMenu id="izlemeStatusu" required="false"
+							style="width:260px"
+							value="#{izlemebilgisibean.izleme.izlemeStatusuId}"
+							requiredMessage="Bu alanı doldurunuz">
+							<f:selectItems
+								value="#{geneltanimbean.ListeGetir('tbl_izleme_statusu')}"
+								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
+						</p:selectOneMenu>
 
 						<p:outputLabel value="İzleme Sonucu" />
 						<p:selectOneMenu id="selectOneMenuIzlemeSonucu" required="false"
@@ -90,22 +100,12 @@
 							<f:selectItems
 								value="#{geneltanimbean.ListeGetir('tbl_izleme_sonucu')}"
 								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"/>
-								
-						<p:ajax event="change"  update="izlemeStatusu" listener="#{izlemebilgisibean.changeStatusu}" />
-							
+					
 						
 								
 						</p:selectOneMenu>
 						
-						<p:outputLabel value="İzleme Statüsü" />
-						<p:selectOneMenu id="izlemeStatusu" required="false"
-							style="width:260px"
-							value="#{izlemebilgisibean.izleme.izlemeStatusuId}"
-							requiredMessage="Bu alanı doldurunuz">
-							<f:selectItems
-								value="#{izlemebilgisibean.listeIzlemeStatusu}"
-								var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
-						</p:selectOneMenu>
+					
 
 						<p:outputLabel value="Ödeme Sözü Tarihi" />
 						<p:calendar id="mask1" size="32"
@@ -356,4 +356,3 @@ $j(function () {
 
 </ui:composition>
 
-</html>

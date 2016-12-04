@@ -122,7 +122,7 @@ public class IslemDAO extends DBConnection {
 		ArrayList<Islem> list = new ArrayList<>();
 		sql = "SELECT i.id, i.islem_id, i.icra_dosya_id, i.barkod, i.barkod_encoded, tb.adi as tebligat_adi, "
 				+ "s.adi as sonuc, ts.adi as statusu, t.id as tebligat_id"
-				+ " FROM tbl_islem i inner join tbl_tebligat_tipi tb on i.islem_id = tb.id"
+				+ " FROM tbl_islem i left join tbl_tebligat_tipi tb on i.islem_id = tb.id"
 				+ " left join tbl_tebligat t on i.icra_dosya_id= t.icra_dosyasi_id"
 				+ " left join tbl_tebligat_sonucu s on t.tebligat_sonucu_id = s.id"
 				+ " left join tbl_tebligat_statusu ts on ts.id = t.tebligat_statusu_id where i.icra_dosya_id ="

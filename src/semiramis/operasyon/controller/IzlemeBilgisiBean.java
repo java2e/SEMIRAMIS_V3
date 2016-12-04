@@ -18,6 +18,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
+import pelops.controller.IcraDosyaIslemleriBean;
 import pelops.model.StaticDegerler;
 import pelops.users.User;
 import pelops.users.Util;
@@ -27,7 +28,7 @@ import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.IzlemeBilgisi;
 
 @ManagedBean(name = "izlemebilgisibean")
-@ViewScoped
+@SessionScoped
 public class IzlemeBilgisiBean {
 
 	private ArrayList<IzlemeBilgisi> izlemeList = new ArrayList<IzlemeBilgisi>();
@@ -46,6 +47,16 @@ public class IzlemeBilgisiBean {
 	private LevhaBean levhaBean;
 	
 	
+	@ManagedProperty(value="#{icradosyaislemleribean}")
+	private IcraDosyaIslemleriBean icraDosyaIslemleriBean;
+	
+	
+	
+	
+
+	public void setIcraDosyaIslemleriBean(IcraDosyaIslemleriBean icraDosyaIslemleriBean) {
+		this.icraDosyaIslemleriBean = icraDosyaIslemleriBean;
+	}
 
 	public void setLevhaBean(LevhaBean levhaBean) {
 		this.levhaBean = levhaBean;
@@ -78,10 +89,7 @@ public class IzlemeBilgisiBean {
 
 	public void onIcraDosyasiChosen(SelectEvent event) throws Exception {
 		GenelArama genelArama = (GenelArama) event.getObject();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Id:" + genelArama.getId());
-
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		
+	
 		izleme = new IzlemeBilgisi();
 		izleme.setPersonelId(Util.getUser().getUsrId());
 		izleme.setCagriAdet(dao.izlemeSayisi(genelArama.getId()));
@@ -100,8 +108,11 @@ public class IzlemeBilgisiBean {
 		AktifBean.icraDosyaID=genelArama.getId();
 		AktifBean.icraDosyaNo=genelArama.getIcraDosyaNo();
 		
+		
 
 		levhaBean.init();
+		
+		icraDosyaIslemleriBean.GelismisListe(genelArama.getId() );
 		
 	}
 	

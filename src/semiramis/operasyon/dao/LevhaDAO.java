@@ -53,6 +53,53 @@ public class LevhaDAO extends DBConnection {
 	}
 	
 	
+	public List<HaczeEsasMalBilgisi> getMaasListe(int borcluId)
+	{
+		
+		
+		 
+		 List<HaczeEsasMalBilgisi> liste=null;
+		
+		try {
+			
+			String sql="SELECT id, muhatap_adi,muhatap_adresi "
+		 +" FROM tbl_hacze_esas_mal_bilgisi  "
+		 +" where mal_tipi_id=2 and borclu_id="+borcluId;
+			
+			
+			newConnectDB();
+			
+			Statement stmt=conn.createStatement();
+			
+			ResultSet set=stmt.executeQuery(sql);
+			
+			liste=new ArrayList<HaczeEsasMalBilgisi>();
+			
+			while(set.next())
+			{
+				HaczeEsasMalBilgisi hb=new HaczeEsasMalBilgisi();
+
+				hb.setId(set.getInt("id"));
+				hb.setMuhatapAdi(set.getString("muhatap_adi"));
+				hb.setMuhatapAdresi(set.getString("muhatap_adresi"));
+				
+				liste.add(hb);
+				
+			}
+			
+			disconnectDB();
+			
+			
+		} catch (Exception e) {
+			
+			System.out.println("Hata LevhaDAO getMaasList :"+e.getMessage());
+			// TODO: handle exception
+		}
+		 
+		 return liste;
+		
+	}
+	
 	
 	public List<HaczeEsasMalBilgisi> getTapuListe(int borcluId)
 	{

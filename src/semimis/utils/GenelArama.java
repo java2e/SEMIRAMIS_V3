@@ -25,9 +25,18 @@ public class GenelArama
 	private int dosyaStatuId;
 	private int icraMudurlukId;
 	
+	private int izleme_id;
 	
 	
 	
+	
+	
+	public int getIzleme_id() {
+		return izleme_id;
+	}
+	public void setIzleme_id(int izleme_id) {
+		this.izleme_id = izleme_id;
+	}
 	public int getBorcluId() {
 		return borcluId;
 	}

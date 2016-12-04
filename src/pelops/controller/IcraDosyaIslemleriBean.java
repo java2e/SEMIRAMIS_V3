@@ -7,6 +7,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -41,6 +42,8 @@ import semimis.utils.GenelArama;
 import semiramis.operasyon.controller.LevhaBean;
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
 import semiramis.operasyon.model.BorcluBilgisi;
+import semiramis.operasyon.model.ComboItem;
+import semiramis.tanimlar.controller.IcraMudurlukleriBean;
 
 @ManagedBean(name = "icradosyaislemleribean")
 @SessionScoped
@@ -52,10 +55,20 @@ public class IcraDosyaIslemleriBean {
 	private int EvSayisi = 0;
 	private Date hesapTarihi = new Date();
 	
+	
+	private String borcluBilgiView;
+	
 	@ManagedProperty(value="#{levhaBean}")
 	private LevhaBean levhaBean;
 	
+	@ManagedProperty(value="#{icraMudurlukleriBean}")
+	private IcraMudurlukleriBean icraMudurlukleriBean;
 	
+	
+
+	public void setIcraMudurlukleriBean(IcraMudurlukleriBean icraMudurlukleriBean) {
+		this.icraMudurlukleriBean = icraMudurlukleriBean;
+	}
 
 	public void setLevhaBean(LevhaBean levhaBean) {
 		this.levhaBean = levhaBean;
@@ -109,6 +122,7 @@ public class IcraDosyaIslemleriBean {
 	private AlacakliBilgiler alacaklilistesi = new AlacakliBilgiler();
 
 	public IcraDosyaIslemleriBean() throws Exception {
+		
 
 		icradosyasi = new IcraDosyasi();
 		hesap = new Hesap();
@@ -147,6 +161,36 @@ public class IcraDosyaIslemleriBean {
 
 		GelismisListe(genelArama.getId());
 	}
+	
+	/**
+	 * Icra Mudur ve Icra Dosya No ıle Arama yapma
+	 */
+	public void hizliArama()
+	{
+		try {
+			
+			IcraDosyasiDAO icradosyasidao = new IcraDosyasiDAO();
+			int icradosyaID = icradosyasidao.IcraDosyaIdGetir(icraDosyaNo, icraMudurluguID);
+
+			if(icradosyaID!=0)
+			GelismisListe(icradosyaID);
+			else
+			{
+				
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, " SEMİRAMİS MESAJ",
+						"Belirtilen İcra Müdürlüğünde belirtilen İcra Dosya Numarası mevcut değildir.");
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+				
+				
+			}
+				
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 
 	private ArrayList<Ilce> ilceList;
 
@@ -465,6 +509,8 @@ public class IcraDosyaIslemleriBean {
 					hesapTarihi = new Date();
 
 					// plakaGetir();
+					
+					borcluBilgiView=AktifBean.getBorcluAdi()+" "+AktifBean.getIcraMudurlugu()+" "+icradosyano;
 
 					Hesapla();
 					refreshPanelVisible();
@@ -1338,6 +1384,17 @@ public class IcraDosyaIslemleriBean {
 	public void setAlacaklilistesi(AlacakliBilgiler alacaklilistesi) {
 		this.alacaklilistesi = alacaklilistesi;
 	}
+
+	public String getBorcluBilgiView() {
+		return borcluBilgiView;
+	}
+
+	public void setBorcluBilgiView(String borcluBilgiView) {
+		this.borcluBilgiView = borcluBilgiView;
+	}
+
+	
+	
 
 
 }

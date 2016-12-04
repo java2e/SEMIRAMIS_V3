@@ -8,6 +8,48 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition >
+<p:panel header="BORÇLU BİLGİSİ" id="borclubilgisi"
+								style=" width:100%; ">
+								<p:panelGrid columns="2"
+									style=" border-style: hidden !important; width:100%; background: darkgreen;"
+									columnClasses="ui-grid-col-4,ui-grid-col-8">
+									<p:outputLabel value="Müşteri No:" />
+
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.borclubilgisilistesi.musteriNo}"
+										readonly="false" />
+									<p:outputLabel value="Banka Servis No :" />
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.icradosyasilistesi.banka_servis_no}"
+										readonly="true" />
+									<p:outputLabel value="Avukat Servis No :" />
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.icradosyasilistesi.avukat_sevis_no}"
+										readonly="true" />
+									<p:outputLabel value="TC Kimlik :" />
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.borclubilgisilistesi.tcNo}"
+										styleClass="green" readonly="false" />
+									<p:outputLabel value="Adı Soyadı :" />
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.borclubilgisilistesi.adSoyad}"
+										readonly="false" />
+									<p:outputLabel value="Telefon :" />
+									<p:inputText style="width:100%"
+										value="#{icradosyaislemleribean.borclubilgisilistesi.telefon_no2}"
+										readonly="false" />
+									<p:outputLabel value="Adresi :" />
+									<p:inputTextarea rows="3" style="width:100%" queryDelay="750"
+										minQueryLength="4"
+										value="#{icradosyaislemleribean.borclubilgisilistesi.adres}"
+										readonly="false" />
+
+									<p:outputLabel></p:outputLabel>
+									
+
+								</p:panelGrid>
+							</p:panel>
+
 
 
 								<p:panel header="HESAP BİLGİSİ" id="hesapbilgisi">

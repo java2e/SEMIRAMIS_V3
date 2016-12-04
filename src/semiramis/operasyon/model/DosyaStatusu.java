@@ -9,6 +9,9 @@ public class DosyaStatusu
 	public static final String VEFAT_RENK="black";
 	public static final String ITIRAZ_RENK="#ffcc00";
 	
+	public static final String IZLEME_RENK="red";
+
+	
 	public static final int DERDEST_ID=6;
 	public static final int HITAM_ID=7;
 	public static final int TEMLIK_ID=9;

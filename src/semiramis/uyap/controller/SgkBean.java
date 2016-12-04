@@ -22,6 +22,8 @@ import org.primefaces.model.UploadedFile;
 
 import com.a.a.a.g.m.s;
 
+import semiramis.operasyon.dao.UtilsDAO;
+import semiramis.operasyon.model.Chronology;
 import semiramis.uyap.dao.SgkDAO;
 import semiramis.uyap.model.Sgk;
 
@@ -97,7 +99,8 @@ public class SgkBean {
 							FacesMessage mesaj = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sistem Aktarım Mesajı", txtMesaj);
 					         
 					        RequestContext.getCurrentInstance().showMessageInDialog(mesaj);	
-							
+					        
+					  
 				}
 
 			} else {

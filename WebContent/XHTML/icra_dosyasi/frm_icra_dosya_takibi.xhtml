@@ -39,10 +39,11 @@
 					disabled="#{icradosyaislemleribean.isdialogsVisible}"
 					actionListener="#{icradosyaislemleribean.setDialogPage('dlg_haciz_bilgisi_kaydi')}"
 					oncomplete="PF('dialogWidget').show();" update="dialog" />
-				<p:commandButton style="width:100%" value="HARİTA BİLGİSİ"
-					disabled="#{icradosyaislemleribean.isdialogsVisible}"
-					actionListener="#{icradosyaislemleribean.setDialogPage('dialog_maps')}"
-					oncomplete="PF('dialogWidget').show();" update="dialog" />
+				
+				<p:commandButton style="width:100%" value="HACZE ESAS MAL BİLGİSİ"
+							ajax="false"
+							update=":OrtaSayfa"
+							actionListener="#{anaSayfaBean.gotoPage(202)}"/>
 
 				<p:commandButton style="width:100%" value="MASRAF BİLGİSİ"
 					disabled="#{icradosyaislemleribean.isdialogsVisible}"
@@ -103,9 +104,10 @@
 
 			<p:dialog id="dialog" header="İŞLEM PANELİ" widgetVar="dialogWidget"
 				minHeight="340">
+				
 				<ui:include
 					src="../dialog/#{icradosyaislemleribean.dialogUrl}.xhtml" />
-			</p:dialog>
+				</p:dialog>
 		</h:form>
 
 		<h:form id="formIcraDosyaTakibi" style="width:100%">
@@ -131,7 +133,7 @@
 						style=" width:100%;">
 						<f:selectItem itemLabel="" itemValue="" />
 						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
+							value="#{icraMudurlukleriBean.listIcraMudurlukleri}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
 					</p:selectOneMenu>
 
@@ -139,8 +141,8 @@
 
 					<p:outputLabel style="width:100%">
 						<p:remoteCommand name="test"
-							actionListener="#{icradosyaislemleribean.Liste()}"
-							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,icralevhalari" />
+							actionListener="#{icradosyaislemleribean.hizliArama}"
+							update=":formMsgs,:formIcraDosyaTakibi:panel,:formDialogs,icralevhalari"/>
 						<p:inputMask mask="9999/99999" id="grow" style=" width:100%"
 							value="#{icradosyaislemleribean.icraDosyaNo}"
 							onkeypress="if (event.keyCode == 13) { test(); return false; }" />
@@ -151,8 +153,8 @@
 							value="BU ALANA İŞLEM YAPILACAK İCRA DOSYA NUMARASINI GİREREK 'ENTER' TUŞUNA BASINIZ.... "
 							showEffect="clip" hideEffect="explode" />
 						<p:commandButton icon="ui-icon-search " style="width:100%; "
-							actionListener="#{icradosyaislemleribean.Liste()}"
-							update="borclubilgisi,tarihbilgisi,itirazbilgisi,frmhesapbilgisi:hesapbilgisi,alacaklibilgisi,genelhacizbilgisi,icralevhalari" />
+							actionListener="#{icradosyaislemleribean.hizliArama}"
+							update=":formMsgs,:formIcraDosyaTakibi:panel,:formDialogs,icralevhalari"/>
 					</p:outputLabel>
 
 	   <p:commandButton id="btnDetayliArama" value="Detaylı Arama" icon="ui-icon-extlink" actionListener="#{icradosyaislemleribean.chooseIcraDosyasi}" style="width:100%">
@@ -257,7 +259,10 @@
 
 						<!-- LEVHALAR KISMI -->
 
-						<p:column>
+						<p:column style="vertical-align: top;">
+						<center>
+						<h:outputText style="color:red;font-size:22px;" value="#{icradosyaislemleribean.borcluBilgiView}"/>
+						</center>
 							<ui:include src="/XHTML/icra_dosyasi/frm_levhalar.xhtml"></ui:include>
 						</p:column>
 			

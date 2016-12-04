@@ -96,6 +96,16 @@ public class TebligatBean {
 			dao.guncelleme(tebligat);
 		else
 			dao.kaydet(tebligat);
+		
+		islems.clear();
+		
+		islems = IslemDAO.getInstance().getIslemByIcraDosyaId(AktifBean.icraDosyaID);
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "İşlem Sonucu!",
+				"Tebligat Kaydı Başarıyla Yapılmıştır.");
+
+		RequestContext.getCurrentInstance().showMessageInDialog(message);
+
 
 	}
 

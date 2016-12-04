@@ -106,9 +106,10 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 
 		try {
 
-			String sql = "SELECT id, icra_dosyasi_id, borclu_id, tebligat_turu_id, tebligat_statusu_id,"
-					+ " tebligat_sonucu_id, guncelleyen_kullanici_id, guncelleme_zamani "
-					+ " FROM tbl_tebligat where icra_dosyasi_id=" + id;
+			String sql = "SELECT t.*,s.adi as tebligat_statusu "
+					+" FROM tbl_tebligat t "
+					+" left join tbl_tebligat_statusu s on t.tebligat_statusu_id = s.id "
+					+" where icra_dosyasi_id=" + id;
 
 			newConnectDB();
 
@@ -128,6 +129,8 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 				t.setTebligatSonucuId(set.getInt("tebligat_sonucu_id"));
 				t.setTebligatStatusuId(set.getInt("tebligat_statusu_id"));
 				t.setTebligatTuruId(set.getInt("tebligat_turu_id"));
+				t.setGuncellemeTarihi(set.getString("guncelleme_zamani"));
+				t.setTebligatStatusuAdi(set.getString("tebligat_statusu"));
 
 			}
 

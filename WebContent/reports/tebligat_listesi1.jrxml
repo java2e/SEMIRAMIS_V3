@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-02T00:09:35 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tebligat_listesi" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1ea6d139-3560-4137-8d74-92280d778dd3">
 	<property name="ireport.zoom" value="3.138428376721005"/>
 	<property name="ireport.x" value="422"/>
@@ -21,11 +23,11 @@
 	<title>
 		<band height="28">
 			<staticText>
-				<reportElement x="239" y="3" width="100" height="20" uuid="4130112c-4d92-473b-a52f-5bf103526e47"/>
+				<reportElement x="190" y="3" width="239" height="20" uuid="4130112c-4d92-473b-a52f-5bf103526e47"/>
 				<textElement textAlignment="Center">
 					<font isBold="true" pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[TEBLİGAT LİSTESİ]]></text>
+				<text><![CDATA[MAAŞ HACİZ TEBLİGAT LİSTESİ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="455" y="3" width="100" height="20" uuid="0c345015-2491-4672-80e4-99227b0b8b0f"/>

@@ -18,6 +18,31 @@ public class Levha {
 	private int vizitDurum;
 	private String vizitDurumTxt;
 	
+	private String tebligatDurumTxt;
+	private String tebligatTarihTxt;
+	
+	
+	
+	
+	
+	
+	
+
+	public String getTebligatTarihTxt() {
+		return tebligatTarihTxt;
+	}
+
+	public void setTebligatTarihTxt(String tebligatTarihTxt) {
+		this.tebligatTarihTxt = tebligatTarihTxt;
+	}
+
+	public String getTebligatDurumTxt() {
+		return tebligatDurumTxt;
+	}
+
+	public void setTebligatDurumTxt(String tebligatDurumTxt) {
+		this.tebligatDurumTxt = tebligatDurumTxt;
+	}
 
 	public int getAracSayisi() {
 		return aracSayisi;

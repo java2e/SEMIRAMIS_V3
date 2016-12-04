@@ -26,6 +26,7 @@ public class LevhaBean {
 	
 	private List<HaczeEsasMalBilgisi> aracListesi;
 	private List<HaczeEsasMalBilgisi> tapuListesi;
+	private List<HaczeEsasMalBilgisi> maasListesi;
 	
 	
 	private Levha levhaBilgi;
@@ -66,6 +67,8 @@ public class LevhaBean {
 			
 			aracListesi=new ArrayList<HaczeEsasMalBilgisi>();
 			tapuListesi=new ArrayList<HaczeEsasMalBilgisi>();
+			maasListesi=new ArrayList<HaczeEsasMalBilgisi>();
+
 			
 			
 			levhaBilgi = new Levha();
@@ -83,6 +86,7 @@ public class LevhaBean {
 		
 	}
 	
+
 	
 
 	public void plakaGetir() throws Exception {
@@ -90,8 +94,11 @@ public class LevhaBean {
 		LevhaDAO levhaDAO=new LevhaDAO();
 		
 		
-		aracListesi=levhaDAO.getAracList(AktifBean.getBorcluId());
-		tapuListesi=levhaDAO.getTapuListe(AktifBean.getBorcluId());
+		aracListesi=levhaDAO.getAracList(AktifBean.borcluId);
+		tapuListesi=levhaDAO.getTapuListe(AktifBean.borcluId);
+		maasListesi=levhaDAO.getMaasListe(AktifBean.borcluId);
+		
+	
 		
 		PairLevha pairArac=icd.MalSayisi(3, AktifBean.getBorcluId());
 		
@@ -188,6 +195,9 @@ public class LevhaBean {
 		{
 			
 			tebligatDurum="img/levha/tebligat.png";
+			
+			levhaBilgi.setTebligatDurumTxt(tebligat.getTebligatStatusuAdi());
+			levhaBilgi.setTebligatTarihTxt(tebligat.getGuncellemeTarihi());
 			
 		}
 		else
@@ -653,6 +663,14 @@ public class LevhaBean {
 
 	public void setTapuListesi(List<HaczeEsasMalBilgisi> tapuListesi) {
 		this.tapuListesi = tapuListesi;
+	}
+
+	public List<HaczeEsasMalBilgisi> getMaasListesi() {
+		return maasListesi;
+	}
+
+	public void setMaasListesi(List<HaczeEsasMalBilgisi> maasListesi) {
+		this.maasListesi = maasListesi;
 	}
 
 	

@@ -9,6 +9,8 @@ import java.util.List;
 
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
+import semiramis.operasyon.controller.Utils;
+import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.IzlemeBilgisi;
 
@@ -97,17 +99,30 @@ public class IzlemeBilgisiDAO extends DBConnection {
 
 				if (result == 1) {
 
-					kaydedildi = true;
+					disconnectDB();
+					
+					disconnectDB();
+					
+					new Utils().saveChronology(AktifBean.icraDosyaID, ChronologyIdentifier.ISLEM_MUAMELE,
+							new Utils().getBocluAdi() + " izleme yapıldı. ");
+					
+					return true;
+				}
+				else
+				{
+					return false;
 				}
 
-				disconnectDB();
+				
+				
+				
 
 			} catch (Exception ex) {
 
 				ex.printStackTrace();
+				return false;
 			}
 		
-		return kaydedildi;
 
 	}
 
