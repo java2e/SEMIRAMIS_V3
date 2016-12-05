@@ -32,7 +32,7 @@
 						listener="#{tebligatBean.onIcraDosyasiChosen}"
 						update="tebligatForm" />
 				</p:commandButton>
-				<p:panelGrid columns="2" style="margin-top:10px">
+				<p:panelGrid columns="2" style="margin-top:10px" id="tahsilatPanel">
 					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
 					<p:inputText id="icraDosyaNo"
 						value="#{tebligatBean.tebligat.icraDosyaNo}" style="width: 250px"
@@ -87,7 +87,7 @@
 
 					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
 						actionListener="#{tebligatBean.kaydet}" style="width: 250px"
-						update=":tebligatForm" />
+						update=":tebligatForm:tblTebligatList" />
 
 
 				</p:panelGrid>
@@ -99,7 +99,8 @@
 				<p:column headerText="Düzenle" width="145">
 
 					<p:commandButton icon="ui-icon-disk" value="Düzenle"
-						action="#{tebligatBean.select()}" update=":tebligatForm">
+						action="#{tebligatBean.select()}"
+						update=":tebligatForm:tahsilatPanel">
 						<f:param name="duzenle" value="#{list.id}" />
 
 

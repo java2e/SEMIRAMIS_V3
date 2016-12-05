@@ -67,7 +67,6 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 			stmt.setInt(4, Util.getUser().getUsrId());
 
 			stmt.execute();
-
 			disconnectDB();
 
 		} catch (Exception e) {

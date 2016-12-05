@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -22,15 +22,15 @@ import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
 import semiramis.tracking.main.TrackingUtil;
 
-@ManagedBean(name = "tebligatBean", eager = true)
-@RequestScoped
+@ManagedBean(name = "tebligatBean")
+@SessionScoped
 public class TebligatBean {
 
 	private Tebligat tebligat;
 
 	public TebligatDAO dao;
 
-	public int kaydet = 1;
+	public int kaydet;
 
 	private ArrayList<Tebligat> islems = new ArrayList<>();
 
@@ -71,6 +71,7 @@ public class TebligatBean {
 					tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 					tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
 					tebligat.setBorcluId(AktifBean.borcluId);
+					System.out.println("brdaaa :" + kaydet);
 				}
 			}
 		}
@@ -105,7 +106,7 @@ public class TebligatBean {
 	}
 
 	public void kaydet() {
-
+		System.out.println(kaydet);
 		if (kaydet == 2)
 			dao.guncelleme(tebligat);
 		else
