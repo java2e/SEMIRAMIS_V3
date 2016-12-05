@@ -86,7 +86,8 @@
 
 
 					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
-						actionListener="#{tebligatBean.kaydet}" style="width: 250px" update=":tebligatForm"/>
+						actionListener="#{tebligatBean.kaydet}" style="width: 250px"
+						update=":tebligatForm" />
 
 
 				</p:panelGrid>
@@ -97,19 +98,19 @@
 				rows="6">
 
 				<p:column headerText="İşlem">
-					<p:outputLabel value="#{list.islemAdi}" />
+					<p:outputLabel value="#{list.tebligatTuruAdi}" />
 				</p:column>
 
 				<p:column headerText="Barkodu">
-					<p:outputLabel value="#{list.barcodEncoded}" />
+					<p:outputLabel value="#{list.barkod}" />
 				</p:column>
 
 				<p:column headerText="Tebligat Statüsü">
-					<p:outputLabel value="#{list.statusu}" />
+					<p:outputLabel value="#{list.tebligatStatusuAdi}" />
 				</p:column>
 
-				<p:column headerText="Tebligat Sonucu">
-					<p:outputLabel value="#{list.sonuc}" />
+				<p:column headerText="Tarih">
+					<p:outputLabel value="#{list.guncellemeTarihi}" />
 				</p:column>
 
 

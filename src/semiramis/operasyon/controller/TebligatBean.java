@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -16,9 +15,7 @@ import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
 import semimis.utils.GenelArama;
-import semiramis.operasyon.dao.IslemDAO;
 import semiramis.operasyon.dao.TebligatDAO;
-import semiramis.operasyon.model.Islem;
 import semiramis.operasyon.model.Tebligat;
 import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
@@ -34,7 +31,7 @@ public class TebligatBean {
 
 	public int kaydet = 1;
 
-	private ArrayList<Islem> islems = new ArrayList<>();
+	private ArrayList<Tebligat> islems = new ArrayList<>();
 
 	private List<Checkpoint> checkpoints = null;
 
@@ -55,7 +52,7 @@ public class TebligatBean {
 		tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 		tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
 		tebligat.setBorcluId(AktifBean.borcluId);
-		islems = IslemDAO.getInstance().getIslemByIcraDosyaId(AktifBean.icraDosyaID);
+		islems = (ArrayList<Tebligat>) dao.liste(AktifBean.icraDosyaID, 0);
 	}
 
 	public TebligatBean() {
@@ -96,16 +93,15 @@ public class TebligatBean {
 			dao.guncelleme(tebligat);
 		else
 			dao.kaydet(tebligat);
-		
+
 		islems.clear();
-		
-		islems = IslemDAO.getInstance().getIslemByIcraDosyaId(AktifBean.icraDosyaID);
-		
+
+		islems = (ArrayList<Tebligat>) dao.liste(AktifBean.icraDosyaID, 0);
+
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "İşlem Sonucu!",
 				"Tebligat Kaydı Başarıyla Yapılmıştır.");
 
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
-
 
 	}
 
@@ -116,11 +112,11 @@ public class TebligatBean {
 		checkpoints = tracking.getCheckpoints();
 	}
 
-	public ArrayList<Islem> getIslems() {
+	public ArrayList<Tebligat> getIslems() {
 		return islems;
 	}
 
-	public void setIslems(ArrayList<Islem> islems) {
+	public void setIslems(ArrayList<Tebligat> islems) {
 		this.islems = islems;
 	}
 
