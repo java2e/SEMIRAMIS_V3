@@ -644,6 +644,7 @@ public class BorcluBilgisiDAO extends DBConnection {
 					while (set.next()) {
 						rs = set.getInt("icra_dosyasi_id");
 					}
+					disconnectDB();
 				} catch (Exception e) {
 					System.out.println("getIcraDosyaID : " + e.getMessage());
 				}
@@ -651,6 +652,8 @@ public class BorcluBilgisiDAO extends DBConnection {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("getIcraDosyaId.tcSorgulama : " + e.getMessage());
+		} finally {
+			disconnectDB();
 		}
 		return rs;
 

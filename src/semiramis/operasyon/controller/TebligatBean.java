@@ -121,8 +121,9 @@ public class TebligatBean {
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 
 		Utils utils = new Utils();
-		String tebligatTuru = tebligat.getTebligatTuruAdi() != null ? tebligat.getTebligatTuruAdi() : " DOSYA ";
-		String tebligatSonucu = tebligat.getTebligatSonucuId() == 1 ? " TEBLİĞ EDİLDİ " : "BİLA OLDU";
+		String tebligatTuru = tebligat.getTebligatTuruAdi() != null ? tebligat.getTebligatTuruAdi()
+				: dao.getTebligatStatusu(tebligat.getTebligatTuruId()).toUpperCase();
+		String tebligatSonucu = tebligat.getTebligatStatusuId() == 1 ? " TEBLİĞ EDİLDİ " : "BİLA OLDU";
 		utils.saveChronology(tebligat.getIcraDosyaId(), ChronologyIdentifier.ISLEM_TEBLIGAT,
 				tebligatTuru + "  " + tebligatSonucu);
 

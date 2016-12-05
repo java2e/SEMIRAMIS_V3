@@ -229,4 +229,23 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 		return 0;
 	}
 
+	public String getTebligatStatusu(int id) {
+		String status = "";
+		try {
+			String sql = "select adi from tbl_tebligat_tipi where id =" + id;
+			newConnectDB();
+			Statement stm = conn.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				status = rs.getString("adi");
+			}
+			disconnectDB();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			disconnectDB();
+		}
+		return status;
+	}
+
 }
