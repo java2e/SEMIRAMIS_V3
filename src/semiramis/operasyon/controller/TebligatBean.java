@@ -16,6 +16,7 @@ import org.primefaces.event.SelectEvent;
 import pelops.controller.AktifBean;
 import semimis.utils.GenelArama;
 import semiramis.operasyon.dao.TebligatDAO;
+import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.operasyon.model.Tebligat;
 import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
@@ -44,10 +45,10 @@ public class TebligatBean {
 
 		tebligat = dao.getT(AktifBean.icraDosyaID);
 
-		if (tebligat != null)
-			kaydet = 2;
-		else
-			tebligat = new Tebligat();
+		// if (tebligat != null)
+		// kaydet = 2;
+		// else
+		tebligat = new Tebligat();
 
 		tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 		tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
@@ -57,6 +58,22 @@ public class TebligatBean {
 
 	public TebligatBean() {
 		init();
+	}
+
+	public void select() {
+		int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("duzenle").toString());
+		if (id > 0) {
+			for (Tebligat t : islems) {
+				if (t.getId() == id) {
+					tebligat = t;
+					kaydet = 2;
+					tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
+					tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
+					tebligat.setBorcluId(AktifBean.borcluId);
+				}
+			}
+		}
 	}
 
 	public void chooseIcraDosyasi() {
@@ -102,6 +119,12 @@ public class TebligatBean {
 				"Tebligat Kaydı Başarıyla Yapılmıştır.");
 
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
+
+		Utils utils = new Utils();
+		String tebligatTuru = tebligat.getTebligatTuruAdi() != null ? tebligat.getTebligatTuruAdi() : " DOSYA ";
+		String tebligatSonucu = tebligat.getTebligatSonucuId() == 1 ? " TEBLİĞ EDİLDİ " : "BİLA OLDU";
+		utils.saveChronology(tebligat.getIcraDosyaId(), ChronologyIdentifier.ISLEM_TEBLIGAT,
+				tebligatTuru + "  " + tebligatSonucu);
 
 	}
 

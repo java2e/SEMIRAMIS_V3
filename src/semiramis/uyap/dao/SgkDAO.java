@@ -3,8 +3,10 @@ package semiramis.uyap.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import semiramis.operasyon.controller.Utils;
 import semiramis.operasyon.dao.BorcluBilgisiDAO;
 import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
+import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.uyap.model.Sgk;
 
@@ -32,6 +34,9 @@ public class SgkDAO extends EgmDAO {
 
 			rs = kaydet(convertSGKtoHB(sgk, id));
 		}
+		if (rs)
+			new Utils().saveChronology(getIcraDosyaID(id), ChronologyIdentifier.ISLEM_SGK, "SGK Kaydı eklendi.");
+
 		return rs;
 	}
 

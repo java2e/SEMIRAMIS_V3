@@ -77,6 +77,8 @@ public class EgmDAO extends HaczeEsasMalBilgisiDAO {
 			boolean result = kaydet(haczeEsasMalBilgisi);
 			if (!result)
 				returnList.add(haczeEsasMalBilgisi);
+			else
+				new Utils().saveChronology(haczeEsasMalBilgisi.getIcraDosyaId(), ChronologyIdentifier.ISLEM_EGM, "EGM Kaydı eklendi.");
 		}
 		return returnList;
 	}

@@ -96,6 +96,16 @@
 			<p:dataTable value="#{tebligatBean.islems}" var="list"
 				id="tblTebligatList" update=":tblTebligatList" paginator="true"
 				rows="6">
+				<p:column headerText="Düzenle" width="145">
+
+					<p:commandButton icon="ui-icon-disk" value="Düzenle"
+						action="#{tebligatBean.select()}" update=":tebligatForm">
+						<f:param name="duzenle" value="#{list.id}" />
+
+
+					</p:commandButton>
+
+				</p:column>
 
 				<p:column headerText="İşlem">
 					<p:outputLabel value="#{list.tebligatTuruAdi}" />
