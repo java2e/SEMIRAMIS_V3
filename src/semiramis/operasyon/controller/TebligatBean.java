@@ -71,7 +71,6 @@ public class TebligatBean {
 					tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 					tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
 					tebligat.setBorcluId(AktifBean.borcluId);
-					System.out.println("brdaaa :" + kaydet);
 				}
 			}
 		}
@@ -106,7 +105,6 @@ public class TebligatBean {
 	}
 
 	public void kaydet() {
-		System.out.println(kaydet);
 		if (kaydet == 2)
 			dao.guncelleme(tebligat);
 		else
