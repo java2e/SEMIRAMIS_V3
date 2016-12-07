@@ -401,7 +401,7 @@ public class HaczeEsasMalBilgisiDAO extends DBConnection implements IDAO<HaczeEs
 			String sql = "select hcz.*,mt.adi as mulk_adi,il.il_adi as tapu_il,il.id as il_id,ilce.ilce_adi as tapu_ilce,ilce.id as ilce_id,"
 					+ " arac.adi as arac_tipi,mal.adi as mal_tipi,kullanici.ad_soyad as guncelleyen_kullanici "
 					+ " from tbl_hacze_esas_mal_bilgisi hcz "
-					+ " inner join tbl_kullanici kullanici on hcz.guncelleyen_kullanici_id=kullanici.id "
+					+ " left join tbl_kullanici kullanici on hcz.guncelleyen_kullanici_id=kullanici.id "
 					+ " left join tbl_mulk_tipi mt on hcz.mulk_tipi_id = mt.id "
 					+ " left join tbl_il il on hcz.tapu_il_id=il.id "
 					+ " left join tbl_ilce ilce on hcz.tapu_ilce_id=ilce.id "

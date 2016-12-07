@@ -109,8 +109,9 @@
 	
 	<p:selectOneMenu value="#{muzekkereTopluBean.icraMudurluguId}">
 	<f:selectItem itemLabel="Hepsi" itemValue="0"/>
-	<f:selectItems value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}" var="t" itemLabel="#{t.adi}" itemValue="#{t.id}"/>
-	</p:selectOneMenu>
+	<f:selectItems value="#{icraMudurlukleriBean.listIcraMudurlukleri}"
+				var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+					</p:selectOneMenu>
 	
 	<p:outputLabel value="Müzekkere Tipi :"/>
 	

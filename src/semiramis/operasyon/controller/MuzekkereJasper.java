@@ -283,8 +283,16 @@ public JasperPrint tebligatListesi(List<Muamele> muameleList, String muzekkereTa
 			muamele.setBorcluIsyeriAdres(liste2.get(0).getMuhatapAdresi());
 			muamele.setBorcluIsyeriAdi(liste2.get(0).getMuhatapAdi());	
 		
-		liste.setBorcluAdi(muamele.getBorcluIsyeriAdi().toUpperCase());
-		liste.setIl(muamele.getIcraMudurlugu().split(" ")[0]);
+		liste.setBorcluAdi(muamele.getBorcluIsyeriAdi());
+		
+		String isyeriAdresi="";
+		
+		if(muamele.getBorcluIsyeriAdres().split(" ")[muamele.getBorcluIsyeriAdres().split(" ").length-1].equals("MERKEZ"))
+			isyeriAdresi=muamele.getBorcluIsyeriAdres().split(" ")[muamele.getBorcluIsyeriAdres().split(" ").length-2];
+		else
+			isyeriAdresi=muamele.getBorcluIsyeriAdres().split(" ")[muamele.getBorcluIsyeriAdres().split(" ").length-1];
+			
+		liste.setIl(isyeriAdresi);
 		zarfTipi="Maaş Müzekkeresi";
 		parameters.put("konu", zarfTipi);
 		parameters.put("muvekkilAdi", muamele.getMuvekkilAdi());

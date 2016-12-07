@@ -22,12 +22,15 @@
 				
 				
 						<p:panelGrid columns="4" style=" border-style: hidden !important; width:100%" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
-								
+<p:commandLink id="tebligatLink"  onclick="PF('maasGoster').show();" style="text-decoration:none;">								
 <h:panelGrid columns="1" style="text-align:center;"  width="100%">
 <p:outputLabel value="#{levhaBean.levhaBilgi.tebligatDurumTxt}" style="color:red;font-size:bold;"/>
-<p:graphicImage value="#{levhaBean.tebligatDurum}" height="95" width="100%" />
+<p:outputLabel value="#{levhaBean.levhaBilgi.tebligatTuruTxt}" style="color:red;font-size:bold;"/>
+<p:graphicImage value="#{levhaBean.tebligatDurum}" height="85" width="100%" />
 <p:outputLabel value="#{levhaBean.levhaBilgi.tebligatTarihTxt}" style="color:red;font-size:bold;"/>
+<p:outputLabel value="#{levhaBean.levhaBilgi.tebligatSonucuTxt}" style="color:red;font-size:bold;"/>
 </h:panelGrid>
+</p:commandLink>
 								
 							
 								
@@ -159,6 +162,34 @@
    </p:dataTable>
       
       
+      </p:overlayPanel>
+      
+      
+      
+	  <p:overlayPanel id="tebligatPanel" for="tebligatLink" showEffect="blind" hideEffect="explode" showEvent="mousedown" hideEvent="mousedown"
+                    dismissable="false" showCloseIcon="true" style="width:400px;font-size:12px;">
+                    
+       
+     <p:dataTable var="car" value="#{levhaBean.tebligatListesi}" >
+    <p:column headerText="TEBLIGAT STATUSU">
+        <h:outputText value="#{car.tebligatStatusuAdi}" />
+    </p:column>
+ 
+    <p:column headerText="TEBLIGAT TURU">
+        <h:outputText value="#{car.tebligatTuruAdi}" />
+    </p:column>
+ 
+    <p:column headerText="TEBLIGAT SONUCU">
+        <h:outputText value="#{car.tebligatSonucuAdi}" />
+    </p:column>
+    
+    <p:column headerText="TEBLIGAT TARİHİ">
+        <h:outputText value="#{car.tebligatTarihiTxt}" />
+    </p:column>
+ 
+   </p:dataTable>
+                      
+        
       </p:overlayPanel>
       
       

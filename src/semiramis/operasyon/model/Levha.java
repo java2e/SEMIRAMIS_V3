@@ -21,12 +21,34 @@ public class Levha {
 	private String tebligatDurumTxt;
 	private String tebligatTarihTxt;
 	
+	private String tebligatSonucuTxt;
+	private String tebligatTuruTxt;
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+
+	public String getTebligatSonucuTxt() {
+		return tebligatSonucuTxt;
+	}
+
+	public void setTebligatSonucuTxt(String tebligatSonucuTxt) {
+		this.tebligatSonucuTxt = tebligatSonucuTxt;
+	}
+
+	public String getTebligatTuruTxt() {
+		return tebligatTuruTxt;
+	}
+
+	public void setTebligatTuruTxt(String tebligatTuruTxt) {
+		this.tebligatTuruTxt = tebligatTuruTxt;
+	}
 
 	public String getTebligatTarihTxt() {
 		return tebligatTarihTxt;

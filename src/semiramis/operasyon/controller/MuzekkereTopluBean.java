@@ -108,8 +108,9 @@ public class MuzekkereTopluBean extends ConvertDate {
 
 			if (muzekkereTipiId == MUZEKKERE_MAAS) {
 
-				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO()
-						.liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
+				if(selectedMuameleList.size()>0)
+				{
+				List<HaczeEsasMalBilgisi> liste = new HaczeEsasMalBilgisiDAO().liste(selectedMuameleList.get(i).getBorcluId(), MUZEKKERE_MAAS);
 
 				if(liste.size()>0)
 				{
@@ -124,6 +125,7 @@ public class MuzekkereTopluBean extends ConvertDate {
 				masraf.setMasrafAciklama("Maaş Müzekkere Tebligat Masrafı");
 
 				new MasrafDAO().kaydet(masraf);
+				}
 				}
 				else
 				{

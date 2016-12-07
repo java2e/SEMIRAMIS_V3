@@ -100,9 +100,7 @@ public class IzlemeBilgisiDAO extends DBConnection {
 				if (result == 1) {
 
 					disconnectDB();
-					
-					disconnectDB();
-					
+										
 					new Utils().saveChronology(AktifBean.icraDosyaID, ChronologyIdentifier.ISLEM_MUAMELE,
 							new Utils().getBocluAdi() + " izleme yapıldı. ");
 					

@@ -27,6 +27,7 @@ public class LevhaBean {
 	private List<HaczeEsasMalBilgisi> aracListesi;
 	private List<HaczeEsasMalBilgisi> tapuListesi;
 	private List<HaczeEsasMalBilgisi> maasListesi;
+	private List<Tebligat> tebligatListesi;
 	
 	
 	private Levha levhaBilgi;
@@ -68,6 +69,7 @@ public class LevhaBean {
 			aracListesi=new ArrayList<HaczeEsasMalBilgisi>();
 			tapuListesi=new ArrayList<HaczeEsasMalBilgisi>();
 			maasListesi=new ArrayList<HaczeEsasMalBilgisi>();
+			tebligatListesi=new ArrayList<Tebligat>();
 
 			
 			
@@ -97,6 +99,7 @@ public class LevhaBean {
 		aracListesi=levhaDAO.getAracList(AktifBean.borcluId);
 		tapuListesi=levhaDAO.getTapuListe(AktifBean.borcluId);
 		maasListesi=levhaDAO.getMaasListe(AktifBean.borcluId);
+		tebligatListesi=new TebligatDAO().getList(AktifBean.icraDosyaID);
 		
 	
 		
@@ -189,15 +192,27 @@ public class LevhaBean {
 		
 		TebligatDAO tebligatDAO=new TebligatDAO();
 		
-		Tebligat tebligat=tebligatDAO.getT(AktifBean.icraDosyaID);
 		
-		if(tebligat!=null)
+		List<Tebligat> liste=tebligatDAO.getList(AktifBean.icraDosyaID);
+		
+		//Tebligat tebligat=tebligatDAO.getT(AktifBean.icraDosyaID);
+		
+		
+		if(liste.size()>0)
 		{
+			Tebligat tebligat=liste.get(0);
 			
+			if(tebligat.getTebligatStatusuId()==1)
 			tebligatDurum="img/levha/tebligat.png";
+			else
+			tebligatDurum="img/levha/bila.png";
+
 			
 			levhaBilgi.setTebligatDurumTxt(tebligat.getTebligatStatusuAdi());
-			levhaBilgi.setTebligatTarihTxt(tebligat.getGuncellemeTarihi());
+			levhaBilgi.setTebligatTarihTxt(tebligat.getTebligatTarihiTxt());
+			
+			levhaBilgi.setTebligatSonucuTxt(tebligat.getTebligatSonucuAdi());
+			levhaBilgi.setTebligatTuruTxt(tebligat.getTebligatTuruAdi());
 			
 		}
 		else
@@ -671,6 +686,14 @@ public class LevhaBean {
 
 	public void setMaasListesi(List<HaczeEsasMalBilgisi> maasListesi) {
 		this.maasListesi = maasListesi;
+	}
+
+	public List<Tebligat> getTebligatListesi() {
+		return tebligatListesi;
+	}
+
+	public void setTebligatListesi(List<Tebligat> tebligatListesi) {
+		this.tebligatListesi = tebligatListesi;
 	}
 
 	

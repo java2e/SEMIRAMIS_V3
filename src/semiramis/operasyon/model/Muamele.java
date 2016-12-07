@@ -12,21 +12,21 @@ public class Muamele {
 	private String barkodTxt;
 	
 	private int borcluId;
-	private String borcluAdSoyad;
-	private String borcluTcNo;
-	private String borcluDogumTarihi;
-	private String borcluAdres;
-	private String borcluIsyeriAdi;
-	private String borcluIsyeriAdres;
+	private String borcluAdSoyad="";
+	private String borcluTcNo="";
+	private String borcluDogumTarihi="";
+	private String borcluAdres="";
+	private String borcluIsyeriAdi="";
+	private String borcluIsyeriAdres="";
 	
 	
 	private int icraDosyaID;
-	private String icraDosyaNo;
+	private String icraDosyaNo="";
 	private int icraMudurluguID;
-	private String icraMudurlugu;
+	private String icraMudurlugu="";
 	
 	private int muvekkilId;
-	private String muvekkilAdi;
+	private String muvekkilAdi="";
 	
 	private String avukatAdi;
 	private String avukatAdres;
@@ -56,10 +56,10 @@ public class Muamele {
 	private int tebligatSonucu;
 	
 	private Date mumaleTarihi;
-	private String muameleTarihiTxt;
+	private String muameleTarihiTxt="";
 	
 	private int personelId;
-	private String personelAdSoyad;
+	private String personelAdSoyad="";
 	
 	
 	private String haczeEsasMalId;
