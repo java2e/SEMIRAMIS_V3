@@ -1,5 +1,7 @@
 package semiramis.operasyon.model;
 
+import java.util.Date;
+
 import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
 
@@ -40,6 +42,10 @@ public class Tebligat {
 	private Tracking tracking;
 
 	private Checkpoint lastCheckPoint;
+	
+	private Date tebligatTarihi;
+	
+	private String tebligatTarihiTxt;
 
 	public Checkpoint getLastCheckPoint() {
 		return lastCheckPoint;
@@ -184,5 +190,23 @@ public class Tebligat {
 	public void setKullaniciAdSoyad(String kullaniciAdSoyad) {
 		this.kullaniciAdSoyad = kullaniciAdSoyad;
 	}
+
+	public Date getTebligatTarihi() {
+		return tebligatTarihi;
+	}
+
+	public void setTebligatTarihi(Date tebligatTarihi) {
+		this.tebligatTarihi = tebligatTarihi;
+	}
+
+	public String getTebligatTarihiTxt() {
+		return tebligatTarihiTxt;
+	}
+
+	public void setTebligatTarihiTxt(String tebligatTarihiTxt) {
+		this.tebligatTarihiTxt = tebligatTarihiTxt;
+	}
+	
+	
 
 }

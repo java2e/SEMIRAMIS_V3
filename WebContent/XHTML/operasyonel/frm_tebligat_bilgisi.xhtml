@@ -76,6 +76,12 @@
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 
 					</p:selectOneMenu>
+					
+				<p:outputLabel for="tebligatTarihi">Tebligat Tarihi :</p:outputLabel>
+					<p:calendar id="tebligatTarihi" pattern="dd/MM/yyyy" mask="true"
+						value="#{tebligatBean.tebligat.tebligatTarihi}" size="27" locale="tr">
+					</p:calendar>
+					
 
 
 
