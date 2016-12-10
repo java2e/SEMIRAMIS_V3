@@ -219,9 +219,9 @@ public class TebligatAnalizDAO extends DBConnection {
 
 			String sql = "SELECT teb.*,icra.icra_dosyasi_no,borclu.ad_soyad,ttip.adi as tebligat_turu,tstatu.adi as tebligat_statusu, "
 					+ "ab.muvekkil_adi as muvekkil_adi, icm.adi as icra_md, "
-					+ "tsonuc.adi as tebligat_sonucu  FROM tbl_tebligat teb  inner join tbl_icra_dosyasi icra on icra.id=teb.icra_dosyasi_id "
-					+ " inner join tbl_baglanti b on teb.icra_dosyasi_id = b.icra_dosyasi_id inner join tbl_alacakli_bilgisi ab on ab.id=b.alacakli_id "
-					+ " inner join tbl_icra_mudurlugu icm on icm.id= icra.icra_mudurlugu_id   inner join tbl_borclu borclu on borclu.id=teb.borclu_id  left join tbl_tebligat_tipi ttip on ttip.id=teb.tebligat_turu_id  left join tbl_tebligat_statusu tstatu on tstatu.id=teb.tebligat_statusu_id "
+					+ "tsonuc.adi as tebligat_sonucu  FROM tbl_tebligat teb  left join tbl_icra_dosyasi icra on icra.id=teb.icra_dosyasi_id "
+					+ " left join tbl_baglanti b on teb.icra_dosyasi_id = b.icra_dosyasi_id left join tbl_alacakli_bilgisi ab on ab.id=b.alacakli_id "
+					+ " left join tbl_icra_mudurlugu icm on icm.id= icra.icra_mudurlugu_id   left join tbl_borclu borclu on borclu.id=teb.borclu_id  left join tbl_tebligat_tipi ttip on ttip.id=teb.tebligat_turu_id  left join tbl_tebligat_statusu tstatu on tstatu.id=teb.tebligat_statusu_id "
 					+ "  left join tbl_tebligat_sonucu tsonuc on tsonuc.id=teb.tebligat_sonucu_id  where 1=1";
 
 			if (date1 != null && date2 != null && date1.before(date2)) {

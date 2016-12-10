@@ -10,7 +10,7 @@
 
 <ui:composition>
 
-<script type="text/javascript">
+	<script type="text/javascript">
         PrimeFaces.locales['tr'] = {
             closeText: 'kapat',
             prevText: 'geri',
@@ -38,7 +38,7 @@
             allDayText : 'Tüm Gün'
         };
     </script>
-    
+
 
 	<style>
 #chartdiv {
@@ -58,9 +58,10 @@
 		type="text/css" media="all" />
 	<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
 
-	
+
 
 	<h:form id="form">
+
 		<p:panel id="searchAnaliz">
 			<p:panelGrid columns="10" style="margin-top:10px">
 				<p:outputLabel>İcra Md.</p:outputLabel>
@@ -92,7 +93,8 @@
 				</p:calendar>
 
 				<p:commandButton value="Listele" icon="ui-icon-search "
-					action="#{tebligatAnalizBean.search}" update=":form:panelGrafik, :form" />
+					action="#{tebligatAnalizBean.search}"
+					update=":form:panelGrafik, :form" />
 
 				<p:commandButton icon="ui-icon-cancel "
 					action="#{tebligatAnalizBean.cancel}" update=":form:searchAnaliz" />
@@ -195,6 +197,7 @@
 
 			</p:tabView>
 
+
 			<p:panel id="panelTable" header="TEBLİGAT BİLGİSİ LİSTESİ"
 				style="text-align: center !important;
 	font-size: 14px;margin-top:10px;">
@@ -243,9 +246,9 @@
 
 
 		</p:panel>
-		
+
 		<!-- Chart code -->
-	<script type="text/javascript">
+		<script type="text/javascript">
 			//<![CDATA[
 
 		
@@ -270,9 +273,9 @@ var chart3 = AmCharts.makeChart("chartdiv3", {
 	      var chart = event.chart;
 	      
 	      console.log(event.item.dataContext.id)
-	       document.getElementById("form:durumId").value = event.item.dataContext.id;
+	       document.getElementById("form:durumId11").value = event.item.dataContext.id;
 	      
-	      $("#form\\:hh").click();
+	      $("#form\\:hh11").click();
 	      
 	     
 	    }
@@ -321,9 +324,9 @@ var chart4 = AmCharts.makeChart("chartGayrimenkul2", {
 		      var chart = event.chart;
 		      
 		      console.log(event.item.dataContext.id)
-		       document.getElementById("form:durumId").value = event.item.dataContext.id;
+		       document.getElementById("form:durumId11").value = event.item.dataContext.id;
 		      
-		      $("#form\\:hh").click();
+		      $("#form\\:hh33").click();
 		      
 		     
 		    }
@@ -372,9 +375,9 @@ var chart7 = AmCharts.makeChart("chartMaas2", {
 		      var chart = event.chart;
 		      
 		      console.log(event.item.dataContext.id)
-		       document.getElementById("form:durumId").value = event.item.dataContext.id;
+		       document.getElementById("form:durumId11").value = event.item.dataContext.id;
 		      
-		      $("#form\\:hh").click();
+		      $("#form\\:hh22").click();
 		      
 		     
 		    }
@@ -415,7 +418,17 @@ var chart7 = AmCharts.makeChart("chartMaas2", {
 //]]>
 
 </script>
-		
+
+		<h:inputHidden id="durumId11" value="#{tebligatAnalizBean.id}" />
+		<p:commandButton style="display:none" id="hh11" value="kaydet"
+			update=":form:panelTable"
+			actionListener="#{tebligatAnalizBean.getList}" />
+			<p:commandButton style="display:none" id="hh22" value="kaydet"
+			update=":form:panelTable"
+			actionListener="#{tebligatAnalizBean.getListSonuc}" />
+			<p:commandButton style="display:none" id="hh33" value="kaydet"
+			update=":form:panelTable"
+			actionListener="#{tebligatAnalizBean.getListTur}" />
 
 	</h:form>
 

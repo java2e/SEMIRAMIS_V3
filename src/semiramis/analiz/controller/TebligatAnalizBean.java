@@ -11,10 +11,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.json.JSONArray;
-import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 
-import pelops.controller.AktifBean;
 import semiramis.analiz.dao.TebligatAnalizDAO;
 import semiramis.analiz.model.TebligatAnaliz;
 import semiramis.analiz.model.TebligatAnalizJSON;
@@ -31,6 +29,8 @@ public class TebligatAnalizBean {
 	private String tebligatSonucu;
 
 	private String tebligatStatusu;
+
+	private int id;
 
 	public TebligatAnalizDAO dao;
 	private int icraMdId;
@@ -125,6 +125,51 @@ public class TebligatAnalizBean {
 		} catch (Exception e) {
 			System.out.println("JSON Veri çekerken HATA getJSON :" + e.getMessage());
 		}
+	}
+
+	public void getList() {
+
+		wholeList = dao.getWholeDataWithOptions(date1, date2, icraMdId, muvekkilId);
+		List<TebligatAnaliz> liste2 = new ArrayList<TebligatAnaliz>();
+
+		for (int i = 0; i < wholeList.size(); i++) {
+			if (id == wholeList.get(i).getTebligatStatusuId())
+				liste2.add(wholeList.get(i));
+
+		}
+
+		wholeList = (ArrayList<TebligatAnaliz>) liste2;
+
+	}
+
+	public void getListSonuc() {
+
+		wholeList = dao.getWholeDataWithOptions(date1, date2, icraMdId, muvekkilId);
+		List<TebligatAnaliz> liste2 = new ArrayList<TebligatAnaliz>();
+
+		for (int i = 0; i < wholeList.size(); i++) {
+			if (id == wholeList.get(i).getTebligatSonucId())
+				liste2.add(wholeList.get(i));
+
+		}
+
+		wholeList = (ArrayList<TebligatAnaliz>) liste2;
+
+	}
+
+	public void getListTur() {
+
+		wholeList = dao.getWholeDataWithOptions(date1, date2, icraMdId, muvekkilId);
+		List<TebligatAnaliz> liste2 = new ArrayList<TebligatAnaliz>();
+
+		for (int i = 0; i < wholeList.size(); i++) {
+			if (id == wholeList.get(i).getTebligatTurId())
+				liste2.add(wholeList.get(i));
+
+		}
+
+		wholeList = (ArrayList<TebligatAnaliz>) liste2;
+
 	}
 
 	public void cancel() {
@@ -224,6 +269,14 @@ public class TebligatAnalizBean {
 
 	public void setDate2(Date date2) {
 		this.date2 = date2;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

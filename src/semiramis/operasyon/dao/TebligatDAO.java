@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 			String sql = "INSERT INTO tbl_tebligat( "
 					+ "icra_dosyasi_id, borclu_id, tebligat_turu_id, tebligat_statusu_id,  "
 					+ " tebligat_sonucu_id, guncelleyen_kullanici_id, guncelleme_zamani) "
-					+ " VALUES (?, ?, ?, ?, ?, ?,now()); ";
+					+ " VALUES (?, ?, ?, ?, ?, ?,?); ";
 
 			newConnectDB();
 
@@ -35,6 +36,9 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 			stmt.setInt(4, t.getTebligatStatusuId());
 			stmt.setInt(5, t.getTebligatSonucuId());
 			stmt.setInt(6, Util.getUser().getUsrId());
+			String date = t.getTebligatTarihi().toString() != null ? t.getTebligatTarihi().toString()
+					: new Date().toString();
+			stmt.setString(7, date);
 
 			stmt.execute();
 
@@ -101,29 +105,26 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 
 		return false;
 	}
-	
+
 	public List<Tebligat> getList(int id) {
 
-		List<Tebligat> liste=new ArrayList<>();
+		List<Tebligat> liste = new ArrayList<>();
 
 		Tebligat t = null;
 
 		try {
 
 			String sql = "SELECT t.*,s.adi as tebligat_statusu ,so.adi as tebligat_sonucu,tt.adi as tebligat_turu"
-						+" FROM tbl_tebligat t  "
-						+" left join tbl_tebligat_statusu s on t.tebligat_statusu_id = s.id "
-						+" left join tbl_tebligat_sonucu so on t.tebligat_sonucu_id=so.id "
-						+" left join tbl_tebligat_tipi tt on t.tebligat_turu_id=tt.id "
-						+" where icra_dosyasi_id=" + id
-						+" order by guncelleme_zamani asc ";
+					+ " FROM tbl_tebligat t  " + " left join tbl_tebligat_statusu s on t.tebligat_statusu_id = s.id "
+					+ " left join tbl_tebligat_sonucu so on t.tebligat_sonucu_id=so.id "
+					+ " left join tbl_tebligat_tipi tt on t.tebligat_turu_id=tt.id " + " where icra_dosyasi_id=" + id
+					+ " order by guncelleme_zamani asc ";
 
 			newConnectDB();
 
 			Statement stmt = conn.createStatement();
 
 			ResultSet set = stmt.executeQuery(sql);
-
 
 			while (set.next()) {
 
@@ -139,8 +140,8 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 				t.setTebligatStatusuAdi(set.getString("tebligat_statusu"));
 				t.setTebligatSonucuAdi(set.getString("tebligat_sonucu"));
 				t.setTebligatTuruAdi(set.getString("tebligat_turu"));
-				t.setTebligatTarihiTxt(set.getString("tebligat_tarihi"));
-				
+				t.setTebligatTarihiTxt(set.getString("guncelleme_zamani"));
+
 				liste.add(t);
 
 			}
@@ -171,10 +172,9 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 
 		try {
 
-			String sql = "SELECT t.*,s.adi as tebligat_statusu "
-					+" FROM tbl_tebligat t "
-					+" left join tbl_tebligat_statusu s on t.tebligat_statusu_id = s.id "
-					+" where icra_dosyasi_id=" + id;
+			String sql = "SELECT t.*,s.adi as tebligat_statusu " + " FROM tbl_tebligat t "
+					+ " left join tbl_tebligat_statusu s on t.tebligat_statusu_id = s.id " + " where icra_dosyasi_id="
+					+ id;
 
 			newConnectDB();
 
@@ -289,6 +289,25 @@ public class TebligatDAO extends DBConnection implements IDAO<Tebligat> {
 	public int getId(Tebligat t) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public String getTebligatStatusu(int id) {
+		String status = "";
+		try {
+			String sql = "select adi from tbl_tebligat_tipi where id =" + id;
+			newConnectDB();
+			Statement stm = conn.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				status = rs.getString("adi");
+			}
+			disconnectDB();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			disconnectDB();
+		}
+		return status;
 	}
 
 }

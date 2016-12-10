@@ -32,7 +32,7 @@
 						listener="#{tebligatBean.onIcraDosyasiChosen}"
 						update="tebligatForm" />
 				</p:commandButton>
-				<p:panelGrid columns="2" style="margin-top:10px">
+				<p:panelGrid columns="2" style="margin-top:10px" id="tahsilatPanel">
 					<p:outputLabel style="width: 150px">İcra Dosya No :</p:outputLabel>
 					<p:inputText id="icraDosyaNo"
 						value="#{tebligatBean.tebligat.icraDosyaNo}" style="width: 250px"
@@ -47,9 +47,8 @@
 						style="width: 250px">
 
 						<f:selectItem itemLabel="Tür Seçiniz " itemValue="0" />
-						<f:selectItems
-							value="#{tebligatBean.listTebligatTipi}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+						<f:selectItems value="#{tebligatBean.listTebligatTipi}" var="list"
+							itemLabel="#{list.adi}" itemValue="#{list.id}" />
 
 					</p:selectOneMenu>
 
@@ -59,8 +58,7 @@
 						style="width: 250px">
 
 						<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0" />
-						<f:selectItems
-							value="#{tebligatBean.listTebligatStatusu}"
+						<f:selectItems value="#{tebligatBean.listTebligatStatusu}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 
 					</p:selectOneMenu>
@@ -71,24 +69,25 @@
 						style="width: 250px">
 
 						<f:selectItem itemLabel="Sonucu Seçiniz " itemValue="0" />
-						<f:selectItems
-							value="#{tebligatBean.listTebligatSonucu}"
+						<f:selectItems value="#{tebligatBean.listTebligatSonucu}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 
 					</p:selectOneMenu>
-					
-				<p:outputLabel for="tebligatTarihi">Tebligat Tarihi :</p:outputLabel>
+
+					<p:outputLabel for="tebligatTarihi">Tebligat Tarihi :</p:outputLabel>
 					<p:calendar id="tebligatTarihi" pattern="dd/MM/yyyy" mask="true"
-						value="#{tebligatBean.tebligat.tebligatTarihi}" size="27" locale="tr">
+						value="#{tebligatBean.tebligat.tebligatTarihi}" size="27"
+						locale="tr">
 					</p:calendar>
-					
+
 					<p:commandButton id="cmdButtonSearch" value="Son Durumu Sorgula"
 						actionListener="#{tebligatBean.search}" style="width: 250px"
 						oncomplete="PF('myDialogVar').show();" update="tebligatForm" />
 
 
 					<p:commandButton id="cmdButtonKAYDET" value="KAYDET"
-						actionListener="#{tebligatBean.kaydet}" style="width: 250px" update=":tebligatForm"/>
+						actionListener="#{tebligatBean.kaydet}" style="width: 250px"
+						update=":tebligatForm" />
 
 
 				</p:panelGrid>
@@ -97,21 +96,32 @@
 			<p:dataTable value="#{tebligatBean.islems}" var="list"
 				id="tblTebligatList" update=":tblTebligatList" paginator="true"
 				rows="6">
+				<p:column headerText="Düzenle" width="145">
+
+					<p:commandButton icon="ui-icon-disk" value="Düzenle"
+						action="#{tebligatBean.select()}"
+						update=":tebligatForm:tahsilatPanel">
+						<f:param name="duzenle" value="#{list.id}" />
+
+
+					</p:commandButton>
+
+				</p:column>
 
 				<p:column headerText="İşlem">
-					<p:outputLabel value="#{list.islemAdi}" />
+					<p:outputLabel value="#{list.tebligatTuruAdi}" />
 				</p:column>
 
 				<p:column headerText="Barkodu">
-					<p:outputLabel value="#{list.barcodEncoded}" />
+					<p:outputLabel value="#{list.barkod}" />
 				</p:column>
 
 				<p:column headerText="Tebligat Statüsü">
-					<p:outputLabel value="#{list.statusu}" />
+					<p:outputLabel value="#{list.tebligatStatusuAdi}" />
 				</p:column>
 
-				<p:column headerText="Tebligat Sonucu">
-					<p:outputLabel value="#{list.sonuc}" />
+				<p:column headerText="Tarih">
+					<p:outputLabel value="#{list.guncellemeTarihi}" />
 				</p:column>
 
 
@@ -129,6 +139,8 @@
 
 
 	</p:panel>
+
+
 
 </ui:composition>
 
