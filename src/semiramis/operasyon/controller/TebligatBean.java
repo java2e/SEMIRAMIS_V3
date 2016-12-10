@@ -18,8 +18,10 @@ import pelops.controller.AktifBean;
 import semimis.utils.GenelArama;
 import semiramis.operasyon.dao.IslemDAO;
 import semiramis.operasyon.dao.TebligatDAO;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.Islem;
 import semiramis.operasyon.model.Tebligat;
+import semiramis.tanimlar.dao.TanimlarDAO;
 import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
 import semiramis.tracking.main.TrackingUtil;
@@ -37,25 +39,48 @@ public class TebligatBean {
 	private ArrayList<Islem> islems = new ArrayList<>();
 
 	private List<Checkpoint> checkpoints = null;
+	
+	private List<ComboItem> listTebligatTipi;
+	private List<ComboItem> listTebligatStatusu;
+	private List<ComboItem> listTebligatSonucu;
+	
+	private TanimlarDAO tanimlarDAO;
+	
+	
 
 	public void init() {
 		// TODO Auto-generated constructor stub
 
 		tebligat = new Tebligat();
+		
+		tanimlarDAO=new TanimlarDAO();
+		
+		listTebligatSonucu=new ArrayList<>();
+		listTebligatStatusu=new ArrayList<>();
+		listTebligatTipi=new ArrayList<>();
+		
+		listTebligatSonucu=tanimlarDAO.getTebligatSonucu();
+		listTebligatStatusu=tanimlarDAO.getTebligatStatusu();
+		listTebligatTipi=tanimlarDAO.getTebligatTipi();
 
 		dao = new TebligatDAO();
 
-		tebligat = dao.getT(AktifBean.icraDosyaID);
+		List<Tebligat> liste = dao.getList(AktifBean.icraDosyaID);
 
-		if (tebligat != null)
-			kaydet = 2;
-		else
+		
+		if(liste.size()>0)
+			tebligat=liste.get(0);
+		
+		if (tebligat == null)
 			tebligat = new Tebligat();
 
 		tebligat.setIcraDosyaId(AktifBean.icraDosyaID);
 		tebligat.setIcraDosyaNo(AktifBean.icraDosyaNo);
 		tebligat.setBorcluId(AktifBean.borcluId);
 		islems = IslemDAO.getInstance().getIslemByIcraDosyaId(AktifBean.icraDosyaID);
+		
+		
+		
 	}
 
 	public TebligatBean() {
@@ -139,5 +164,31 @@ public class TebligatBean {
 	public void setCheckpoints(List<Checkpoint> checkpoints) {
 		this.checkpoints = checkpoints;
 	}
+
+	public List<ComboItem> getListTebligatTipi() {
+		return listTebligatTipi;
+	}
+
+	public void setListTebligatTipi(List<ComboItem> listTebligatTipi) {
+		this.listTebligatTipi = listTebligatTipi;
+	}
+
+	public List<ComboItem> getListTebligatStatusu() {
+		return listTebligatStatusu;
+	}
+
+	public void setListTebligatStatusu(List<ComboItem> listTebligatStatusu) {
+		this.listTebligatStatusu = listTebligatStatusu;
+	}
+
+	public List<ComboItem> getListTebligatSonucu() {
+		return listTebligatSonucu;
+	}
+
+	public void setListTebligatSonucu(List<ComboItem> listTebligatSonucu) {
+		this.listTebligatSonucu = listTebligatSonucu;
+	}
+	
+	
 
 }

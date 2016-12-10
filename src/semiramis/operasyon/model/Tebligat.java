@@ -30,6 +30,10 @@ public class Tebligat {
 	private String tebligatSonucuAdi;
 
 	private String guncellemeTarihi;
+	
+	private Date tebligatTarihi;
+	
+	private String tebligatTarihiTxt;
 
 	private int kullaniciId;
 
@@ -43,9 +47,16 @@ public class Tebligat {
 
 	private Checkpoint lastCheckPoint;
 	
-	private Date tebligatTarihi;
 	
-	private String tebligatTarihiTxt;
+	
+
+	public String getTebligatTarihiTxt() {
+		return tebligatTarihiTxt;
+	}
+
+	public void setTebligatTarihiTxt(String tebligatTarihiTxt) {
+		this.tebligatTarihiTxt = tebligatTarihiTxt;
+	}
 
 	public Checkpoint getLastCheckPoint() {
 		return lastCheckPoint;
@@ -197,14 +208,6 @@ public class Tebligat {
 
 	public void setTebligatTarihi(Date tebligatTarihi) {
 		this.tebligatTarihi = tebligatTarihi;
-	}
-
-	public String getTebligatTarihiTxt() {
-		return tebligatTarihiTxt;
-	}
-
-	public void setTebligatTarihiTxt(String tebligatTarihiTxt) {
-		this.tebligatTarihiTxt = tebligatTarihiTxt;
 	}
 	
 	

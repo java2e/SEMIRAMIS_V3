@@ -48,7 +48,7 @@
 
 						<f:selectItem itemLabel="Tür Seçiniz " itemValue="0" />
 						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_tebligat_tipi')}"
+							value="#{tebligatBean.listTebligatTipi}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
 
 					</p:selectOneMenu>
@@ -60,7 +60,7 @@
 
 						<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0" />
 						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_tebligat_statusu')}"
+							value="#{tebligatBean.listTebligatStatusu}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 
 					</p:selectOneMenu>
@@ -70,9 +70,9 @@
 						value="#{tebligatBean.tebligat.tebligatSonucuId}"
 						style="width: 250px">
 
-						<f:selectItem itemLabel="Statüsü Seçiniz " itemValue="0" />
+						<f:selectItem itemLabel="Sonucu Seçiniz " itemValue="0" />
 						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_tebligat_sonucu')}"
+							value="#{tebligatBean.listTebligatSonucu}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 
 					</p:selectOneMenu>
@@ -82,10 +82,6 @@
 						value="#{tebligatBean.tebligat.tebligatTarihi}" size="27" locale="tr">
 					</p:calendar>
 					
-
-
-
-
 					<p:commandButton id="cmdButtonSearch" value="Son Durumu Sorgula"
 						actionListener="#{tebligatBean.search}" style="width: 250px"
 						oncomplete="PF('myDialogVar').show();" update="tebligatForm" />

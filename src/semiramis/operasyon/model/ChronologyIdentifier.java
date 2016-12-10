@@ -61,6 +61,14 @@ public class ChronologyIdentifier {
 
 	public static final String ISLEM_XML = "XML Entegrasyonu";
 
+	public static final String ISLEM_TEBLIGAT = "Tebligat Bilgisi Kaydı";
+
+	public static final String ISLEM_SGK = "SGK Kaydı Eklendi";
+
+	public static final String ISLEM_EGM = "EGM Kaydı Eklendi";
+
+	public static final String ISLEM_MERNIS = "Mernis Kaydı Eklendi";
+
 	public static String getImagePath(Chronology chronology) {
 		String path = null;
 		String islem = chronology.getIslem();

@@ -53,7 +53,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 				<p:panel styleClass="titleColor"
 					header="#{izlemebilgisibean.izleme.cagriAdet} ÇAGRI YAPILDI"
 					style="width:500px;">
-				  <p:commandButton  style="color:red" id="btnDetayliArama" value="DETAYLI ARAMA !" icon="ui-icon-extlink" actionListener="#{izlemebilgisibean.chooseIcraDosyasi}">
+   <p:commandButton  style="color:red" id="btnDetayliArama" value="DETAYLI ARAMA !" icon="ui-icon-extlink" actionListener="#{izlemebilgisibean.chooseIcraDosyasi}">
         <p:ajax event="dialogReturn" listener="#{izlemebilgisibean.onIcraDosyasiChosen}" update=":formIzlemeBilgisi" />
     </p:commandButton>	
  

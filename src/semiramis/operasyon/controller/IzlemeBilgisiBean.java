@@ -82,7 +82,7 @@ public class IzlemeBilgisiBean {
 	public void chooseIcraDosyasi() {
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
-		options.put("contentWidth", 1800);
+		options.put("contentWidth", 1700);
 		RequestContext.getCurrentInstance().openDialog("dlg_genel_arama", options, null);
 
 	}

@@ -31,7 +31,7 @@
 
 <h:form id="formArama">
 
-<p:panel header="Arama Kriterleri... " style="width:100%;font-size:12px; ">
+<p:panel header="Arama Kriterleri" style="width:90%;font-size:12px; ">
 			
 		
 		<p:panelGrid columns="9" style=" border-style: hidden !important;">
@@ -103,35 +103,48 @@
 
 		<p:spacer height="15"/>
 		
+		<style>
+		.highlight {
+    background: yellow  !important ;
+}
+		
+		</style>
+		
 		
 		 <p:dataTable 	value="#{genelAramaBean.lazyModel}"
 					emptyMessage="Aradığınız Kritere Uygun Sonuç Bulunamamıştır."
 					var="hb" paginator="true" rows="10"  rowKey="#{hb.id}"
                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{genelAramaBean.selectedGenelArama}" id="tbldetayliarama" lazy="true" style="font-size:12px;">
+                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{genelAramaBean.selectedGenelArama}" 
+                 id="tbldetayliarama" lazy="true" style="font-size:12px;" rowStyleClass="#{hb.izleme_id gt 0 ? 'highlight' : null}">
     	    <p:ajax event="rowSelect" listener="#{genelAramaBean.onRowSelect}" update=":formArama" />
 				
-				<p:column headerText="ID" width="25" style="color:#{hb.renk}" filterBy="#{hb.id}" filterMatchMode="contains" sortBy="#{hb.id}">
-					<h:outputText value="#{hb.id}" />
+				<p:column headerText="İzleme Statusu" width="80" style="color:#{hb.renk}" filterBy="#{hb.izlemeStatusu}" 
+				filterMatchMode="contains" sortBy="#{hb.izlemeStatusu}">
+					<h:outputText value="#{hb.izlemeStatusu}" />
 				</p:column>
 				
-				<p:column headerText="Banka Servis No" width="105" style="color:#{hb.renk}" filterBy="#{hb.bankaServisNo}"  sortBy="#{hb.bankaServisNo}">
+				<p:column headerText="İzleme Sonucu" width="80" style="color:#{hb.renk}" filterBy="#{hb.izlemeSonucu}" filterMatchMode="contains" sortBy="#{hb.izlemeSonucu}">
+					<h:outputText value="#{hb.izlemeSonucu}" />
+				</p:column>
+				
+				<p:column headerText="Banka Servis No" width="80" style="color:#{hb.renk}" filterBy="#{hb.bankaServisNo}"  sortBy="#{hb.bankaServisNo}">
 					<h:outputText value="#{hb.bankaServisNo}" />
 				</p:column>
 				
-				<p:column headerText="Dosya Statüsü" width="105" style="color:#{hb.renk}" filterBy="#{hb.dosyaStatuAdi}"  sortBy="#{hb.dosyaStatuAdi}">
+				<p:column headerText="Dosya Statüsü" width="80" style="color:#{hb.renk}" filterBy="#{hb.dosyaStatuAdi}"  sortBy="#{hb.dosyaStatuAdi}">
 					<h:outputText value="#{hb.dosyaStatuAdi}" />
 				</p:column>
 
-				<p:column headerText="İcra Dosya No" style="color:#{hb.renk}" width="105" filterBy="#{hb.icraDosyaNo}"  sortBy="#{hb.icraDosyaNo}">
+				<p:column headerText="İcra Dosya No" style="color:#{hb.renk}" width="80" filterBy="#{hb.icraDosyaNo}"  sortBy="#{hb.icraDosyaNo}">
 				<h:outputText value="#{hb.icraDosyaNo}" />
 				</p:column>
 
-				<p:column headerText="İcra Müdürlüğü" width="195" style="color:#{hb.renk}" filterBy="#{hb.icraMudurlugu}" filterMatchMode="contains" sortBy="#{hb.icraMudurlugu}" >
+				<p:column headerText="İcra Müdürlüğü" width="175" style="color:#{hb.renk}" filterBy="#{hb.icraMudurlugu}" filterMatchMode="contains" sortBy="#{hb.icraMudurlugu}" >
 					<h:outputText value="#{hb.icraMudurlugu}" />
 				</p:column>
 				
-				<p:column headerText="Müvekkil Adı" style="color:#{hb.renk}" width="250" filterBy="#{hb.muvekkilAdi}" filterMatchMode="contains" sortBy="#{hb.muvekkilAdi}">
+				<p:column headerText="Müvekkil Adı" style="color:#{hb.renk}" width="100" filterBy="#{hb.muvekkilAdi}" filterMatchMode="contains" sortBy="#{hb.muvekkilAdi}">
 				<h:outputText value="#{hb.muvekkilAdi}" />
 				</p:column>
 
@@ -139,20 +152,20 @@
 					<h:outputText value="#{hb.borcluAdi}" />
 				</p:column>
 				
-				<p:column headerText="Borclu Telefon No" width="105" style="color:#{hb.renk}" filterBy="#{hb.avukatServisNo}"  sortBy="#{hb.avukatServisNo}">
+				<p:column headerText="Borclu Telefon No" width="100" style="color:#{hb.renk}" filterBy="#{hb.avukatServisNo}"  sortBy="#{hb.avukatServisNo}">
 					<h:outputText value="#{hb.cepTel}" />
 				</p:column>
 				
-				<p:column headerText="Borç Miktarı" width="105" style="color:#{hb.renk}" filterBy="#{hb.avukatServisNo}"  sortBy="#{hb.avukatServisNo}">
-					<h:outputText value="#{hb.avukatServisNo}" />
-				</p:column>
-
-				<p:column headerText="Geliş Tarihi" style="color:#{hb.renk}" width="100" filterBy="#{hb.gelisTarihi1}" filterMatchMode="contains" sortBy="#{hb.gelisTarihi1}">
+				<p:column headerText="Geliş Tarihi" style="color:#{hb.renk}" width="75" filterBy="#{hb.gelisTarihi1}" filterMatchMode="contains" sortBy="#{hb.gelisTarihi1}">
 					<h:outputText value="#{hb.gelisTarihi}" />
 				</p:column>
 
-				<p:column headerText="Takip Tarihi" style="color:#{hb.renk}" width="100" filterBy="#{hb.takipTarihi1}" filterMatchMode="contains" sortBy="#{hb.takipTarihi1}">
+				<p:column headerText="Takip Tarihi" style="color:#{hb.renk}" width="75" filterBy="#{hb.takipTarihi1}" filterMatchMode="contains" sortBy="#{hb.takipTarihi1}">
 					<h:outputText value="#{hb.takipTarihi}" />
+				</p:column>
+				
+				<p:column headerText="İzleme Personeli" style="color:#{hb.renk}" width="100" filterBy="#{hb.izlemePersonelAdi}" filterMatchMode="contains" sortBy="#{hb.izlemePersonelAdi}">
+					<h:outputText value="#{hb.izlemePersonelAdi}" />
 				</p:column>
 				
 				

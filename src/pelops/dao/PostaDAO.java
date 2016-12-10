@@ -2,6 +2,7 @@ package pelops.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import pelops.db.DBConnection;
@@ -26,110 +27,143 @@ public class PostaDAO extends DBConnection {
 		disconnectDB();
 	}
 
-	public void Duzenle(Posta posta) throws Exception {
+	public void Duzenle(Posta posta) {
 
-		String SQL = "UPDATE tbl_posta_barkod SET icra_dosya_id=?, barkod=?, durum=? WHERE id="
-				+ posta.getId();
-		
+		String SQL = "UPDATE tbl_posta_barkod SET icra_dosya_id=?, barkod=?, durum=? WHERE id=" + posta.getId();
+
 		newConnectDB();
-		
-		PreparedStatement ps = conn.prepareStatement(SQL);
 
-		ps.setInt(1, posta.getIcra_dosya_id());
-		ps.setString(2, posta.getBarkod());
-		ps.setInt(3, posta.getDurum());
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(SQL);
 
-		ps.executeUpdate();
-		
+			ps.setInt(1, posta.getIcra_dosya_id());
+			ps.setString(2, posta.getBarkod());
+			ps.setInt(3, posta.getDurum());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("PostaDAO ü.duzenle: " + e.getMessage());
+		}
+
 		disconnectDB();
-	
 
 	}
 
-	public void Sil(int id) throws Exception {
+	public void Sil(int id) {
 
 		String SQL = "DELETE FROM tbl_posta_barkod WHERE id=" + id;
 		newConnectDB();
-		PreparedStatement ps = conn.prepareStatement(SQL);
-		ps.executeUpdate();
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(SQL);
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		disconnectDB();
 	}
 
-	public ArrayList<Posta> postaListesi() throws Exception {
+	public ArrayList<Posta> postaListesi() {
 
 		String SQL = "SELECT id, icra_dosya_id, barkod, durum FROM tbl_posta_barkod;";
 
 		newConnectDB();
-
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
-		Posta posta = new Posta();
 		ArrayList<Posta> postaList = new ArrayList<Posta>();
-		while (rs.next()) {
-			posta.setId(rs.getInt("id"));
-			posta.setBarkod(rs.getString("barkod"));
-			posta.setDurum(rs.getInt("durum"));
-			posta.setIcra_dosya_id(rs.getInt("icra_dosya_id"));
-			postaList.add(posta);
 
+		try {
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(SQL);
+			Posta posta = new Posta();
+			while (rs.next()) {
+				posta.setId(rs.getInt("id"));
+				posta.setBarkod(rs.getString("barkod"));
+				posta.setDurum(rs.getInt("durum"));
+				posta.setIcra_dosya_id(rs.getInt("icra_dosya_id"));
+				postaList.add(posta);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		disconnectDB();
 		return postaList;
 
 	}
 
-	public Posta BarkodVer() throws Exception {
+	public Posta BarkodVer() {
 
 		String SQL = "SELECT id, icra_dosya_id, barkod, durum FROM tbl_posta_barkod where durum=0 ORDER BY barkod DESC  limit 1";
-
-		newConnectDB();
-
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
 		Posta posta = new Posta();
 
-		if (rs.next()) {
-			posta.setId(rs.getInt("id"));
-			posta.setBarkod(rs.getString("barkod"));
-			posta.setDurum(0);
-			posta.setIcra_dosya_id(rs.getInt("icra_dosya_id"));
+		newConnectDB();
+		try {
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL);
+
+			if (rs.next()) {
+				posta.setId(rs.getInt("id"));
+				posta.setBarkod(rs.getString("barkod"));
+				posta.setDurum(0);
+				posta.setIcra_dosya_id(rs.getInt("icra_dosya_id"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
+		disconnectDB();
+
 		Duzenle(posta);
 
-		disconnectDB();
-		//System.out.println("postanin Dao: " + posta.getBarkod());
+		// System.out.println("postanin Dao: " + posta.getBarkod());
 		return posta;
 
 	}
 
-	public String checkBarkod(int id) throws Exception {
-		String SQL = "select * from tbl_posta_barkod where icra_dosya_id= "
-				+ id;
+	public String checkBarkod(int id) {
+		String SQL = "select * from tbl_posta_barkod where icra_dosya_id= " + id;
+		String barkod = null;
 
 		newConnectDB();
 
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
+		try {
+			stmt = conn.createStatement();
 
-		String barkod = null;
-		while (rs.next()) {
-			barkod = rs.getString("barkod");
+			rs = stmt.executeQuery(SQL);
+
+			while (rs.next()) {
+				barkod = rs.getString("barkod");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		disconnectDB();
 		return barkod;
 	}
 
-	public boolean checkBarkodStatus() throws Exception {
+	public boolean checkBarkodStatus() {
 		boolean yok = false;
 
 		String SQL = "SELECT count( barkod) as num FROM tbl_posta_barkod where durum = 0 ORDER BY barkod DESC limit 1";
 		newConnectDB();
-		stmt = conn.createStatement();
-		rs = stmt.executeQuery(SQL);
 		int count = 0;
-		while (rs.next()) {
 
-			count = rs.getInt("num");
+		try {
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+
+				count = rs.getInt("num");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		disconnectDB();
 

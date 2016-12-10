@@ -28,7 +28,7 @@ public class GenelAramaDAO extends DBConnection {
 		try {
 
 			String sql = " SELECT DISTINCT icr.id, icr.icra_dosyasi_no, alc.muvekkil_adi, " + "  icr.gelis_tarihi, "
-					+ "  icr.hitam_tarihi, " + "  icr.takip_tarihi, izleme.id as izleme_id, "
+					+ "  icr.hitam_tarihi, " + "  icr.takip_tarihi, izleme.izleme_id as izleme_id,izleme.izleme_sonucu,izleme.izleme_statusu,izleme.personel_adi, "
 					+ "  icmd.adi AS icra_mudurlugu,  icmd.id as icra_mudurluk_id,"
 					+ "  usr.ad_soyad AS risk_yoneticisi, " + "  brc.ad_soyad AS borclu_adi,brc.id as borclu_id, " + "  brc.musteri_no, "
 					+ "  brc.telefon_no, " + "  icr.avukat_sevis_no, " + "  icr.banka_servis_no, "
@@ -39,7 +39,16 @@ public class GenelAramaDAO extends DBConnection {
 					+ "   LEFT JOIN tbl_icra_mudurlugu icmd ON icmd.id = icr.icra_mudurlugu_id "
 					+ "   LEFT JOIN tbl_kullanici usr ON usr.id = icr.risk_yoneticisi_id "
 					+ "   LEFT JOIN tbl_dosya_statu ds ON ds.id = icr.dosya_statusu_id "
-					+ "   LEFT JOIN tbl_izleme_bilgisi izleme ON izleme.icra_dosyasi_id = icr.id ";
+					+ "   LEFT JOIN "
+					+ "(SELECT DISTINCT ib.icra_dosyasi_id,ib.id as izleme_id,kul.ad_soyad as personel_adi,ist.adi as izleme_statusu,"
+					+" iso.adi as izleme_sonucu,ib.guncelleme_tarihi" 
+					+" FROM tbl_izleme_bilgisi ib "
+					+" inner join tbl_kullanici kul on kul.id=ib.personel_id"
+					+" inner join tbl_izleme_statusu ist on ist.id=ib.izleme_statusu_id "
+					+" inner join tbl_izleme_sonucu iso on iso.id=ib.izleme_sonucu_id "
+					+" order by ib.guncelleme_tarihi desc) as izleme "
+					+ ""
+					+ " ON izleme.icra_dosyasi_id = icr.id ";
 
 
 			sql = sql + " where 1=1 ";
@@ -101,6 +110,10 @@ public class GenelAramaDAO extends DBConnection {
 
 				genelArama.setDosyaStatuAdi(set.getString("dosya_statu_adi"));
 				genelArama.setDosyaStatuId(set.getInt("dosya_statu_id"));
+				
+				genelArama.setIzlemePersonelAdi(set.getString("personel_adi"));
+				genelArama.setIzlemeSonucu(set.getString("izleme_sonucu"));
+				genelArama.setIzlemeStatusu(set.getString("izleme_statusu"));
 
 				if (genelArama.getDosyaStatuId() == DosyaStatusu.DERDEST_ID)
 					genelArama.setRenk(DosyaStatusu.DERDEST_RENK);
@@ -113,9 +126,9 @@ public class GenelAramaDAO extends DBConnection {
 				else if (genelArama.getDosyaStatuId() == DosyaStatusu.VEFAT_ID)
 					genelArama.setRenk(DosyaStatusu.VEFAT_RENK);
 				
-				if(genelArama.getIzleme_id()>0)
-					genelArama.setRenk(DosyaStatusu.IZLEME_RENK);
-					
+//				if(genelArama.getIzleme_id()>0)
+//					genelArama.setRenk(DosyaStatusu.IZLEME_RENK);
+//					
 
 				maplist.put(genelArama.getId(), genelArama);
 				

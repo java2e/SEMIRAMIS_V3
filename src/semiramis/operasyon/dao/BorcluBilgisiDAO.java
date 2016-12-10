@@ -19,7 +19,9 @@ import pelops.dao.SehirlerDAO;
 import pelops.db.DBConnection;
 import pelops.model.BorcluTipi;
 import pelops.report.model.ReportUtils;
+import semiramis.operasyon.controller.Utils;
 import semiramis.operasyon.model.BorcluBilgisi;
+import semiramis.operasyon.model.ChronologyIdentifier;
 import semiramis.uyap.model.Sgk;
 
 public class BorcluBilgisiDAO extends DBConnection {
@@ -590,6 +592,9 @@ public class BorcluBilgisiDAO extends DBConnection {
 				}
 				if (rs == 1) {
 					result = true;
+					new Utils().saveChronology(getIcraDosyaId(tcNo), ChronologyIdentifier.ISLEM_MERNIS,
+							"Mernis Kaydı eklendi.");
+
 				}
 
 			}
@@ -623,6 +628,35 @@ public class BorcluBilgisiDAO extends DBConnection {
 		}
 
 		return result;
+	}
+
+	private int getIcraDosyaId(String tcNo) {
+		int rs = 0;
+		try {
+			int borcluId = tcSorgulama(tcNo);
+			if (borcluId > 0) {
+
+				try {
+					String sql = "SELECT icra_dosyasi_id FROM tbl_baglanti where borclu_id = " + borcluId;
+					newConnectDB();
+					Statement stm = conn.createStatement();
+					ResultSet set = stm.executeQuery(sql);
+					while (set.next()) {
+						rs = set.getInt("icra_dosyasi_id");
+					}
+					disconnectDB();
+				} catch (Exception e) {
+					System.out.println("getIcraDosyaID : " + e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("getIcraDosyaId.tcSorgulama : " + e.getMessage());
+		} finally {
+			disconnectDB();
+		}
+		return rs;
+
 	}
 
 }

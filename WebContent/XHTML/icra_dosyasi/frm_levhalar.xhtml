@@ -171,21 +171,24 @@
                     
        
      <p:dataTable var="car" value="#{levhaBean.tebligatListesi}" >
+    
+    <p:column headerText="TEBLIGAT TURU">
+        <h:outputText value="#{car.tebligatTuruAdi}" />
+    </p:column>   
+    
     <p:column headerText="TEBLIGAT STATUSU">
         <h:outputText value="#{car.tebligatStatusuAdi}" />
     </p:column>
  
-    <p:column headerText="TEBLIGAT TURU">
-        <h:outputText value="#{car.tebligatTuruAdi}" />
+    <p:column headerText="TEBLIGAT TARİHİ">
+        <h:outputText value="#{car.tebligatTarihiTxt}" />
     </p:column>
  
     <p:column headerText="TEBLIGAT SONUCU">
         <h:outputText value="#{car.tebligatSonucuAdi}" />
     </p:column>
     
-    <p:column headerText="TEBLIGAT TARİHİ">
-        <h:outputText value="#{car.tebligatTarihiTxt}" />
-    </p:column>
+ 
  
    </p:dataTable>
                       

@@ -26,11 +26,32 @@ public class GenelArama
 	private int icraMudurlukId;
 	
 	private int izleme_id;
+	private String izlemeSonucu;
+	private String izlemeStatusu;
+	private String izlemePersonelAdi;
 	
 	
 	
 	
 	
+	public String getIzlemeSonucu() {
+		return izlemeSonucu;
+	}
+	public void setIzlemeSonucu(String izlemeSonucu) {
+		this.izlemeSonucu = izlemeSonucu;
+	}
+	public String getIzlemeStatusu() {
+		return izlemeStatusu;
+	}
+	public void setIzlemeStatusu(String izlemeStatusu) {
+		this.izlemeStatusu = izlemeStatusu;
+	}
+	public String getIzlemePersonelAdi() {
+		return izlemePersonelAdi;
+	}
+	public void setIzlemePersonelAdi(String izlemePersonelAdi) {
+		this.izlemePersonelAdi = izlemePersonelAdi;
+	}
 	public int getIzleme_id() {
 		return izleme_id;
 	}
