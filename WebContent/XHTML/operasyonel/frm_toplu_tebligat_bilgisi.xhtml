@@ -67,8 +67,7 @@
 						value="#{topluTebligatBean.tebligatTuru}" style="width: 200px">
 
 						<f:selectItem itemLabel="Tür Seçiniz " itemValue="0" />
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_tebligat_tipi')}"
+						<f:selectItems value="#{topluTebligatBean.listTebligatTipi}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
 
 					</p:selectOneMenu>
@@ -77,9 +76,8 @@
 						filterMatchMode="startsWith" styleClass="selectMenu"
 						value="#{topluTebligatBean.icraMdId}" style="width: 200px">
 						<f:selectItem itemLabel="" itemValue="" />
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+						<f:selectItems value="#{topluTebligatBean.listIcraMd}" var="list"
+							itemLabel="#{list.adi}" itemValue="#{list.id}" />
 
 					</p:selectOneMenu>
 

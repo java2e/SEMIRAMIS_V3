@@ -1,15 +1,12 @@
 package semiramis.operasyon.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.barbecue.Main;
 import pelops.controller.AktifBean;
 import pelops.db.DBConnection;
 import pelops.model.Tipi;
@@ -130,7 +127,7 @@ public class HacizDAO extends DBConnection {
 				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
 				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
 				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
-				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
+				+ " inner join tbl_icra_mudurlugu im on im.adi = h.talimat_icra_mudurlugu"
 				+ " inner join tbl_borclu b on b.id=h.borclu_id "
 				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
 				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
@@ -210,7 +207,7 @@ public class HacizDAO extends DBConnection {
 				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
 				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
 				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
-				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
+				+ " inner join tbl_icra_mudurlugu im on im.adi = h.talimat_icra_mudurlugu"
 				+ " inner join tbl_borclu b on b.id=h.borclu_id "
 				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
 				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
@@ -509,25 +506,109 @@ public class HacizDAO extends DBConnection {
 		return borcluMalTipiList;
 	}
 
-	public static void main(String[] args) {
-		String sql = "SELECT h.id, h.borclu_id, h.haciz_tipi_id, "
-				+ " h.talimat_icra_mudurlugu, h.talimat_dosya_no, h.talimat_tarihi, "
-				+ "h.haciz_tarihi, h.haciz_bedeli, h.sehir, h.aciklama, ht.adi as haciz_turu_adi, "
-				+ " h.icra_dosyasi_id, h.haczedilen_tipi_id, h.personel_adi_id, h.haciz_tur_id,"
-				+ " u.ad_soyad as uadi, h.teslim_yeri_id, ty.adi as tyadi,hs.adi as haciz_statusu_adi, "
-				+ "hs.id as haciz_statusu_id , im.adi as icra_md, b.ad_soyad , ab.muvekkil_adi as alacakli, "
-				+ " icra.icra_dosyasi_no FROM tbl_haciz_bilgisi h "
-				+ " inner join tbl_kullanici u on h.personel_adi_id=u.id "
-				+ " inner join tbl_haciz_statusu hs on h.haciz_statusu_id=hs.id"
-				+ " inner join tbl_teslim_yeri ty on h.teslim_yeri_id=ty.id"
-				+ " inner join  tbl_haciz_turu  ht on h.haciz_tur_id = ht.id"
-				+ " inner join tbl_icra_mudurlugu im on im.id = h.talimat_icra_md_id"
-				+ " inner join tbl_borclu b on b.id=h.borclu_id "
-				+ " inner join tbl_baglanti bag on bag.icra_dosyasi_id = h.icra_dosyasi_id "
-				+ " inner join tbl_alacakli_bilgisi ab on ab.id = bag.alacakli_id "
-				+ " inner join tbl_icra_dosyasi icra on icra.id= h.icra_dosyasi_id " + ";";
+	public List<ComboItem> getHacizTuru() {
+		List<ComboItem> liste = null;
 
-		System.out.println(sql);
+		try {
+
+			String sql = "Select * from tbl_haciz_turu ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO tbl_haciz_turu :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
+	}
+
+	public List<ComboItem> getHacizSonucu() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_haciz_sonucu ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO tbl_haciz_sonucu :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
+	}
+
+	public List<ComboItem> getTeslimYeri() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_teslim_yeri ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO tbl_teslim_yeri :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
 	}
 
 }

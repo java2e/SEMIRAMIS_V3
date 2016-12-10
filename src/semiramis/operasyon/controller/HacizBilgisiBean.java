@@ -15,8 +15,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import pelops.controller.AktifBean;
-import pelops.db.DBConnection;
-import pelops.model.*;
+import pelops.model.Tipi;
 import pelops.users.User;
 import pelops.util.Util;
 import semimis.utils.GenelArama;
@@ -24,6 +23,7 @@ import semiramis.operasyon.dao.HacizDAO;
 import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HacizBilgisi;
 import semiramis.report.util.ReportPublish;
+import semiramis.tanimlar.dao.TanimlarDAO;
 
 @ManagedBean(name = "hacizBilgisiBean")
 @SessionScoped
@@ -53,6 +53,12 @@ public class HacizBilgisiBean {
 
 	private List<ComboItem> ListhacizStatusu;
 
+	private List<ComboItem> listTeslimYeri;
+
+	private List<ComboItem> listHacizSonucu;
+	private List<ComboItem> listHacizTuru;
+
+	private List<ComboItem> listIcraMd;
 	private String personelAdi;
 
 	private ReportPublish publish = new ReportPublish();
@@ -93,6 +99,19 @@ public class HacizBilgisiBean {
 		icraDosyaNo = AktifBean.icraDosyaNo;
 		muvekkilAdi = AktifBean.muvekkilAdi;
 		borcluAdi = AktifBean.borcluAdi;
+
+		TanimlarDAO tanimlarDAO = new TanimlarDAO();
+		listIcraMd = new ArrayList<>();
+		listHacizSonucu = new ArrayList<>();
+		listHacizTuru = new ArrayList<>();
+		listTeslimYeri = new ArrayList<>();
+
+		listIcraMd = tanimlarDAO.getIcraMd();
+
+		listHacizSonucu = dao.getHacizSonucu();
+		listHacizTuru = dao.getHacizTuru();
+
+		listTeslimYeri = dao.getTeslimYeri();
 
 		ListhacizStatusu = new ArrayList<>();
 		if (selected)
@@ -475,6 +494,38 @@ public class HacizBilgisiBean {
 
 	public void setListhacizStatusu(List<ComboItem> listhacizStatusu) {
 		ListhacizStatusu = listhacizStatusu;
+	}
+
+	public List<ComboItem> getListTeslimYeri() {
+		return listTeslimYeri;
+	}
+
+	public void setListTeslimYeri(List<ComboItem> listTeslimYeri) {
+		this.listTeslimYeri = listTeslimYeri;
+	}
+
+	public List<ComboItem> getListHacizSonucu() {
+		return listHacizSonucu;
+	}
+
+	public void setListHacizSonucu(List<ComboItem> listHacizSonucu) {
+		this.listHacizSonucu = listHacizSonucu;
+	}
+
+	public List<ComboItem> getListHacizTuru() {
+		return listHacizTuru;
+	}
+
+	public void setListHacizTuru(List<ComboItem> listHacizTuru) {
+		this.listHacizTuru = listHacizTuru;
+	}
+
+	public List<ComboItem> getListIcraMd() {
+		return listIcraMd;
+	}
+
+	public void setListIcraMd(List<ComboItem> listIcraMd) {
+		this.listIcraMd = listIcraMd;
 	}
 
 }

@@ -10,7 +10,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import semiramis.operasyon.dao.TopluTebligatDAO;
+import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.Tebligat;
+import semiramis.tanimlar.dao.TanimlarDAO;
 import semiramis.tracking.classes.Checkpoint;
 import semiramis.tracking.classes.Tracking;
 import semiramis.tracking.main.TrackingUtil;
@@ -27,9 +29,27 @@ public class TopluTebligatBean {
 	private ArrayList<Tebligat> selectedTebligatList = new ArrayList<Tebligat>();
 	private ArrayList<Tebligat> trackings = new ArrayList<>();
 
+	private List<ComboItem> listTebligatTipi;
+	private List<ComboItem> listIcraMd;
+
 	private boolean renderTable = false;
 
 	private boolean resultRender = false;
+
+	private TanimlarDAO tanimlarDAO;
+
+	public TopluTebligatBean() {
+		// TODO Auto-generated constructor stub
+		init();
+	}
+
+	private void init() {
+		tanimlarDAO = new TanimlarDAO();
+		listIcraMd = new ArrayList<>();
+		listTebligatTipi = new ArrayList<>();
+		listIcraMd = tanimlarDAO.getIcraMd();
+		listTebligatTipi = tanimlarDAO.getTebligatTipi();
+	}
 
 	public void search() {
 		if (tebligatTuru == 0) {
@@ -142,6 +162,22 @@ public class TopluTebligatBean {
 
 	public void setResultRender(boolean resultRender) {
 		this.resultRender = resultRender;
+	}
+
+	public List<ComboItem> getListTebligatTipi() {
+		return listTebligatTipi;
+	}
+
+	public void setListTebligatTipi(List<ComboItem> listTebligatTipi) {
+		this.listTebligatTipi = listTebligatTipi;
+	}
+
+	public List<ComboItem> getListIcraMd() {
+		return listIcraMd;
+	}
+
+	public void setListIcraMd(List<ComboItem> listIcraMd) {
+		this.listIcraMd = listIcraMd;
 	}
 
 }

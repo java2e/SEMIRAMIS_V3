@@ -11,7 +11,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -35,24 +34,21 @@ public class IzlemeBilgisiBean {
 	private IzlemeBilgisi izleme = new IzlemeBilgisi();
 	private IzlemeBilgisiDAO dao = new IzlemeBilgisiDAO();
 	private StaticDegerler staticDegerler = new StaticDegerler();
-	
+
+	private List<ComboItem> listIzlemeSonucu;
+
 	private List<ComboItem> listeIzlemeStatusu;
 
 	private int status;
 	private boolean panelRender;
 	private boolean buttonDisabled;
 	private String personelAdi;
-	
-	@ManagedProperty(value="#{levhaBean}")
+
+	@ManagedProperty(value = "#{levhaBean}")
 	private LevhaBean levhaBean;
-	
-	
-	@ManagedProperty(value="#{icradosyaislemleribean}")
+
+	@ManagedProperty(value = "#{icradosyaislemleribean}")
 	private IcraDosyaIslemleriBean icraDosyaIslemleriBean;
-	
-	
-	
-	
 
 	public void setIcraDosyaIslemleriBean(IcraDosyaIslemleriBean icraDosyaIslemleriBean) {
 		this.icraDosyaIslemleriBean = icraDosyaIslemleriBean;
@@ -62,8 +58,7 @@ public class IzlemeBilgisiBean {
 		this.levhaBean = levhaBean;
 	}
 
-	public IzlemeBilgisiBean() throws Exception {
-
+	public IzlemeBilgisiBean() {
 		status = 0;
 		PanelClose();
 		ButtonOpen();
@@ -74,11 +69,16 @@ public class IzlemeBilgisiBean {
 		izleme.setPersonelId(Util.getUser().getUsrId());
 		User user = Util.getUser();
 		personelAdi = user.getUsrAdSoyad();
-		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
-		listeIzlemeStatusu=new ArrayList<ComboItem>();
+		try {
+			izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listeIzlemeStatusu = new ArrayList<ComboItem>();
 
 	}
-	
+
 	public void chooseIcraDosyasi() {
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modal", true);
@@ -89,7 +89,7 @@ public class IzlemeBilgisiBean {
 
 	public void onIcraDosyasiChosen(SelectEvent event) throws Exception {
 		GenelArama genelArama = (GenelArama) event.getObject();
-	
+
 		izleme = new IzlemeBilgisi();
 		izleme.setPersonelId(Util.getUser().getUsrId());
 		izleme.setCagriAdet(dao.izlemeSayisi(genelArama.getId()));
@@ -102,26 +102,23 @@ public class IzlemeBilgisiBean {
 		User user = Util.getUser();
 		personelAdi = user.getUsrAdSoyad();
 		izlemeList = dao.getAllListFromIcraDosyaID(genelArama.getId());
-		listeIzlemeStatusu=new ArrayList<ComboItem>();
-		
-		AktifBean.borcluId=genelArama.getBorcluId();
-		AktifBean.icraDosyaID=genelArama.getId();
-		AktifBean.icraDosyaNo=genelArama.getIcraDosyaNo();
-		
-		
+		listeIzlemeStatusu = new ArrayList<ComboItem>();
+		listIzlemeSonucu = new ArrayList<>();
+		listIzlemeSonucu = dao.getIzlemeSonucu();
+		AktifBean.borcluId = genelArama.getBorcluId();
+		AktifBean.icraDosyaID = genelArama.getId();
+		AktifBean.icraDosyaNo = genelArama.getIcraDosyaNo();
 
 		levhaBean.init();
-		
-		icraDosyaIslemleriBean.GelismisListe(genelArama.getId() );
-		
+
+		icraDosyaIslemleriBean.GelismisListe(genelArama.getId());
+
 	}
-	
-	
-	public void changeStatusu()
-	{
-		
-		listeIzlemeStatusu=dao.getIzlemeStatusuList(izleme.getIzlemeSonucuId());
-		
+
+	public void changeStatusu() {
+
+		listeIzlemeStatusu = dao.getIzlemeStatusuList(izleme.getIzlemeSonucuId());
+
 	}
 
 	public StaticDegerler getStaticDegerler() {
@@ -133,8 +130,6 @@ public class IzlemeBilgisiBean {
 
 		return staticDegerler;
 	}
-
-
 
 	public void onDateSelect(SelectEvent event) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -161,7 +156,6 @@ public class IzlemeBilgisiBean {
 		ButtonClose();
 
 	}
-
 
 	public void Kaydet() throws Exception {
 
@@ -205,7 +199,7 @@ public class IzlemeBilgisiBean {
 
 		}
 
-		//PanelClose();
+		// PanelClose();
 		ButtonOpen();
 
 		izleme = new IzlemeBilgisi();
@@ -230,10 +224,10 @@ public class IzlemeBilgisiBean {
 		}
 		izlemeList = dao.getAllListFromIcraDosyaID(AktifBean.icraDosyaID);
 		izleme.setCagriAdet(dao.izlemeSayisi(AktifBean.icraDosyaID));
-		
+
 		levhaBean.init();
 
-		//ButtonClose();
+		// ButtonClose();
 
 	}
 
@@ -265,7 +259,7 @@ public class IzlemeBilgisiBean {
 	public void Vazgec() {
 
 		status = 0;
-		//PanelClose();
+		// PanelClose();
 		ButtonOpen();
 
 	}
@@ -307,7 +301,7 @@ public class IzlemeBilgisiBean {
 	public void setPersonelAdi(String personelAdi) {
 		this.personelAdi = personelAdi;
 	}
-	
+
 	public void setStaticDegerler(StaticDegerler staticDegerler) {
 		this.staticDegerler = staticDegerler;
 	}
@@ -317,7 +311,6 @@ public class IzlemeBilgisiBean {
 		return this.izlemeList;
 
 	}
-	
 
 	public void PanelClose() {
 
@@ -379,7 +372,13 @@ public class IzlemeBilgisiBean {
 	public void setListeIzlemeStatusu(List<ComboItem> listeIzlemeStatusu) {
 		this.listeIzlemeStatusu = listeIzlemeStatusu;
 	}
-	
-	
+
+	public List<ComboItem> getListIzlemeSonucu() {
+		return listIzlemeSonucu;
+	}
+
+	public void setListIzlemeSonucu(List<ComboItem> listIzlemeSonucu) {
+		this.listIzlemeSonucu = listIzlemeSonucu;
+	}
 
 }

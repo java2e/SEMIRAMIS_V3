@@ -94,44 +94,143 @@ public class TanimlarDAO extends DBConnection
 	}
 
 	
-	public List<ComboItem> getTebligatSonucu()
-	{
-List<ComboItem> liste=null;
+	public List<ComboItem> getTebligatSonucu() {
+		List<ComboItem> liste = null;
 
-		
 		try {
-			
-			String sql="Select * from tbl_tebligat_sonucu ";
-			
+
+			String sql = "Select * from tbl_tebligat_sonucu ";
+
 			newConnectDB();
-			
-			Statement stmt=conn.createStatement();
-			
-			ResultSet set=stmt.executeQuery(sql);
-			
-			 liste=new ArrayList<>();
-			
-			while(set.next())
-			{
-				ComboItem item=new ComboItem();
-				
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
 				item.setId(set.getInt("id"));
 				item.setAdi(set.getString("adi"));
 				liste.add(item);
 			}
-			
+
 			disconnectDB();
-			
-			
+
 		} catch (Exception e) {
-			
-			System.out.println("Hata tanimlarDAO tebligat sonucu:"+e.getMessage());
+
+			System.out.println("Hata tanimlarDAO tebligat sonucu:" + e.getMessage());
 			// TODO: handle exception
 		}
-		
+
 		return liste;
-		
-		
+
+	}
+	
+	public List<ComboItem> getIcraMd() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_icra_mudurlugu ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO icra md. :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
+	}
+	
+	public List<ComboItem> getAracTipi() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_arac_tipi ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO arac tipi. :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
+	}
+	public List<ComboItem> getMalTipi() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_mal_tipi ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO mal tipi :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
 	}
 
 	

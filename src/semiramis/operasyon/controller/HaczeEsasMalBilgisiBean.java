@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -20,6 +19,7 @@ import semiramis.operasyon.dao.HaczeEsasMalBilgisiDAO;
 import semiramis.operasyon.model.ComboItem;
 import semiramis.operasyon.model.HaczeEsasMalBilgisi;
 import semiramis.operasyon.model.HaczeEsasMalBilgisiView;
+import semiramis.tanimlar.dao.TanimlarDAO;
 
 @ManagedBean(name = "haczeEsasMalBilgisiBean2", eager = true)
 @SessionScoped
@@ -51,11 +51,17 @@ public class HaczeEsasMalBilgisiBean {
 
 	private List<ComboItem> ilceList;
 
+	private List<ComboItem> aracTipi;
+
+	private List<ComboItem> malTipi;
+
 	private int ilId;
 
 	public int ilceId = 0;
 
 	private int islem;
+
+	TanimlarDAO tanimlarDAO;
 
 	public HaczeEsasMalBilgisiBean() {
 
@@ -66,6 +72,11 @@ public class HaczeEsasMalBilgisiBean {
 	public void init() {
 		ilceList = new ArrayList<ComboItem>();
 		ilList = new ArrayList<ComboItem>();
+		aracTipi = new ArrayList<>();
+		malTipi = new ArrayList<>();
+		tanimlarDAO = new TanimlarDAO();
+		aracTipi = tanimlarDAO.getAracTipi();
+		malTipi = tanimlarDAO.getMalTipi();
 
 		updatedVisible = false;
 
@@ -165,9 +176,9 @@ public class HaczeEsasMalBilgisiBean {
 		islem = 1;
 		updatedVisible = true;
 		updatedHczEsasMal = hczEsasMalDAO.getT(id);
-		
-		ilId=updatedHczEsasMal.getTapuIlId();
-		
+
+		ilId = updatedHczEsasMal.getTapuIlId();
+
 		changeIlceList();
 
 		changePanel();
@@ -193,8 +204,8 @@ public class HaczeEsasMalBilgisiBean {
 	}
 
 	public void kaydet() {
-		
-		int malTipi=0;
+
+		int malTipi = 0;
 
 		if (islem != 1) {
 
@@ -208,12 +219,11 @@ public class HaczeEsasMalBilgisiBean {
 					else {
 
 						hczEsasMalDAO.kaydet(updatedHczEsasMal);
-						
-						malTipi=updatedHczEsasMal.getMalTipiId();
+
+						malTipi = updatedHczEsasMal.getMalTipiId();
 
 					}
-				} 
-				else if (updatedHczEsasMal.getMalTipiId() == MAL_ARAC) {
+				} else if (updatedHczEsasMal.getMalTipiId() == MAL_ARAC) {
 
 					if ((updatedHczEsasMal.getAracPlakaNo() == ""))
 						uyariMesaj("Araç plakısını giriniz!");
@@ -221,7 +231,7 @@ public class HaczeEsasMalBilgisiBean {
 
 						hczEsasMalDAO.kaydet(updatedHczEsasMal);
 
-						malTipi=updatedHczEsasMal.getMalTipiId();
+						malTipi = updatedHczEsasMal.getMalTipiId();
 
 					}
 
@@ -238,10 +248,9 @@ public class HaczeEsasMalBilgisiBean {
 						ilId = updatedHczEsasMal.getTapuIlId();
 
 						ilceId = updatedHczEsasMal.getTapuIlceId();
-						
 
-						malTipi=updatedHczEsasMal.getMalTipiId();
-						
+						malTipi = updatedHczEsasMal.getMalTipiId();
+
 					}
 
 				}
@@ -260,7 +269,7 @@ public class HaczeEsasMalBilgisiBean {
 		hczEsasMallar = hczEsasMalDAO.listeView(AktifBean.getBorcluId());
 
 		updatedHczEsasMal = new HaczeEsasMalBilgisi();
-		
+
 		updatedHczEsasMal.setMalTipiId(malTipi);
 
 		updatedVisible = true;
@@ -379,6 +388,22 @@ public class HaczeEsasMalBilgisiBean {
 
 	public void setIlId(int ilId) {
 		this.ilId = ilId;
+	}
+
+	public List<ComboItem> getAracTipi() {
+		return aracTipi;
+	}
+
+	public void setAracTipi(List<ComboItem> aracTipi) {
+		this.aracTipi = aracTipi;
+	}
+
+	public List<ComboItem> getMalTipi() {
+		return malTipi;
+	}
+
+	public void setMalTipi(List<ComboItem> malTipi) {
+		this.malTipi = malTipi;
 	}
 
 }

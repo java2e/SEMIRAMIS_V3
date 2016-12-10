@@ -1,6 +1,5 @@
 package semiramis.operasyon.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -256,12 +255,76 @@ public class IzlemeBilgisiDAO extends DBConnection {
 
 	}
 
-	public java.sql.Date convertFromJAVADateToSQLDate(java.util.Date javaDate) {
-		java.sql.Date sqlDate = null;
-		if (javaDate != null) {
-			sqlDate = new Date(javaDate.getTime());
+
+	
+	public List<ComboItem> getIzlemeStatusu() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_izleme_statusu ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO tbl_izleme_statusu :" + e.getMessage());
+			// TODO: handle exception
 		}
-		return sqlDate;
+
+		return liste;
+
+	}
+	
+	public List<ComboItem> getIzlemeSonucu() {
+		List<ComboItem> liste = null;
+
+		try {
+
+			String sql = "Select * from tbl_izleme_sonucu ";
+
+			newConnectDB();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			liste = new ArrayList<>();
+
+			while (set.next()) {
+				ComboItem item = new ComboItem();
+
+				item.setId(set.getInt("id"));
+				item.setAdi(set.getString("adi"));
+				liste.add(item);
+			}
+
+			disconnectDB();
+
+		} catch (Exception e) {
+
+			System.out.println("Hata tanimlarDAO tbl_izleme_sonucu :" + e.getMessage());
+			// TODO: handle exception
+		}
+
+		return liste;
+
 	}
 
 }

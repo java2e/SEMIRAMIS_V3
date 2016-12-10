@@ -63,8 +63,7 @@
 						requiredMessage="Bu alanı doldurunuz">
 						<f:selectItem itemLabel="TÜRÜ SEÇİNİZ" itemValue="0"
 							itemDisabled="#{hacizBilgisiBean.hacizkayit.hacizTuruId!=0}" />
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_haciz_turu')}"
+						<f:selectItems value="#{hacizBilgisiBean.listHacizTuru}"
 							var="hacizListesi" itemLabel="#{hacizListesi.adi}"
 							itemValue="#{hacizListesi.id}"></f:selectItems>
 
@@ -79,8 +78,7 @@
 						style="width:260px"
 						value="#{hacizBilgisiBean.hacizkayit.hacizSonucuId}"
 						requiredMessage="Bu alanı doldurunuz">
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_haciz_sonucu')}"
+						<f:selectItems value="#{hacizBilgisiBean.listHacizSonucu}"
 							var="hacizListesi" itemLabel="#{hacizListesi.adi}"
 							itemValue="#{hacizListesi.id}"></f:selectItems>
 					</p:selectOneMenu>
@@ -101,9 +99,8 @@
 						value="#{hacizBilgisiBean.hacizkayit.talimatIcraMdID}"
 						style="width: 100%">
 						<f:selectItem itemLabel="" itemValue="" />
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_icra_mudurlugu')}"
-							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}" />
+						<f:selectItems value="#{hacizBilgisiBean.listIcraMd}" var="list"
+							itemLabel="#{list.adi}" itemValue="#{list.id}" />
 
 					</p:selectOneMenu>
 
@@ -148,8 +145,7 @@
 						style="width:260px"
 						value="#{hacizBilgisiBean.hacizkayit.teslimYeriId}"
 						requiredMessage="Bu Alanı Doldurunuz">
-						<f:selectItems
-							value="#{geneltanimbean.ListeGetir('tbl_teslim_yeri')}"
+						<f:selectItems value="#{hacizBilgisiBean.listTeslimYeri}"
 							var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 					</p:selectOneMenu>
 

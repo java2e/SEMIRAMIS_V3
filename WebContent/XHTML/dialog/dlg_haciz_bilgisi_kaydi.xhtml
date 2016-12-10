@@ -59,8 +59,7 @@
 				value="#{hacizBilgisiBean.hacizkayit.talimatIcraMd}">
 				<f:selectItem itemValue=""></f:selectItem>
 
-				<f:selectItems var="listeler"
-					value="#{geneltanimbean.ListeGetir('tbl_talimat_icra_mudurlugu')}"
+				<f:selectItems var="listeler" value="#{hacizBilgisiBean.listIcraMd}"
 					itemLabel="#{listeler.adi}" itemValue="#{listeler.adi}"
 					noSelectionValue="true">
 
@@ -85,19 +84,16 @@
 				value="#{hacizBilgisiBean.hacizkayit.hacizTarihi}" size="39">
 			</p:calendar>
 
-			<p:outputLabel>Haczedilen Tipi :</p:outputLabel>
-
-			<p:selectOneMenu id="selectOneMenuHaczedilenTipi" required="false"
+			<p:outputLabel>Haciz Türü :</p:outputLabel>
+			<p:selectOneMenu id="selectOneMenuHacizTuru" required="false"
 				style="width:260px"
-				value="#{hacizBilgisiBean.hacizkayit.haczedilenTipiId}"
+				value="#{hacizBilgisiBean.hacizkayit.hacizTuruId}"
 				requiredMessage="Bu alanı doldurunuz">
-				<f:selectItem itemValue=""></f:selectItem>
-
-				<f:selectItems
-					value="#{geneltanimbean.ListeGetir('tbl_haczedilen_tipi')}"
-					var="list" itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
+				<f:selectItem itemLabel="TÜRÜ SEÇİNİZ" itemValue="0"
+					itemDisabled="#{hacizBilgisiBean.hacizkayit.hacizTuruId!=0}" />
+				<f:selectItems value="#{hacizBilgisiBean.listHacizTuru}"
+					var="hacizListesi" itemLabel="#{hacizListesi.adi}" />
 			</p:selectOneMenu>
-
 			<p:outputLabel>Haciz Bedeli :</p:outputLabel>
 
 			<p:inputText id="inputTextHacizBedeli" style="width:250px"
@@ -122,8 +118,7 @@
 				requiredMessage="Bu Alanı Doldurunuz">
 				<f:selectItem itemValue=""></f:selectItem>
 
-				<f:selectItems
-					value="#{geneltanimbean.ListeGetir('tbl_teslim_yeri')}" var="list"
+				<f:selectItems value="#{hacizBilgisiBean.listTeslimYeri}" var="list"
 					itemLabel="#{list.adi}" itemValue="#{list.id}"></f:selectItems>
 			</p:selectOneMenu>
 
@@ -146,8 +141,6 @@
 			<p:inputText id="inputTextAciklama"
 				value="#{hacizBilgisiBean.hacizkayit.aciklama}" required="false"
 				requiredMessage="Bu alanı doldurunuz" style="width: 250px"></p:inputText>
-
-
 		</p:panelGrid>
 
 		<p:growl id="growl" showDetail="true" />
